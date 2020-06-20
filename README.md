@@ -5,5 +5,5 @@
 
 ### Splash 디자인 
 
-이름 유래: 개인 비서라서 개비 -> 개 라서 로고는 강아지 ㅎ
-![](./gabby/assets/splash.png)
+이름 유래: 개인 비서라서 개비 -> '개'인 비서 라서 로고는 안경쓴 스마트 강아지 
+[](./gabby/assets/splash.png)
