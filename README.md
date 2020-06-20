@@ -1,1 +1,4 @@
-# react-native-app-Gabby
+# App Gabby 
+
+처음부터 끝까지, 기획부터 디자인, 개발까지 혼자 해보는 IOS 어플 개발
+
