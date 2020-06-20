@@ -1,5 +1,5 @@
 import React from 'react';
-import globalStyles from './styles/globalStyles';
+import globalStyles from './globalStyles';
 import { SplashScreen } from 'expo';
 
 
