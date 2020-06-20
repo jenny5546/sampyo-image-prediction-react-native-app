@@ -1,19 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import globalStyles from './styles/globalStyles';
+import { SplashScreen } from 'expo';
+
+
+import {   
+  SafeAreaView, 
+  ScrollView,
+  View, 
+  Text,
+} from 'react-native';
+
+/* Splash Screen Time */
+SplashScreen.preventAutoHide();
+setTimeout(SplashScreen.hide, 3000);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <SafeAreaView>
+      <ScrollView>
+        <View style={globalStyles.container}>
+          <Text>로그인</Text>
+        </View>
+      </ScrollView>
+    </SafeAreaView>   
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
