@@ -1,10 +1,12 @@
-# 나만의 개인 비서 gabby
+# gabby
 ![](./gabby/assets/icon.png)
 
 ## 처음부터 끝까지, 기획부터 디자인, 개발까지 혼자 해보는 리액트 IOS 어플 개발
 - 왜 IOS 만? 내가 아이폰이기 때문. 안드로이드 테스팅 귀찮구 그만 고통받구파
+- 디자인 잘하구 싶다. 혼자 처음부터 다할거다!
 - 목표: React native로 prototype 완성 후 swift로 넘어가기!!!!!7월 안에 완성하좌
 - 내가 나의 스케줄러로 쓰고 싶어서 만드는거!!
+- file structure 세상에서 제일 깔끔하게
 
 ### Splash 디자인 
 ![](./gabby/assets/splash.png)
