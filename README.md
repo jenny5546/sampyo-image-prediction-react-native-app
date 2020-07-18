@@ -9,7 +9,7 @@
 - file structure 세상에서 제일 깔끔하게
 
 ### Splash 디자인 
-![](./gabby/assets/splash.png)
+![](./Gabby/assets/splash.png)
 
 #### 이름 유래
 - 개인 비서라서 개비  
