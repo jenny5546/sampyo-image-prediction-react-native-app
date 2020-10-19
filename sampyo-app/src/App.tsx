@@ -1,10 +1,9 @@
 // import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import React from 'react';
-import OnBoardingScreen from "./scenes/onboarding/OnBoardingScreen";
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
 
-export default function App() {
+const App = () => {
     /* Splash 3초 지속 */
     SplashScreen.preventAutoHideAsync();
     setTimeout(() => {
@@ -13,9 +12,9 @@ export default function App() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View>
-                <OnBoardingScreen/>
-            </View>
+            <Text>
+              hi
+            </Text>
         </SafeAreaView>
     );
 }
@@ -28,3 +27,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
