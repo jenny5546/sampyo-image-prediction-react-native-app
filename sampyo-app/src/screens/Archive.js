@@ -1,13 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import * as SplashScreen from 'expo-splash-screen';
-import NavBar from '../components/navbar/NavBar';
 import React from 'react';
-import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
+import NavBar from '../components/navbar/NavBar';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
+
+const { height, width } = Dimensions.get("window");
 
 const ArchiveScreen = ({navigation}) => {
     return (
-        <View>
-            <View style={styles.container}>
+        <View style={styles.container}>
+            <View>
                 <Text>
                     Archive Body
                 </Text>
@@ -19,11 +19,10 @@ const ArchiveScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'pink',
         alignItems: 'center',
-        justifyContent: 'center',
-    },
+        height: height,
+    }
 });
 
 export default ArchiveScreen;

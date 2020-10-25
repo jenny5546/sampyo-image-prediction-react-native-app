@@ -4,6 +4,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import HomeScreen from './screens/Home';
 import ArchiveScreen from './screens/Archive';
+import AboutScreen from './screens/About';
+import CameraScreen from './screens/Camera';
+import ImageCropperScreen from './screens/ImageCropper';
+import ImagePickerScreen from './screens/ImagePicker';
+import ResultScreen from './screens/Result';
 
 const App = () => {
     const Stack = createStackNavigator();
@@ -17,7 +22,12 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Camera" component={CameraScreen} />
+          <Stack.Screen name="ImageCropper" component={ImageCropperScreen} />
+          <Stack.Screen name="ImagePicker" component={ImagePickerScreen} />
+          <Stack.Screen name="Result" component={ResultScreen} />
           <Stack.Screen name="Archive" component={ArchiveScreen} />
+          <Stack.Screen name="About" component={AboutScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

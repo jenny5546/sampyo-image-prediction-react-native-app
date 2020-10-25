@@ -5,10 +5,9 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 const { height, width } = Dimensions.get("window");
 
 const HomeScreen = ({navigation}) => {
-
     return (
-        <View>
-            <View style={styles.container}>
+        <View style={styles.container}>
+            <View>
                 <Text>
                     Home Body
                 </Text>
@@ -23,8 +22,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'pink',
         alignItems: 'center',
-        justifyContent: 'center',
-        height: height*0.9
+        height: height,
     }
 });
 
