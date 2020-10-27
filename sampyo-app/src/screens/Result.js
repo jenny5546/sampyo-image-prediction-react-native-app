@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBar from '../components/navbar/NavBar';
+import NavBar from '../components/NavBar';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");

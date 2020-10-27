@@ -5,9 +5,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const { height, width } = Dimensions.get("window");
 
 const NavBar = ({navigation}) => {
+
+    const handleClick = () => {
+        navigation.navigate('Home');
+    }
+
     return (
         <View style={styles.footer}>
-            <TouchableOpacity  onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={handleClick}>
                 <Text>홈으로 가기</Text>
             </TouchableOpacity>
         </View>

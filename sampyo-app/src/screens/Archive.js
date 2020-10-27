@@ -1,28 +1,30 @@
 import React from 'react';
-import NavBar from '../components/navbar/NavBar';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import ScreenContainer from '../components/ScreenContainer';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
 
-const { height, width } = Dimensions.get("window");
 
-const ArchiveScreen = ({navigation}) => {
+const Archive = ({navigation}) => {
     return (
-        <View style={styles.container}>
-            <View>
-                <Text>
-                    Archive Body
-                </Text>
-            </View>
-            <NavBar navigation={navigation} />
-        </View>
+        <ScreenContainer 
+            mainScreen = {<ArchiveScreen />}
+            navigation = {navigation}
+        />
+    )
+}
+
+const ArchiveScreen = () => {
+    return (
+        <ScrollView>
+            <Text>
+                Archive
+            </Text>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'pink',
-        alignItems: 'center',
-        height: height,
-    }
+    
 });
 
-export default ArchiveScreen;
+
+export default Archive;
