@@ -25,6 +25,7 @@ const NavBar = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity style={styles.cameraButton} onPress={handleClickCamera}>
                 <Image source={cameraIcon} style={styles.homeButton}></Image>
+                {/* <Text style={styles.buttonLabel}>촬영</Text> */}
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer} onPress={handleClickResult}>
                 <Image source={resultIcon} style={styles.resultButton}></Image>
@@ -65,8 +66,8 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     cameraButton: {
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         borderRadius: 50,
         borderWidth: 5,
         borderColor: '#58575B',
