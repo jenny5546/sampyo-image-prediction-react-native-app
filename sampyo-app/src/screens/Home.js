@@ -20,7 +20,7 @@ const Home = ({navigation}) => {
 
 const HomeScreen = ({handleClick}) => {
     return (
-        <View>
+        <View style={styles.container}>
             <TouchableOpacity onPress={()=>handleClick('Camera')}>
                 <Text>Camera</Text>
             </TouchableOpacity>
@@ -38,7 +38,8 @@ const HomeScreen = ({handleClick}) => {
 }
 
 const styles = StyleSheet.create({
-    
+    container: {
+    },
 });
 
 
