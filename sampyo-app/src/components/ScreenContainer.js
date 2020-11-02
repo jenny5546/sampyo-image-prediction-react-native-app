@@ -9,7 +9,7 @@ const ScreenContainer = ({mainScreen, navigation}) => {
 
     return (
         <SafeAreaView style={styles.AndroidSafeArea}>
-            <Header />
+            {/* <Header /> */}
             {mainScreen}
             <NavBar navigation={navigation} />
         </SafeAreaView>

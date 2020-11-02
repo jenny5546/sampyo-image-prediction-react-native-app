@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
-import homeIcon from '../assets/images/home-icon.png';
+import galleryIcon from '../assets/images/gallery-icon.png';
 import cameraIcon from '../assets/images/camera-icon.png';
 import resultIcon from '../assets/images/result-icon.png';
 const { height, width } = Dimensions.get("window");
 
-const NavBar = ({navigation}) => {
+const NavBar = ({navigation, takePicture}) => {
 
     const handleClickHome = () => {
-        navigation.navigate('Home');
+        navigation.navigate('ImagePicker');
     }
     const handleClickCamera = () => {
-        navigation.navigate('Camera');
+        takePicture();
     }
     const handleClickResult = () => {
         navigation.navigate('Archive');
@@ -20,16 +20,13 @@ const NavBar = ({navigation}) => {
     return (
         <View style={styles.footer}>
             <TouchableOpacity style={styles.buttonContainer} onPress={handleClickHome}>
-                <Image source={homeIcon} style={styles.homeButton}></Image>
-                <Text style={styles.buttonLabel}>홈</Text>
+                <Image source={galleryIcon} style={styles.galleryButton}></Image>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cameraButton} onPress={handleClickCamera}>
-                <Image source={cameraIcon} style={styles.homeButton}></Image>
-                {/* <Text style={styles.buttonLabel}>촬영</Text> */}
+            <TouchableOpacity style={styles.cameraButtonContainer} onPress={handleClickCamera}>
+                <Image source={cameraIcon} style={styles.cameraButton}></Image>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer} onPress={handleClickResult}>
                 <Image source={resultIcon} style={styles.resultButton}></Image>
-                <Text style={styles.buttonLabel}>분석 결과</Text>
             </TouchableOpacity>
         </View>
     );
@@ -45,13 +42,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#1F1F24',
         borderRadius: 18,
+        opacity: 0.8,
         position: 'absolute',
-        bottom: 15
+        bottom: 15,
+        left: 10
     },
-    homeButton: {
+    galleryButton: {
+        width: 23,
+        height: 23,
+        opacity: 0.8,
+    }, 
+    cameraButton: {
         width: 20,
         height: 20,
-    }, 
+    },
     buttonContainer: {
         display: 'flex',
         alignItems: 'center',
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
         color: 'white',
         marginTop: 5,
     },
-    cameraButton: {
+    cameraButtonContainer: {
         width: 50,
         height: 50,
         borderRadius: 50,
