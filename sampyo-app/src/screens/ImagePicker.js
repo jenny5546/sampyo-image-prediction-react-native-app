@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform, Dimensions } from 'react-native';
+import { SafeAreaView,TouchableOpacity, Text, Image, View, Platform, Dimensions, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import Header from '../components/Header';
 const { height, width } = Dimensions.get("window");
 
-export default function ImagePickerScreen() {
+const ImagePickerScreen = ({navigation}) => {
     const [image, setImage] = useState(null);
+
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
-            aspect: [16, 9],
+            aspect: [9,16],
             quality: 1,
         });
 
@@ -17,6 +19,7 @@ export default function ImagePickerScreen() {
             setImage(result.uri);
         }
     };
+
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
@@ -29,10 +32,45 @@ export default function ImagePickerScreen() {
         pickImage();
     }, []);
 
+    const handleBackButton = () => {
+        // navigation.navigate('Camera')
+        pickImage();
+    }
+
+    const renderResultScreen = () => {
+        const picture = { uri: image };
+        navigation.navigate('Result', { picture: picture })
+    }
+
     return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
-        {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
-    </View>
+        <SafeAreaView style={styles.container}>
+            {image && 
+                <>
+                    <Header handleBackButton={handleBackButton} headerTitle="선택한 이미지"/>
+                    <Image 
+                        source={{ uri: image }} 
+                        style={styles.imageStyle} 
+                    />
+                    <TouchableOpacity onPress={renderResultScreen}>
+                        <Text>결과 보기</Text>
+                    </TouchableOpacity>
+                </>
+            }
+        </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        // backgroundColor: 'pink',
+        alignItems: 'center',
+        height: height,
+    },
+    imageStyle: { 
+        marginTop: 10,
+        width: width-20, 
+        height: height-200 
+    }
+});
+
+export default ImagePickerScreen;

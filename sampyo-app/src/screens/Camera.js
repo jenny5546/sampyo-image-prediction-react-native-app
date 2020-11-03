@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ScreenContainer from '../components/ScreenContainer';
 import NavBar from '../components/NavBar';
+import * as ImagePicker from 'expo-image-picker';
+import ImageCropperScreen from './ImageCropper';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { Platform, Image, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
 
@@ -33,6 +35,10 @@ const CameraScreen = ({navigation}) => {
         }
     }
 
+    const handleBackButton = () => {
+        setShowImage(false);
+        setPicture(null);
+    }
     if (hasPermission === null) {
         return <View />;
     }
@@ -43,22 +49,25 @@ const CameraScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             {showImage ?
-                <Image source={picture} style={{ width: 300, height: 300 }}/>
+                <ImageCropperScreen navigation={navigation} handleBackButton={handleBackButton} picture={picture} />
                 :
-                <Camera style={styles.cameraScreenStyle} type={type} ref={ref => {setCameraRef(ref)}}>
-                    <View style={styles.textContainer}>
-                        <Text
-                            style={[
-                                styles.textStyle,
-                                {opacity: showText ? 1 : 0.1}
-                            ]}
-                        >
-                            화면에 골재의 이미지만 나오도록 촬영해주세요
-                        </Text>
-                    </View>
-                </Camera>
+                <>
+                    <Camera style={styles.cameraScreenStyle} type={type} ref={ref => {setCameraRef(ref)}}>
+                        <View style={styles.textContainer}>
+                            <Text
+                                style={[
+                                    styles.textStyle,
+                                    {opacity: showText ? 1 : 0.1}
+                                ]}
+                            >
+                                화면에 골재의 이미지만 나오도록 촬영해주세요
+                            </Text>
+                        </View>
+                    </Camera>
+                    <NavBar navigation={navigation} takePicture={takePicture} />
+                </>
             }
-            <NavBar navigation={navigation} takePicture={takePicture} />
+            
         </SafeAreaView>
     );
 }

@@ -23,11 +23,10 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Camera" component={CameraScreen} />
-          <Stack.Screen name="ImagePicker" component={ImagePickerScreen} />
+          <Stack.Screen name="ImagePicker" component={ImagePickerScreen} options={{animationEnabled: false}}/>
           <Stack.Screen name="Archive" component={ArchiveScreen} />
           <Stack.Screen name="ImageCropper" component={ImageCropperScreen} />
           <Stack.Screen name="Result" component={ResultScreen} />
-          
           <Stack.Screen name="About" component={About} />
         </Stack.Navigator>
       </NavigationContainer>

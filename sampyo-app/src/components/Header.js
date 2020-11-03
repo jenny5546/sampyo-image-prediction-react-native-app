@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
-import Logo from '../assets/images/logo.png';
+import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import backIcon from '../assets/images/back-icon.png';
 const { height, width } = Dimensions.get("window");
 
-const Header = () => {
+const Header = ({handleBackButton, headerTitle}) => {
     return (
         <View style={styles.header}>
-            {/* <Image
-                style={styles.logo}
-                source={ Logo }
-            /> */}
+            <TouchableOpacity onPress={handleBackButton} hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+                <Image style={styles.backIconStyle} source={ backIcon }/>
+            </TouchableOpacity>
+            <Text style={styles.titleStyle}>
+                {headerTitle}
+            </Text>
         </View>
     );
 }
@@ -17,15 +19,27 @@ const Header = () => {
 const styles = StyleSheet.create({
     header: {
         width: width,
+        height: 60,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomWidth: 2,
+        borderBottomColor: '#ddd',
+    },
+    backIconStyle: {
+        width: 40,
         height: 40,
+        marginLeft: 10,
+        padding: 10
     },
-    logo: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain'
+    textStyle: {
+        fontSize: 13,
     },
-    button: {
-
+    titleStyle: {
+        position: 'absolute',
+        width: width,
+        textAlign: 'center',
+        fontSize: 16,
     }
 });
 
