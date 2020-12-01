@@ -5,15 +5,21 @@ import Header from 'components/Header';
 const { height, width } = Dimensions.get("window");
 
 const ImagePickerScreen = ({navigation}) => {
+
     const [image, setImage] = useState(null);
+    const [imageWidth, setImageWidth] = useState(600);
+    const [imageHeight, setImageHeight] = useState(600);
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [9,16],
+            allowsEditing: false,
+            aspect: [1,1],
             quality: 1,
         });
+
+        setImageWidth(result.width);
+        setImageHeight(result.height);
 
         if (!result.cancelled) {
             setImage(result.uri);
@@ -23,18 +29,22 @@ const ImagePickerScreen = ({navigation}) => {
     useEffect(() => {
         (async () => {
             if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-            if (status !== 'granted') {
-                alert('Sorry, we need camera roll permissions to make this work!');
-            }
+                const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+                
+                if (status !== 'granted') {
+                    alert('Sorry, we need camera roll permissions to make this work!');
+                }
             }
         })();
         pickImage();
     }, []);
 
     const handleBackButton = () => {
-        // navigation.navigate('Camera')
         pickImage();
+    }
+
+    const handleBackToHome = () => {
+        navigation.navigate('Camera')
     }
 
     const renderResultScreen = () => {
@@ -42,11 +52,24 @@ const ImagePickerScreen = ({navigation}) => {
         navigation.navigate('Result', { picture: picture })
     }
 
+    const styles = StyleSheet.create({
+        container: {
+            // backgroundColor: 'pink',
+            alignItems: 'center',
+            height: height,
+        },
+        imageStyle: { 
+            marginTop: 10,
+            width: imageWidth/8, 
+            height: imageHeight/8
+        }
+    });
+
     return (
         <SafeAreaView style={styles.container}>
+            <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
             {image && 
                 <>
-                    <Header handleBackButton={handleBackButton} headerTitle="선택한 이미지"/>
                     <Image 
                         source={{ uri: image }} 
                         style={styles.imageStyle} 
@@ -54,23 +77,17 @@ const ImagePickerScreen = ({navigation}) => {
                     <TouchableOpacity onPress={renderResultScreen}>
                         <Text>결과 보기</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={handleBackToHome}>
+                        <Text>돌아가기</Text>
+                    </TouchableOpacity>
                 </>
             }
         </SafeAreaView>
     );
+
+    
 }
 
-const styles = StyleSheet.create({
-    container: {
-        // backgroundColor: 'pink',
-        alignItems: 'center',
-        height: height,
-    },
-    imageStyle: { 
-        marginTop: 10,
-        width: width-20, 
-        height: height-200 
-    }
-});
+
 
 export default ImagePickerScreen;

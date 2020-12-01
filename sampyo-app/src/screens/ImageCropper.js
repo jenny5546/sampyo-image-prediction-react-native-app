@@ -22,6 +22,9 @@ const ImageCropperScreen = ({navigation, handleBackButton, picture}) => {
             <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
                 <Text style={styles.textStyle}>본 이미지로 결과 분석하기</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonStyle} onPress={handleBackButton}>
+                <Text style={styles.textStyle}>재촬영</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -34,9 +37,9 @@ const styles = StyleSheet.create({
     },
     imageStyle: { 
         marginTop: 40,
-        width: width-40, 
-        height: height-250 ,
-        borderRadius: 15,
+        width: width, 
+        height: width,
+        // borderRadius: 15,
     },
     buttonStyle: {
         marginTop: 30,

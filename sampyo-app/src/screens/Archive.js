@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as Font from 'expo-font';
 import Header from 'components/Header';
 import AnimatedLoader from "react-native-animated-loader";
-import { getFeeds } from "api/api";
+// import { getResults } from "api/api";
 import { ScrollView, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 const { height, width } = Dimensions.get("window");
 
@@ -12,7 +12,7 @@ const ArchiveScreen = ({navigation}) => {
 
     const handleGetFeed = async () => {
         try {
-            const res = await getFeeds();
+            // const res = await getResults();
             console.log(res.data)
         } catch (error) {
             console.log('error');

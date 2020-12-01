@@ -5,7 +5,7 @@ import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensi
 
 const { height, width } = Dimensions.get("window");
 
-const ResultScreen = ({ route, navigation}) => {
+const ResultScreen = ({route, navigation}) => {
 
     const { picture } = route.params;
     const [loading, setLoading] = useState(true);

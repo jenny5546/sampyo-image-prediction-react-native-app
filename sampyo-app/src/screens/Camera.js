@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import NavBar from 'components/NavBar';
-import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 import ImageCropperScreen from './ImageCropper';
-import * as ImageManipulator from 'expo-image-manipulator';
+import { sendRawImageToServer } from 'api/api';
 import { Platform, Image, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
+import { FileSystemUploadType } from 'expo-file-system';
 
 const { height, width } = Dimensions.get("window");
 
@@ -30,8 +31,21 @@ const CameraScreen = ({navigation}) => {
     const takePicture = async () => {
         if (cameraRef) {
             let photo = await cameraRef.takePictureAsync();
+            await postRawImageToServer(photo);
             setShowImage(true);
             setPicture(photo);
+        }
+    }
+
+    const postRawImageToServer = async (photo) => {
+        try {
+            let form_data = new FormData();
+            const base64 = await FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' });
+            form_data.append("raw_image", base64);
+            await sendRawImageToServer(form_data);
+
+        } catch(e) {
+            console.log(e)
         }
     }
 

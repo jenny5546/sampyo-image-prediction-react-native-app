@@ -5,14 +5,19 @@ const baseUrl = 'http://192.168.35.196:8000';
 
 var api = axios.create({
 	baseURL: baseUrl,
-	header: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' 
-    }
+	headers: { 
+        'accept': 'application/json',
+        'content-type': 'multipart/form-data'
+    },
+    withCredentials: true
 });
 
-export function getFeeds() {
-    return api.get('/')
+// export function getResults() {
+//     return api.get('/')
+// }
+
+export function sendRawImageToServer(form) {
+    return api.post('/results/request/', form);
 }
 
 

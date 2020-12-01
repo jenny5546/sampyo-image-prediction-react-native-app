@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
-import backIcon from '../assets/images/back-icon.png';
+import backIcon from 'assets/images/back-icon.png';
 const { height, width } = Dimensions.get("window");
 
 const Header = ({handleBackButton, headerTitle}) => {
