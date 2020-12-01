@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import NavBar from '../components/NavBar';
+import NavBar from 'components/NavBar';
 import * as ImagePicker from 'expo-image-picker';
 import ImageCropperScreen from './ImageCropper';
 import * as ImageManipulator from 'expo-image-manipulator';

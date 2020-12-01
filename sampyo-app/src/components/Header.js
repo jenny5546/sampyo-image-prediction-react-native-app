@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomWidth: 2,
         borderBottomColor: '#ddd',
+        backgroundColor: 'white',
     },
     backIconStyle: {
         width: 40,

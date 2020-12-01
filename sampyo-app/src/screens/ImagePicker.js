@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView,TouchableOpacity, Text, Image, View, Platform, Dimensions, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Header from '../components/Header';
+import Header from 'components/Header';
 const { height, width } = Dimensions.get("window");
 
 const ImagePickerScreen = ({navigation}) => {
