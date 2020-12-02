@@ -13,7 +13,7 @@ const ArchiveScreen = ({navigation}) => {
     const handleGetFeed = async () => {
         try {
             // const res = await getResults();
-            console.log(res.data)
+            // console.log(res.data)
         } catch (error) {
             console.log('error');
         }
