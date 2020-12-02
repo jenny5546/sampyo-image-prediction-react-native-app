@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import NavBar from 'components/NavBar';
-import * as FileSystem from 'expo-file-system';
-import ImageCropperScreen from './ImageCropper';
-import { sendRawImageToServer } from 'api/api';
-import { Platform, Image, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
+
+import { Platform, TouchableOpacity, Image, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
-import { FileSystemUploadType } from 'expo-file-system';
 
 const { height, width } = Dimensions.get("window");
 
@@ -28,31 +25,31 @@ const CameraScreen = ({navigation}) => {
         return () => clearInterval(interval);
     }, []);
 
+
     const takePicture = async () => {
         if (cameraRef) {
             let photo = await cameraRef.takePictureAsync();
-            await postRawImageToServer(photo);
             setShowImage(true);
             setPicture(photo);
         }
     }
 
-    const postRawImageToServer = async (photo) => {
-        try {
-            let form_data = new FormData();
-            const base64 = await FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' });
-            form_data.append("raw_image", base64);
-            await sendRawImageToServer(form_data);
+    const goToImageValidatorScreen = () => {
+        navigation.navigate('ImageValidator', { picture: picture })
+    }
 
-        } catch(e) {
-            console.log(e)
+    useEffect(()=>{
+        if (picture!==null) {
+            goToImageValidatorScreen();
         }
-    }
+    },[picture])
 
-    const handleBackButton = () => {
-        setShowImage(false);
-        setPicture(null);
-    }
+    
+    // const handleBackButton = () => {
+    //     setShowImage(false);
+    //     setPicture(null);
+    // }
+    
     if (hasPermission === null) {
         return <View />;
     }
@@ -62,26 +59,19 @@ const CameraScreen = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            {showImage ?
-                <ImageCropperScreen navigation={navigation} handleBackButton={handleBackButton} picture={picture} />
-                :
-                <>
-                    <Camera style={styles.cameraScreenStyle} type={type} ref={ref => {setCameraRef(ref)}}>
-                        <View style={styles.textContainer}>
-                            <Text
-                                style={[
-                                    styles.textStyle,
-                                    {opacity: showText ? 1 : 0.1}
-                                ]}
-                            >
-                                화면에 골재의 이미지만 나오도록 촬영해주세요
-                            </Text>
-                        </View>
-                    </Camera>
-                    <NavBar navigation={navigation} takePicture={takePicture} />
-                </>
-            }
-            
+            <Camera style={styles.cameraScreenStyle} type={type} ref={ref => {setCameraRef(ref)}}>
+                <View style={styles.textContainer}>
+                    <Text
+                        style={[
+                            styles.textStyle,
+                            {opacity: showText ? 1 : 0.1}
+                        ]}
+                    >
+                        화면에 골재의 이미지만 나오도록 촬영해주세요
+                    </Text>
+                </View>
+            </Camera>
+            <NavBar navigation={navigation} takePicture={takePicture} />
         </SafeAreaView>
     );
 }
@@ -106,6 +96,11 @@ const styles = StyleSheet.create({
     },
     cameraScreenStyle: {
         flex: 1
+    },
+    imageStyle: { 
+        marginTop: 10,
+        width: 300, 
+        height: 300
     }
 });
 

@@ -8,7 +8,7 @@ const { height, width } = Dimensions.get("window");
 const NavBar = ({navigation, takePicture}) => {
 
     const handleClickHome = () => {
-        navigation.navigate('ImagePicker');
+        navigation.navigate('Gallery');
     }
     const handleClickCamera = () => {
         takePicture();

@@ -4,7 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Header from 'components/Header';
 const { height, width } = Dimensions.get("window");
 
-const ImagePickerScreen = ({navigation}) => {
+const GalleryScreen = ({navigation}) => {
 
     const [image, setImage] = useState(null);
     const [imageWidth, setImageWidth] = useState(600);
@@ -43,13 +43,19 @@ const ImagePickerScreen = ({navigation}) => {
         pickImage();
     }
 
-    const handleBackToHome = () => {
-        navigation.navigate('Camera')
-    }
+    // const handleBackToHome = () => {
+    //     navigation.navigate('Camera')
+    // }
 
-    const renderResultScreen = () => {
+    useEffect(()=>{
+        if (image!==null) {
+            goToImageValidatorScreen();
+        }
+    },[image])
+
+    const goToImageValidatorScreen = () => {
         const picture = { uri: image };
-        navigation.navigate('Result', { picture: picture })
+        navigation.navigate('ImageValidator', { picture: picture })
     }
 
     const styles = StyleSheet.create({
@@ -67,21 +73,21 @@ const ImagePickerScreen = ({navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
-            {image && 
+            <Header handleBackButton={handleBackButton} headerTitle="이미지 선택하기"/>
+            {/* {image && 
                 <>
                     <Image 
                         source={{ uri: image }} 
                         style={styles.imageStyle} 
                     />
-                    <TouchableOpacity onPress={renderResultScreen}>
-                        <Text>결과 보기</Text>
+                    <TouchableOpacity onPress={goToCropScreen}>
+                        <Text>이미지 크롭하기</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleBackToHome}>
                         <Text>돌아가기</Text>
                     </TouchableOpacity>
                 </>
-            }
+            } */}
         </SafeAreaView>
     );
 
@@ -90,4 +96,4 @@ const ImagePickerScreen = ({navigation}) => {
 
 
 
-export default ImagePickerScreen;
+export default GalleryScreen;

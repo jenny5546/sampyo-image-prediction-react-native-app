@@ -16,8 +16,8 @@ var api = axios.create({
 //     return api.get('/')
 // }
 
-export function sendRawImageToServer(form) {
-    return api.post('/results/request/', form);
+export function sendRawImageForCrop(form) {
+    return api.post('/results/crop/', form);
 }
 
 
