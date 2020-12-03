@@ -49,7 +49,7 @@ const CameraScreen = ({navigation}) => {
     //     setShowImage(false);
     //     setPicture(null);
     // }
-    
+
     if (hasPermission === null) {
         return <View />;
     }
@@ -95,7 +95,10 @@ const styles = StyleSheet.create({
         opacity: 0.6,
     },
     cameraScreenStyle: {
-        flex: 1
+        // flex: 1
+        width: width,
+        height: height -130,
+        // height: 300,
     },
     imageStyle: { 
         marginTop: 10,

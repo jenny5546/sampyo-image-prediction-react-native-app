@@ -15,10 +15,10 @@ const App = () => {
 
     const Stack = createStackNavigator();
 
-    SplashScreen.preventAutoHideAsync();
-    setTimeout(() => {
-        SplashScreen.hideAsync();
-    }, 3000);
+    // SplashScreen.preventAutoHideAsync();
+    // setTimeout(() => {
+    //     SplashScreen.hideAsync();
+    // }, 3000);
 
     return (
       <NavigationContainer>

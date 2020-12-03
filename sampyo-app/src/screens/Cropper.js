@@ -3,6 +3,7 @@ import Header from 'components/Header';
 import AnimatedLoader from "react-native-animated-loader";
 import { sendRawImageForCrop } from 'api/api';
 import * as FileSystem from 'expo-file-system';
+import ScalableImageComponent from 'components/ScalableImageComponent';
 import { Animated, PanResponder, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
@@ -13,8 +14,9 @@ const CropperScreen = ({route, navigation}) => {
 
     const [automaticCropDone, setAutomaticCropDone] = useState(false);
     const [croppedImage, setCroppedImage] = useState(null);
-    const [locationX, setLocationX] = useState(0);
-    const [locationY, setLocationY] = useState(0);
+    const [pictureWidth, setPictureWidth] = useState(0);
+    const [pictureHeight, setPictureHeight] = useState(0);
+    const [calcPictureDimensionDone, setCalcPictureDimensionDone] = useState(false);
 
     const pan = useRef(new Animated.ValueXY()).current;
 
@@ -30,8 +32,10 @@ const CropperScreen = ({route, navigation}) => {
             onPanResponderMove: Animated.event(
             [
                 null,
-                { dx: pan.x, dy: pan.y }
-            ]
+                { dx: pan.x, dy: pan.y },
+                
+            ],
+            { useNativeDriver: false }
             ),
             onPanResponderRelease: () => {
             pan.flattenOffset();
@@ -40,65 +44,65 @@ const CropperScreen = ({route, navigation}) => {
     ).current;
 
 
-    const responseData  = 
-    {
-        "AscaledHeight": 1700,
-        "AscaledWidth": 3000,
-        "algorithm": "croppola",
-        "cropHeight": 1700,
-        "cropWidth": 3000,
-        "cropX": 387,
-        "cropY": 345,
-        "dominantColors": [
-            {
-                "b": 56,
-                "g": 46,
-                "importance": 0.47,
-                "r": 43,
-            },
-            {
-                "b": 124,
-                "g": 133,
-                "importance": 0.165,
-                "r": 144,
-            },
-            {
-                "b": 128,
-                "g": 92,
-                "importance": 0.089,
-                "r": 93,
-            },
-            {
-                "b": 98,
-                "g": 178,
-                "importance": 0.027,
-                "r": 229,
-            },
-            {
-                "b": 137,
-                "g": 221,
-                "importance": 0.007,
-                "r": 188,
-            },
-            {
-                "b": 236,
-                "g": 240,
-                "importance": 0.242,
-                "r": 240,
-            },
-        ],
-        "faces": [],
-        "height": 1700,
-        "imageHeight": 2376,
-        "imageWidth": 4110,
-        "scaledHeight": 1700,
-        "scaledWidth": 3000,
-        "token": "64c8a24c490d4d8a8ff1",
-        "version": 2,
-        "width": 3000,
-        "x": 386.613603,
-        "y": 345.383459,
-    }
+    // const responseData  = 
+    // {
+    //     "AscaledHeight": 1700,
+    //     "AscaledWidth": 3000,
+    //     "algorithm": "croppola",
+    //     "cropHeight": 1700,
+    //     "cropWidth": 3000,
+    //     "cropX": 387,
+    //     "cropY": 345,
+    //     "dominantColors": [
+    //         {
+    //             "b": 56,
+    //             "g": 46,
+    //             "importance": 0.47,
+    //             "r": 43,
+    //         },
+    //         {
+    //             "b": 124,
+    //             "g": 133,
+    //             "importance": 0.165,
+    //             "r": 144,
+    //         },
+    //         {
+    //             "b": 128,
+    //             "g": 92,
+    //             "importance": 0.089,
+    //             "r": 93,
+    //         },
+    //         {
+    //             "b": 98,
+    //             "g": 178,
+    //             "importance": 0.027,
+    //             "r": 229,
+    //         },
+    //         {
+    //             "b": 137,
+    //             "g": 221,
+    //             "importance": 0.007,
+    //             "r": 188,
+    //         },
+    //         {
+    //             "b": 236,
+    //             "g": 240,
+    //             "importance": 0.242,
+    //             "r": 240,
+    //         },
+    //     ],
+    //     "faces": [],
+    //     "height": 1700,
+    //     "imageHeight": 2376,
+    //     "imageWidth": 4110,
+    //     "scaledHeight": 1700,
+    //     "scaledWidth": 3000,
+    //     "token": "64c8a24c490d4d8a8ff1",
+    //     "version": 2,
+    //     "width": 3000,
+    //     "x": 386.613603,
+    //     "y": 345.383459,
+    // }
 
 
     const sendRawImageToServerForAutoCrop = async (photo) => {
@@ -121,13 +125,10 @@ const CropperScreen = ({route, navigation}) => {
         // setAutomaticCropDone(true);
     }
 
-    useEffect(()=>{
-        // handleAutomaticCrop();
-        // console.log('width:', width, 'height', height)
-        //만약 갤러에서 왔으면 밑에처럼 
-        // Image.getSize(picture.uri, (width, height) => {console.log(width,height)});
-        // console.log('picture', picture)
-    },[])
+    // useEffect(()=>{
+    //     Image.getSize(picture, (width, height) => {setPictureWidth(width); setPictureHeight(height)});
+    // },[]);
+
 
     const handleBackButton = () => {
         navigation.goBack();
@@ -212,7 +213,14 @@ const CropperScreen = ({route, navigation}) => {
                 >
                     <View style={styles.cropper} />
                 </Animated.View>
-                <Image source={picture} style={styles.imageStyle} />
+                {setCalcPictureDimensionDone &&
+                    <ScalableImageComponent 
+                        source = {picture}
+                        containerHeight = {height-200}
+                    />
+                }
+                
+
                 {/* <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
                     <Text style={styles.textStyle}>본 이미지로 결과 분석하기</Text>
                 </TouchableOpacity> */}
