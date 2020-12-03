@@ -63,31 +63,12 @@ const GalleryScreen = ({navigation}) => {
             // backgroundColor: 'pink',
             alignItems: 'center',
             height: height,
-        },
-        imageStyle: { 
-            marginTop: 10,
-            width: imageWidth/8, 
-            height: imageHeight/8
         }
     });
 
     return (
         <SafeAreaView style={styles.container}>
             <Header handleBackButton={handleBackButton} headerTitle="이미지 선택하기"/>
-            {/* {image && 
-                <>
-                    <Image 
-                        source={{ uri: image }} 
-                        style={styles.imageStyle} 
-                    />
-                    <TouchableOpacity onPress={goToCropScreen}>
-                        <Text>이미지 크롭하기</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleBackToHome}>
-                        <Text>돌아가기</Text>
-                    </TouchableOpacity>
-                </>
-            } */}
         </SafeAreaView>
     );
 

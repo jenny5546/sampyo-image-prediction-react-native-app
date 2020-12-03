@@ -4,15 +4,12 @@ import { Animated, View, PanResponder, Dimensions, StyleSheet } from 'react-nati
 const ImageCropOverlay = (props) => {
 
     const cropOverlayRatio = 17/30;
+    const containerWidth = props.containerWidth;
     const containerHeight = props.containerHeight;
 
-    const pan = useRef(new Animated.ValueXY()).current;
-    
-    // useEffect(()=>{
-    //     console.log(pan.x)
-    // },[pan.x, pan.y])
-    
+    console.log('container', containerWidth,containerHeight)
 
+    const pan = useRef(new Animated.ValueXY()).current;
 
     const panResponder = useRef(
         PanResponder.create({
@@ -22,7 +19,7 @@ const ImageCropOverlay = (props) => {
                     x: pan.x._value,
                     y: pan.y._value
                 });
-                console.log(pan.x,pan.y)
+                // console.log(pan.x,pan.y)
             },
             onPanResponderMove: Animated.event(
             [
@@ -38,10 +35,12 @@ const ImageCropOverlay = (props) => {
         })
     ).current;
 
+    const cropOverlayHeight = containerHeight-100;
+
     const styles = StyleSheet.create({
         cropper: {
-            width: containerHeight*cropOverlayRatio,
-            height: containerHeight,
+            width: cropOverlayHeight*cropOverlayRatio,
+            height: cropOverlayHeight,
         },
         cropperWrap: {
             borderWidth: 155,
@@ -55,16 +54,16 @@ const ImageCropOverlay = (props) => {
                     transform: [
                     {
                         translateX: pan.x.interpolate({
-                            inputRange: [-177, 0],
-                            outputRange: [-177,0],
+                            inputRange: [-155, 0],
+                            outputRange: [-155,0],
                             extrapolate: 'clamp'
                         })
                     }, 
                     {
                         // translateY: pan.y
                         translateY: pan.y.interpolate({
-                            inputRange: [-190, 0],
-                            outputRange: [-190,0],
+                            inputRange: [-155, 0],
+                            outputRange: [-155,0],
                             extrapolate: 'clamp'
                         })
                     }],

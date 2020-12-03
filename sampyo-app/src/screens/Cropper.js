@@ -5,6 +5,7 @@ import { sendRawImageForCrop } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import ScalableImageComponent from 'components/ScalableImageComponent';
 import ImageCropOverlay from 'components/ImageCropOverlay';
+import { ImageManipulator } from 'expo-image-crop'
 import { Animated, PanResponder, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
@@ -146,6 +147,11 @@ const CropperScreen = ({route, navigation}) => {
         }
     });
 
+    const onToggleModal = () => {
+        console.log('toggle');
+    }
+
+    const imageContainerWidth = width - 50;
     const imageContainerHeight = height - 200;
     console.log()
 
@@ -168,27 +174,36 @@ const CropperScreen = ({route, navigation}) => {
                 /> */}
                 
                 <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
-                <View style={styles.cropContainerStyle} onLayout={(event) => {
+                {/* <View style={styles.cropContainerStyle} onLayout={(event) => {
                     var {x, y, width, height} = event.nativeEvent.layout
-                    // console.log(x,y,width,height)
                     setCropDivX(x);
                     setCropDivY(y);
                     setCropDivWidth(width);
                     setCropDivHeight(height);
                 }}>
                     <ImageCropOverlay 
-                        containerHeight = {imageContainerHeight-50}
+                        containerWidth = {cropDivWidth}
+                        containerHeight = {cropDivHeight}
                         divPosX = {cropDivX}
                         divPosY = {cropDivY}
-                        divWidth = {cropDivWidth}
-                        divHeight = {cropDivHeight}
                     />
                     <ScalableImageComponent 
                         source = {picture}
+                        containerWidth = {imageContainerWidth}
                         containerHeight = {imageContainerHeight}
                         style= {styles.imageStyle}
                     />
-                </View>
+                </View> */}
+
+               <ImageManipulator
+                  photo={picture}
+                  isVisible={true}
+                  onPictureChoosed={({ uri: uriM }) => this.setState({ uri: uriM })}
+                  onToggleModal={onToggleModal}
+                  allowFlip={false}
+                  allowRotate={false}
+                  fixedMask={{width: 340, height: 600}}
+              />
                 
                 
                 {/* <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>

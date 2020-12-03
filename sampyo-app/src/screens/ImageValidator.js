@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from 'components/Header';
 import ScalableImageComponent from 'components/ScalableImageComponent';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
@@ -17,13 +17,14 @@ const ImageValidatorScreen = ({route, navigation}) => {
         navigation.navigate('Cropper',{ picture: picture })
     }
 
+
     return (
         <SafeAreaView style={styles.container}>
                 <Header handleBackButton={handleBackButton} headerTitle="이미지 확인"/>
-                {/* <Image source={picture} style={styles.imageStyle} /> */}
                 <ScalableImageComponent 
                     source = {picture}
-                    containerHeight = {height-200}
+                    containerWidth = {width}
+                    containerHeight = {height-300}
                     style= {styles.imageStyle}
                 />
                 <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>

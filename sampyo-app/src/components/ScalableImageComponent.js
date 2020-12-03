@@ -13,18 +13,25 @@ export default class ScalableImageComponent extends Component {
     componentDidMount() {
         const { source } = this.props;
         Image.getSize(source, (width, height) => {
+            console.log('image', width, height)
             this.setState({
                 aspectRatio: width/height
             })
         });
+        
     }
 
     render() {
-        const { source, containerHeight, style } = this.props;
+        const { source, containerWidth, containerHeight, style } = this.props;
         const { aspectRatio } = this.state;
 
-        const widthCalculated = containerHeight*aspectRatio;
-        const heightCalculated = containerHeight;
+        const widthCalculated = aspectRatio > 1 ? containerWidth: containerHeight*aspectRatio;
+        const heightCalculated = aspectRatio > 1 ? containerWidth/aspectRatio: containerHeight;
+        // const widthCalculated = containerHeight*aspectRatio;
+        // const heightCalculated = containerHeight;
+
+        console.log('contianer',containerHeight, 'aspect', aspectRatio)
+        console.log('calculated',widthCalculated,heightCalculated)
 
         return (
             <Image
@@ -34,6 +41,7 @@ export default class ScalableImageComponent extends Component {
                     {
                         width: widthCalculated,
                         height: heightCalculated,
+                        transform: aspectRatio > 1 ? [{ rotate: '90deg' }]: [{ rotate: '0deg' }]
                     }
                 ]}
             />
