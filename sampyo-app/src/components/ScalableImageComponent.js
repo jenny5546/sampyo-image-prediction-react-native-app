@@ -20,7 +20,7 @@ export default class ScalableImageComponent extends Component {
     }
 
     render() {
-        const { source, containerHeight } = this.props;
+        const { source, containerHeight, style } = this.props;
         const { aspectRatio } = this.state;
 
         const widthCalculated = containerHeight*aspectRatio;
@@ -29,12 +29,13 @@ export default class ScalableImageComponent extends Component {
         return (
             <Image
                 source={source}
-                style={
+                style={[
+                    style,
                     {
                         width: widthCalculated,
                         height: heightCalculated,
                     }
-                }
+                ]}
             />
         )
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from 'components/Header';
+import ScalableImageComponent from 'components/ScalableImageComponent';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
@@ -19,7 +20,12 @@ const ImageValidatorScreen = ({route, navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
                 <Header handleBackButton={handleBackButton} headerTitle="이미지 확인"/>
-                <Image source={picture} style={styles.imageStyle} />
+                {/* <Image source={picture} style={styles.imageStyle} /> */}
+                <ScalableImageComponent 
+                    source = {picture}
+                    containerHeight = {height-200}
+                    style= {styles.imageStyle}
+                />
                 <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
                     <Text style={styles.textStyle}>본 이미지 크롭하기</Text>
                 </TouchableOpacity>
@@ -37,10 +43,7 @@ const styles = StyleSheet.create({
         height: height,
     },
     imageStyle: { 
-        marginTop: 40,
-        width: width, 
-        height: width,
-        // borderRadius: 15,
+        marginTop: 20,
     },
     buttonStyle: {
         marginTop: 30,

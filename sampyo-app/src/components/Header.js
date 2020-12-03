@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderBottomColor: '#ddd',
         backgroundColor: 'white',
+        zIndex: 3,
     },
     backIconStyle: {
         width: 40,

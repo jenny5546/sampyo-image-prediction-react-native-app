@@ -4,6 +4,7 @@ import AnimatedLoader from "react-native-animated-loader";
 import { sendRawImageForCrop } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import ScalableImageComponent from 'components/ScalableImageComponent';
+import ImageCropOverlay from 'components/ImageCropOverlay';
 import { Animated, PanResponder, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
@@ -12,37 +13,12 @@ const CropperScreen = ({route, navigation}) => {
 
     const { picture } = route.params;
 
-    const [automaticCropDone, setAutomaticCropDone] = useState(false);
-    const [croppedImage, setCroppedImage] = useState(null);
-    const [pictureWidth, setPictureWidth] = useState(0);
-    const [pictureHeight, setPictureHeight] = useState(0);
-    const [calcPictureDimensionDone, setCalcPictureDimensionDone] = useState(false);
-
-    const pan = useRef(new Animated.ValueXY()).current;
-
-    const panResponder = useRef(
-        PanResponder.create({
-            onMoveShouldSetPanResponder: () => true,
-            onPanResponderGrant: () => {
-            pan.setOffset({
-                x: pan.x._value,
-                y: pan.y._value
-            });
-            },
-            onPanResponderMove: Animated.event(
-            [
-                null,
-                { dx: pan.x, dy: pan.y },
-                
-            ],
-            { useNativeDriver: false }
-            ),
-            onPanResponderRelease: () => {
-            pan.flattenOffset();
-            }
-        })
-    ).current;
-
+    // const [automaticCropDone, setAutomaticCropDone] = useState(false);
+    // const [croppedImage, setCroppedImage] = useState(null);
+    const [cropDivX, setCropDivX] = useState(0);
+    const [cropDivY, setCropDivY] = useState(0);
+    const [cropDivWidth, setCropDivWidth] = useState(0);
+    const [cropDivHeight, setCropDivHeight] = useState(0);
 
     // const responseData  = 
     // {
@@ -125,10 +101,6 @@ const CropperScreen = ({route, navigation}) => {
         // setAutomaticCropDone(true);
     }
 
-    // useEffect(()=>{
-    //     Image.getSize(picture, (width, height) => {setPictureWidth(width); setPictureHeight(height)});
-    // },[]);
-
 
     const handleBackButton = () => {
         navigation.goBack();
@@ -140,17 +112,18 @@ const CropperScreen = ({route, navigation}) => {
 
     const styles = StyleSheet.create({
         container: {
-            backgroundColor: '#1C1A1B',
+            // backgroundColor: '#1C1A1B',
             alignItems: 'center',
             height: height,
         },
+        cropContainerStyle: {
+            position: "relative",
+            height: height-200,
+            overflow: 'hidden',
+            marginTop: 20,
+        },
         imageStyle: {
-            flex: 1,
-            aspectRatio: picture.width/picture.height, 
-            resizeMode: 'contain',
-            // width: 100,
-            // height: 100,
-        
+            
         },
         buttonStyle: {
             marginTop: 30,
@@ -170,19 +143,11 @@ const CropperScreen = ({route, navigation}) => {
         lottie: {
             width: 100,
             height: 100
-        },
-        cropper: {
-            borderWidth: 5,
-            borderColor: 'white',
-            
-            // backgroundColor: 'white',
-            width: 170,
-            height: 300,
-            
-            // top: locationY,
-            // left: locationX
         }
     });
+
+    const imageContainerHeight = height - 200;
+    console.log()
 
     return (
         <SafeAreaView style={styles.container}>
@@ -203,34 +168,35 @@ const CropperScreen = ({route, navigation}) => {
                 /> */}
                 
                 <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
-                <Animated.View
-                    style={{
-                        transform: [{ translateX: pan.x }, { translateY: pan.y }],
-                        position: 'absolute',
-                        zIndex: 99,
-                    }}
-                    {...panResponder.panHandlers}
-                >
-                    <View style={styles.cropper} />
-                </Animated.View>
-                {setCalcPictureDimensionDone &&
+                <View style={styles.cropContainerStyle} onLayout={(event) => {
+                    var {x, y, width, height} = event.nativeEvent.layout
+                    // console.log(x,y,width,height)
+                    setCropDivX(x);
+                    setCropDivY(y);
+                    setCropDivWidth(width);
+                    setCropDivHeight(height);
+                }}>
+                    <ImageCropOverlay 
+                        containerHeight = {imageContainerHeight-50}
+                        divPosX = {cropDivX}
+                        divPosY = {cropDivY}
+                        divWidth = {cropDivWidth}
+                        divHeight = {cropDivHeight}
+                    />
                     <ScalableImageComponent 
                         source = {picture}
-                        containerHeight = {height-200}
+                        containerHeight = {imageContainerHeight}
+                        style= {styles.imageStyle}
                     />
-                }
+                </View>
                 
-
+                
                 {/* <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
                     <Text style={styles.textStyle}>본 이미지로 결과 분석하기</Text>
                 </TouchableOpacity> */}
                 <TouchableOpacity style={styles.buttonStyle} onPress={handleBackButton}>
                     <Text style={styles.textStyle}>재촬영</Text>
                 </TouchableOpacity>
-                
-                {/* <View style={styles.cropper} onTouchMove={(e) => {console.log('touchMove',e.nativeEvent); setLocationX(e.nativeEvent.locationX); setLocationY(e.nativeEvent.locationY)}}/> */}
-                {/* </>
-            } */}
             
         </SafeAreaView>
     );
