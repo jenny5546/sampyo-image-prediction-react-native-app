@@ -28,4 +28,6 @@ export function renderPredictionResult(form) {
     return api.post('/prediction/', form);
 }
 
-
+export function savePredictionLabel(form) {
+    return api.post('/label/',form);
+}
