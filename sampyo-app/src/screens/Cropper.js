@@ -20,7 +20,8 @@ const CropperScreen = ({route, navigation}) => {
 
     const [customCropMode, setCustomCropMode] = useState(false);
     const [openCustomCropModal, setOpenCustomCropModal] = useState(false);
-    const [customCropImageUri, setCustomCropImageUri] = useState(null);
+    const [customCroppedImage, setCustomCroppedImage] = useState(null);
+    const [finalCroppedImage, setFinalCroppedImage] = useState(originalPicture);
 
 
     /* 1. Auto Crop Handlers */
@@ -48,8 +49,9 @@ const CropperScreen = ({route, navigation}) => {
     const handleAutomaticCrop = async () => {
         const res = await sendRawImageToServerForAutoCrop(originalPicture);
         if (res) {
-            setAutoCroppedImage(res.data.img);
+            setAutoCroppedImage({uri: `data:image/jpeg;base64,${res.data.img}`});
             setAutoCropDone(true);
+            setFinalCroppedImage({uri: `data:image/jpeg;base64,${res.data.img}`});
         }
         else {
             // ERROR HANDLING
@@ -67,19 +69,19 @@ const CropperScreen = ({route, navigation}) => {
     }
 
     const finishCustomCrop = (uriM) => {
-        setCustomCropImageUri(uriM);
+        setCustomCroppedImage({ uri: uriM });
         setCustomCropMode(true);
+        setFinalCroppedImage({ uri: uriM });
         handleCloseCustomCrop();
     }
 
     /* 4. UI Handlers */
-
     const handleBackButton = () => {
         navigation.goBack();
     }
 
     const renderResultScreen = () => {
-        navigation.navigate('Result',{ picture: originalPicture })
+        navigation.navigate('Result',{ picture: finalCroppedImage }) // Send final cropped img to render result
     }
 
 
@@ -135,14 +137,14 @@ const CropperScreen = ({route, navigation}) => {
 
                     {customCropMode ?
                         <ScalableImageComponent 
-                            source={{uri: customCropImageUri}}
+                            source={customCroppedImage}
                             containerWidth = {imageContainerWidth}
                             containerHeight = {imageContainerHeight}
                             style= {styles.imageStyle}
                         />
                         :
                         <ScalableImageComponent 
-                            source={{uri: `data:image/jpeg;base64,${autoCroppedImage}`}}
+                            source={autoCroppedImage}
                             containerWidth = {imageContainerWidth}
                             containerHeight = {imageContainerHeight}
                             style= {styles.imageStyle}
