@@ -40,7 +40,7 @@ const GalleryScreen = ({navigation}) => {
     }, []);
 
     const handleBackButton = () => {
-        pickImage();
+        navigation.navigate('Camera');
     }
 
     // const handleBackToHome = () => {

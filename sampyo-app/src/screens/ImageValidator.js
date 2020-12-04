@@ -10,7 +10,8 @@ const ImageValidatorScreen = ({route, navigation}) => {
     const { picture } = route.params;
 
     const handleBackButton = () => {
-        navigation.goBack();
+        // navigation.goBack();
+        navigation.navigate('Camera');
     }
 
     const renderResultScreen = () => {

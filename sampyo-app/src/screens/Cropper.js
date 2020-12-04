@@ -4,112 +4,84 @@ import AnimatedLoader from "react-native-animated-loader";
 import { sendRawImageForCrop } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import ScalableImageComponent from 'components/ScalableImageComponent';
-import ImageCropOverlay from 'components/ImageCropOverlay';
 import { ImageManipulator } from 'expo-image-crop'
-import { Animated, PanResponder, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
 const CropperScreen = ({route, navigation}) => {
 
-    const { picture } = route.params;
+    /* 1. Original Picture & Loading  */
 
-    // const [automaticCropDone, setAutomaticCropDone] = useState(false);
-    // const [croppedImage, setCroppedImage] = useState(null);
-    const [cropDivX, setCropDivX] = useState(0);
-    const [cropDivY, setCropDivY] = useState(0);
-    const [cropDivWidth, setCropDivWidth] = useState(0);
-    const [cropDivHeight, setCropDivHeight] = useState(0);
+    const originalPicture = route.params.picture;
 
-    // const responseData  = 
-    // {
-    //     "AscaledHeight": 1700,
-    //     "AscaledWidth": 3000,
-    //     "algorithm": "croppola",
-    //     "cropHeight": 1700,
-    //     "cropWidth": 3000,
-    //     "cropX": 387,
-    //     "cropY": 345,
-    //     "dominantColors": [
-    //         {
-    //             "b": 56,
-    //             "g": 46,
-    //             "importance": 0.47,
-    //             "r": 43,
-    //         },
-    //         {
-    //             "b": 124,
-    //             "g": 133,
-    //             "importance": 0.165,
-    //             "r": 144,
-    //         },
-    //         {
-    //             "b": 128,
-    //             "g": 92,
-    //             "importance": 0.089,
-    //             "r": 93,
-    //         },
-    //         {
-    //             "b": 98,
-    //             "g": 178,
-    //             "importance": 0.027,
-    //             "r": 229,
-    //         },
-    //         {
-    //             "b": 137,
-    //             "g": 221,
-    //             "importance": 0.007,
-    //             "r": 188,
-    //         },
-    //         {
-    //             "b": 236,
-    //             "g": 240,
-    //             "importance": 0.242,
-    //             "r": 240,
-    //         },
-    //     ],
-    //     "faces": [],
-    //     "height": 1700,
-    //     "imageHeight": 2376,
-    //     "imageWidth": 4110,
-    //     "scaledHeight": 1700,
-    //     "scaledWidth": 3000,
-    //     "token": "64c8a24c490d4d8a8ff1",
-    //     "version": 2,
-    //     "width": 3000,
-    //     "x": 386.613603,
-    //     "y": 345.383459,
-    // }
+    const [autoCropDone, setAutoCropDone] = useState(false);
+    const [autoCroppedImage, setAutoCroppedImage] = useState(null);
 
+    const [customCropMode, setCustomCropMode] = useState(false);
+    const [openCustomCropModal, setOpenCustomCropModal] = useState(false);
+    const [customCropImageUri, setCustomCropImageUri] = useState(null);
+
+
+    /* 1. Auto Crop Handlers */
+    useEffect(()=>{
+        handleAutomaticCrop();
+    },[])
 
     const sendRawImageToServerForAutoCrop = async (photo) => {
         try {
+
             let form_data = new FormData();
             const base64 = await FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' });
             form_data.append("base64_encoded", base64);
             form_data.append("local_file_name", photo.uri);
+
             const res = await sendRawImageForCrop(form_data);
-            console.log('json data', res.data)
-            // setCroppedImage(res.data.img)
+            return res;
 
         } catch(e) {
             console.log(e)
+            return null;
         }
     }
 
     const handleAutomaticCrop = async () => {
-        await sendRawImageToServerForAutoCrop(picture);
-        // setAutomaticCropDone(true);
+        const res = await sendRawImageToServerForAutoCrop(originalPicture);
+        if (res) {
+            setAutoCroppedImage(res.data.img);
+            setAutoCropDone(true);
+        }
+        else {
+            // ERROR HANDLING
+        }
     }
 
+    /* 2. Custom Crop Handlers */
+    const handleOpenCustomCropModal = () => {
+        
+        setOpenCustomCropModal(true);
+    }
+
+    const handleCloseCustomCrop = () => {
+        setOpenCustomCropModal(false);
+    }
+
+    const finishCustomCrop = (uriM) => {
+        setCustomCropImageUri(uriM);
+        setCustomCropMode(true);
+        handleCloseCustomCrop();
+    }
+
+    /* 4. UI Handlers */
 
     const handleBackButton = () => {
         navigation.goBack();
     }
 
     const renderResultScreen = () => {
-        navigation.navigate('Result',{ picture: picture })
+        navigation.navigate('Result',{ picture: originalPicture })
     }
+
 
     const styles = StyleSheet.create({
         container: {
@@ -124,7 +96,7 @@ const CropperScreen = ({route, navigation}) => {
             marginTop: 20,
         },
         imageStyle: {
-            
+
         },
         buttonStyle: {
             marginTop: 30,
@@ -153,65 +125,66 @@ const CropperScreen = ({route, navigation}) => {
 
     const imageContainerWidth = width - 50;
     const imageContainerHeight = height - 200;
-    console.log()
+
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* {automaticCropDone ?
-            
-                <View>
+            {autoCropDone ?
+                <>
                     <Header handleBackButton={handleBackButton} headerTitle="크롭결과"/>
-                    <Image source={{uri: `data:image/jpeg;base64,${croppedImage}`}} style={styles.imageStyle} />
-                </View>
+
+                    {customCropMode ?
+                        <ScalableImageComponent 
+                            source={{uri: customCropImageUri}}
+                            containerWidth = {imageContainerWidth}
+                            containerHeight = {imageContainerHeight}
+                            style= {styles.imageStyle}
+                        />
+                        :
+                        <ScalableImageComponent 
+                            source={{uri: `data:image/jpeg;base64,${autoCroppedImage}`}}
+                            containerWidth = {imageContainerWidth}
+                            containerHeight = {imageContainerHeight}
+                            style= {styles.imageStyle}
+                        />
+                    }
+                    {openCustomCropModal &&
+                        <ImageManipulator
+                            photo={originalPicture}
+                            isVisible={true}
+                            onPictureChoosed={(uriM) => finishCustomCrop(uriM)}
+                            onToggleModal={onToggleModal}
+                            allowFlip={false}
+                            allowRotate={false}
+                            fixedMask={{width: 255, height: 450}}
+                        />
+                    }
+                    
+                    <TouchableOpacity style={styles.buttonStyle} onPress={handleOpenCustomCropModal}>
+                        <Text style={styles.textStyle}>{ customCropMode ? '다시 크롭하기':'직접 크롭하기'}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
+                        <Text style={styles.textStyle}>결과 확인하기</Text>
+                    </TouchableOpacity>
+                </>
                 :
                 <>
-                <AnimatedLoader
-                    visible={true}
-                    overlayColor="rgba(255,255,255,0.75)"
-                    source={require("./loader.json")}
-                    animationStyle={styles.lottie}
-                    speed={1}
-                /> */}
-                
-                <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
-                {/* <View style={styles.cropContainerStyle} onLayout={(event) => {
-                    var {x, y, width, height} = event.nativeEvent.layout
-                    setCropDivX(x);
-                    setCropDivY(y);
-                    setCropDivWidth(width);
-                    setCropDivHeight(height);
-                }}>
-                    <ImageCropOverlay 
-                        containerWidth = {cropDivWidth}
-                        containerHeight = {cropDivHeight}
-                        divPosX = {cropDivX}
-                        divPosY = {cropDivY}
-                    />
+                    <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
+                    <AnimatedLoader
+                        visible={true}
+                        overlayColor="rgba(255,255,255,0.75)"
+                        source={require("./loader.json")}
+                        animationStyle={styles.lottie}
+                        speed={1}
+                    /> 
                     <ScalableImageComponent 
-                        source = {picture}
+                        source = {originalPicture}
                         containerWidth = {imageContainerWidth}
                         containerHeight = {imageContainerHeight}
                         style= {styles.imageStyle}
                     />
-                </View> */}
-
-               <ImageManipulator
-                  photo={picture}
-                  isVisible={true}
-                  onPictureChoosed={({ uri: uriM }) => this.setState({ uri: uriM })}
-                  onToggleModal={onToggleModal}
-                  allowFlip={false}
-                  allowRotate={false}
-                  fixedMask={{width: 340, height: 600}}
-              />
-                
-                
-                {/* <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
-                    <Text style={styles.textStyle}>본 이미지로 결과 분석하기</Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity style={styles.buttonStyle} onPress={handleBackButton}>
-                    <Text style={styles.textStyle}>재촬영</Text>
-                </TouchableOpacity>
+                </>
+                }
             
         </SafeAreaView>
     );
