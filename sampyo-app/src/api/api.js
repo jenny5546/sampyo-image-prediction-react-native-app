@@ -16,8 +16,16 @@ export function getResults() {
     return api.get('/')
 }
 
-export function sendRawImageForCrop(form) {
-    return api.post('/results/crop/', form);
+export function sendImageForAutoCrop(form) {
+    return api.post('/crop/', form);
+}
+
+export function sendRawImageForBrightness(form) {
+    return api.post('/brightness/', form);
+}
+
+export function renderPredictionResult(form) {
+    return api.post('/prediction/', form);
 }
 
 

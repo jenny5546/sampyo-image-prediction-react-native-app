@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from 'components/Header';
 import AnimatedLoader from "react-native-animated-loader";
-import { sendRawImageForCrop } from 'api/api';
-import * as FileSystem from 'expo-file-system';
+import { sendImageForAutoCrop } from 'api/api';
 import ScalableImageComponent from 'components/ScalableImageComponent';
 import { ImageManipulator } from 'expo-image-crop'
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
@@ -11,7 +10,6 @@ const { height, width } = Dimensions.get("window");
 
 const CropperScreen = ({route, navigation}) => {
 
-    /* 1. Original Picture & Loading  */
 
     const originalPicture = route.params.picture;
 
@@ -31,13 +29,10 @@ const CropperScreen = ({route, navigation}) => {
 
     const sendRawImageToServerForAutoCrop = async (photo) => {
         try {
-
             let form_data = new FormData();
-            const base64 = await FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' });
-            form_data.append("base64_encoded", base64);
             form_data.append("local_file_name", photo.uri);
 
-            const res = await sendRawImageForCrop(form_data);
+            const res = await sendImageForAutoCrop(form_data);
             return res;
 
         } catch(e) {
@@ -75,13 +70,13 @@ const CropperScreen = ({route, navigation}) => {
         handleCloseCustomCrop();
     }
 
-    /* 4. UI Handlers */
+    /* 3. UI Handlers */
     const handleBackButton = () => {
         navigation.goBack();
     }
 
     const renderResultScreen = () => {
-        navigation.navigate('Result',{ picture: finalCroppedImage }) // Send final cropped img to render result
+        navigation.navigate('Result',{ picture: finalCroppedImage, uriEncoded: !customCropMode }) // Send final cropped img to render result
     }
 
 

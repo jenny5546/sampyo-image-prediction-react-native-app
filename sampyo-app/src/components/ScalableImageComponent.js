@@ -25,10 +25,10 @@ export default class ScalableImageComponent extends Component {
         const { source, containerWidth, containerHeight, style } = this.props;
         const { aspectRatio } = this.state;
 
-        const widthCalculated = aspectRatio > 1 ? containerWidth: containerHeight*aspectRatio;
-        const heightCalculated = aspectRatio > 1 ? containerWidth/aspectRatio: containerHeight;
-        // const widthCalculated = containerHeight*aspectRatio;
-        // const heightCalculated = containerHeight;
+        // const widthCalculated = aspectRatio > 1 ? containerWidth: containerHeight*aspectRatio;
+        // const heightCalculated = aspectRatio > 1 ? containerWidth/aspectRatio: containerHeight;
+        const widthCalculated = containerHeight*aspectRatio;
+        const heightCalculated = containerHeight;
 
         console.log('contianer',containerHeight, 'aspect', aspectRatio)
         console.log('calculated',widthCalculated,heightCalculated)
@@ -39,9 +39,11 @@ export default class ScalableImageComponent extends Component {
                 style={[
                     style,
                     {
-                        width: widthCalculated,
-                        height: heightCalculated,
-                        transform: aspectRatio > 1 ? [{ rotate: '90deg' }]: [{ rotate: '0deg' }]
+                        width:300,
+                        height:300
+                        // width: widthCalculated,
+                        // height: heightCalculated,
+                        // transform: aspectRatio > 1 ? [{ rotate: '90deg' }]: [{ rotate: '0deg' }]
                     }
                 ]}
             />
