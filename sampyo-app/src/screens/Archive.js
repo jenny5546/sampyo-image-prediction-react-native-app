@@ -8,67 +8,85 @@ const { height, width } = Dimensions.get("window");
 
 const ArchiveScreen = ({navigation}) => {
     
-    const [loading, setLoading] = useState(true);
+    const [loadDone, setLoadDone] = useState(false);
+    const [dataList, setDataList] = useState([]);
 
     const handleGetFeed = async () => {
         try {
             const res = await getResults();
-            // console.log(res.data)
+            setDataList(res.data.predictions);
+            setLoadDone(true);
         } catch (error) {
             console.log('error');
         }
+    };
+
+    const handleRenderDetail = (info) => {
+        navigation.navigate('Detail', { info: info} );
     }
 
     useEffect(()=>{
-        setTimeout(()=>{
-            setLoading(false);
-        },3000);
-
-        Font.loadAsync({
-            'NotoSansKR-Thin': require('assets/fonts/NotoSansKR-Thin.otf')
-            // 'Montserrat-SemiBold': require('assets/fonts/Montserrat-SemiBold.ttf'),
-        });
-        
+        // Font.loadAsync({
+        //     'NotoSansKR-Thin': require('assets/fonts/NotoSansKR-Thin.otf'),
+        //     'Montserrat-SemiBold': require('assets/fonts/Montserrat-SemiBold.ttf'),
+        // });
         handleGetFeed();
     },[]);
+
+    const card = (index, label, classification, created_at, imageUri) => {
+        
+        const source = {uri: `data:image/jpeg;base64,${imageUri}`};
+
+        const info = {
+            index: index,
+            label: label,
+            classification: classification,
+            created_at: created_at,
+            source: source
+        }
+        
+        return (
+            <TouchableOpacity key={index} style={styles.cardWrapper} onPress={()=>handleRenderDetail(info)}>
+                <View>
+                    <Image source={source} style={styles.imageStyle} />
+                </View>
+                <Text>
+                    {label}
+                </Text>
+                <Text>
+                    {created_at}
+                </Text>
+                <Text>
+                    {classification}
+                </Text>
+            </TouchableOpacity>
+        )
+    }
+
+    const resultList = dataList.map((data,index)=>{
+            return card(index, data.label, data.classification, data.created_at, data.input_img);
+    });
 
 
     const handleBackButton = () => {
         navigation.navigate('Camera')
     }
     
-    const resultList = [];
-
-    const card = (
-        <View style={styles.cardWrapper}>
-            <View>
-                <Image/>
-            </View>
-            <Text style={{ fontFamily: 'NotoSansKR-Thin' }}>
-                수원 리포트
-            </Text>
-            <Text>
-                Date
-            </Text>
-        </View>
-    )
-
-
-
     return (
         <SafeAreaView style={styles.container}>
-            <AnimatedLoader
-                visible={loading}
-                overlayColor="rgba(255,255,255,0.75)"
-                source={require("./loader.json")}
-                animationStyle={styles.lottie}
-                speed={1}
-            />
             <Header handleBackButton={handleBackButton} headerTitle="모아보기"/>
-            {!loading &&
+            {loadDone ?
                 <ScrollView>
-                    {card}
+                    {resultList}
                 </ScrollView>
+                :
+                <AnimatedLoader
+                    visible={!loadDone}
+                    overlayColor="rgba(255,255,255,0.75)"
+                    source={require("./loader.json")}
+                    animationStyle={styles.lottie}
+                    speed={1}
+                />
             }
             
         </SafeAreaView>
@@ -83,9 +101,8 @@ const styles = StyleSheet.create({
         height: height,
     },
     imageStyle: { 
-        marginTop: 10,
-        width: width/2 + 100,
-        height: height/2 + 100
+        width: 30,
+        height: 30
     },
     lottie: {
         width: 100,

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Backend Api
-const baseUrl = 'http://192.168.35.50:8000';
+const baseUrl = 'http://192.168.35.40:8000';
 
 var api = axios.create({
 	baseURL: baseUrl,
@@ -13,7 +13,7 @@ var api = axios.create({
 });
 
 export function getResults() {
-    return api.get('/')
+    return api.get('/');
 }
 
 export function sendImageForAutoCrop(form) {
