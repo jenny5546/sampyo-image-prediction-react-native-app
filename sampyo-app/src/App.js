@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
 import CameraScreen from 'screens/Camera';
 import OnboardingScreen from 'screens/Onboarding';
 import ArchiveScreen from 'screens/Archive';
@@ -12,16 +13,39 @@ import ImageValidatorScreen from 'screens/ImageValidator';
 import DetailScreen from './screens/Detail';
 
 
-const App = () => {
+export default class App extends Component {
 
-    const Stack = createStackNavigator();
+  constructor(props) {
+    super(props);
+    this.state = {isReady: false};
+  }
+
+
+  async componentDidMount() {
 
     // SplashScreen.preventAutoHideAsync();
     // setTimeout(() => {
     //     SplashScreen.hideAsync();
     // }, 3000);
 
+    await Font.loadAsync({
+        'NotoSansKR-Thin': require('assets/fonts/NotoSansKR-Thin.otf'),
+        'NotoSansKR-Black': require('assets/fonts/NotoSansKR-Black.otf'),
+        'NotoSansKR-Light': require('assets/fonts/NotoSansKR-Light.otf'),
+        'NotoSansKR-Medium': require('assets/fonts/NotoSansKR-Medium.otf'),
+        'NotoSansKR-Regular': require('assets/fonts/NotoSansKR-Regular.otf'),
+        'NotoSansKR-Bold': require('assets/fonts/NotoSansKR-Bold.otf'),
+    });
+
+    this.setState({ isReady: true });
+
+  }
+
+  render() {
+    const Stack = createStackNavigator();
+    const { isReady } = this.state;
     return (
+      isReady &&
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
@@ -35,6 +59,5 @@ const App = () => {
         </Stack.Navigator>
       </NavigationContainer>
     );
+  }
 }
-
-export default App;
