@@ -32,7 +32,7 @@ const Page = (props) => {
                                 position: 'absolute',
                                 marginLeft: -3,
                             }}
-                            source={require('./skip-arrow.json')}
+                            source={require('components/animation/skip-arrow.json')}
                         />
                     </TouchableOpacity>
                 }

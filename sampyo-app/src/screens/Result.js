@@ -86,7 +86,7 @@ const ResultScreen = ({route, navigation}) => {
                 <AnimatedLoader
                     visible={loading}
                     overlayColor="rgba(255,255,255,0.75)"
-                    source={require("./loader.json")}
+                    source={require("components/animation/loader.json")}
                     animationStyle={styles.lottie}
                     speed={1}
                 />
