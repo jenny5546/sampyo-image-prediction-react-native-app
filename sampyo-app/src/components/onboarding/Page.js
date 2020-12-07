@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import StepIndicator from 'components/onboarding/StepIndicator';
-import skipIcon from 'assets/images/skip-icon.png';
 import nextIcon from 'assets/images/next-icon.png';
 import LottieView from 'lottie-react-native';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';

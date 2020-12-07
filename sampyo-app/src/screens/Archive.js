@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as Font from 'expo-font';
-import Header from 'components/Header';
+import MainScreenHeader from 'components/common/MainScreenHeader';
+import NavBar from 'components/common/NavBar';
 import AnimatedLoader from "react-native-animated-loader";
 import { getResults } from "api/api";
 import { ScrollView, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
@@ -74,7 +75,7 @@ const ArchiveScreen = ({navigation}) => {
     
     return (
         <SafeAreaView style={styles.container}>
-            <Header handleBackButton={handleBackButton} headerTitle="모아보기"/>
+            <MainScreenHeader title_1="분석 결과" title_2="히스토리 모아 보기" />
             {loadDone ?
                 <ScrollView>
                     {resultList}
@@ -88,7 +89,7 @@ const ArchiveScreen = ({navigation}) => {
                     speed={1}
                 />
             }
-            
+            <NavBar navigation={navigation} active="archive"/>
         </SafeAreaView>
         
     );
@@ -97,8 +98,10 @@ const ArchiveScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: 'white',
         alignItems: 'center',
         height: height,
+        flex: 1,
     },
     imageStyle: { 
         width: 30,
