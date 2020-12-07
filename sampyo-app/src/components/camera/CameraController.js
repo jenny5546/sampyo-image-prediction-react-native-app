@@ -124,7 +124,8 @@ const styles = StyleSheet.create({
         height: 45,
         borderRadius: 80,
         borderWidth: 3,
-        borderColor: 'rgba(0, 0, 0, 0.46)',
+        borderColor: '#4C6A91',
+        opacity: 0.5
     }
 });
 

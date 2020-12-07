@@ -1,30 +1,38 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CameraController from 'components/camera/CameraController';
 
-import { Platform, TouchableOpacity, Image, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
+import { Platform, TouchableOpacity, Animated, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
 
 const { height, width } = Dimensions.get("window");
 
 const CameraScreen = ({navigation}) => {
+
+    const fadeAnim = useRef(new Animated.Value(1)).current;
     const [hasPermission, setHasPermission] = useState(null);
-    const [showText, setShowText] = useState(true);
     const [cameraRef, setCameraRef] = useState(null)
     const [type, setType] = useState(Camera.Constants.Type.back);
     const [picture, setPicture] = useState(null);
     const [showImage, setShowImage] = useState(false);
+
+    const fadeOut = () => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 7000,
+            useNativeDriver: true
+        }).start();
+    };
 
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestPermissionsAsync();
             setHasPermission(status === 'granted');
         })();
-        const interval = setInterval(() => {
-            setShowText((showText) => !showText);
-        }, 1000);
-        return () => clearInterval(interval);
     }, []);
 
+    useEffect(()=>{
+        fadeOut();
+    },[]);
 
     const takePicture = async () => {
         if (cameraRef) {
@@ -44,12 +52,6 @@ const CameraScreen = ({navigation}) => {
         }
     },[picture])
 
-    
-    // const handleBackButton = () => {
-    //     setShowImage(false);
-    //     setPicture(null);
-    // }
-
     if (hasPermission === null) {
         return <View />;
     }
@@ -60,16 +62,19 @@ const CameraScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <Camera style={styles.cameraScreenStyle} type={type} ref={ref => {setCameraRef(ref)}}>
-                {/* <View style={styles.textContainer}>
+                <Animated.View style={[
+                    styles.textContainer,
+                    { opacity: fadeAnim }
+                ]}>
                     <Text
-                        style={[
-                            styles.textStyle,
-                            {opacity: showText ? 1 : 0.1}
-                        ]}
+                        style={styles.textStyle}
                     >
                         화면에 골재의 이미지만 나오도록 촬영해주세요
                     </Text>
-                </View> */}
+                    <View>
+
+                    </View>
+                </Animated.View>
             </Camera>
             <CameraController navigation={navigation} takePicture={takePicture} />
         </SafeAreaView>
@@ -89,17 +94,14 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     textStyle: {
-        fontSize: 16,
-        fontWeight: '100', 
-        marginBottom: 10, 
+        fontSize: 14,
+        letterSpacing: -0.45,
+        fontFamily: 'NotoSansKR-Regular',
         color: 'white',
-        opacity: 0.6,
     },
     cameraScreenStyle: {
-        // flex: 1
         width: width,
         height: height -130,
-        // height: 300,
     },
     imageStyle: { 
         marginTop: 10,
