@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         width: width,
-        padding: 20
+        padding: 20,
+        marginTop: 10,
     },
     contentContainer: {
         marginTop: 10,

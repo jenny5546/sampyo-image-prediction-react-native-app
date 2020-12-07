@@ -1,33 +1,60 @@
-import React from 'react';
-import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, Image, TouchableOpacity, TouchableHighlight, Text, StyleSheet, Dimensions } from 'react-native';
 import galleryIcon from 'assets/images/gallery-icon.png';
 import cameraIcon from 'assets/images/camera-icon.png';
-import resultIcon from 'assets/images/result-icon.png';
+import archiveIcon from 'assets/images/archive-icon.png';
 const { height, width } = Dimensions.get("window");
 
 const NavBar = ({navigation, takePicture}) => {
 
-    const handleClickHome = () => {
+    const [clickedGalleryButton, setClickedGalleryButton] = useState(false);
+    const [clickedArchiveButton, setClickedArchiveButton] = useState(false);
+
+    const handleClickGallery = () => {
+        setClickedGalleryButton(true);
         navigation.navigate('Gallery');
     }
     const handleClickCamera = () => {
         takePicture();
     }
-    const handleClickResult = () => {
+    const handleClickArchive = () => {
+        setClickedArchiveButton(true);
         navigation.navigate('Archive');
     }
 
     return (
         <View style={styles.footer}>
-            <TouchableOpacity style={styles.buttonContainer} onPress={handleClickHome}>
+            <TouchableHighlight 
+                style={[styles.buttonContainer, clickedGalleryButton ? { backgroundColor: '#f6f8fa'}:{ backgroundColor: 'white' }]} 
+                onPress={handleClickGallery}
+                underlayColor='#f6f8fa'
+                onHideUnderlay={() => {
+                    setClickedGalleryButton(false);
+                }}
+                onShowUnderlay={() => {
+                    setClickedGalleryButton(true);
+                }}
+            >
                 <Image source={galleryIcon} style={styles.galleryButton}></Image>
-            </TouchableOpacity>
+            </TouchableHighlight>
+
             <TouchableOpacity style={styles.cameraButtonContainer} onPress={handleClickCamera}>
                 <Image source={cameraIcon} style={styles.cameraButton}></Image>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer} onPress={handleClickResult}>
-                <Image source={resultIcon} style={styles.resultButton}></Image>
-            </TouchableOpacity>
+            
+            <TouchableHighlight 
+                style={[styles.buttonContainer, clickedArchiveButton ? { backgroundColor: '#f6f8fa'}:{ backgroundColor: 'white' }]} 
+                onPress={handleClickArchive}
+                underlayColor='#f6f8fa'
+                onHideUnderlay={() => {
+                    setClickedArchiveButton(false);
+                }}
+                onShowUnderlay={() => {
+                    setClickedArchiveButton(true);
+                }}
+            >
+                <Image source={archiveIcon} style={styles.archiveButton}></Image>
+            </TouchableHighlight>
         </View>
     );
 }
@@ -40,7 +67,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#1F1F24',
+        // backgroundColor: '#1F1F24',
         borderRadius: 18,
         opacity: 0.8,
         position: 'absolute',
@@ -50,7 +77,7 @@ const styles = StyleSheet.create({
     galleryButton: {
         width: 23,
         height: 23,
-        opacity: 0.8,
+        opacity: 0.5,
     }, 
     cameraButton: {
         width: 20,
@@ -60,14 +87,9 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         borderRadius: 50,
-    },
-    buttonLabel: {
-        fontSize: 12,
-        color: 'white',
-        marginTop: 5,
     },
     cameraButtonContainer: {
         width: 50,
@@ -81,9 +103,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // opacity: 0.2,
     },
-    resultButton: {
+    archiveButton: {
         width: 23,
-        height: 23
+        height: 23,
+        opacity: 0.5,
     }
 });
 

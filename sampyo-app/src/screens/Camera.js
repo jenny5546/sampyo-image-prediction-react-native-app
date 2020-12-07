@@ -60,7 +60,7 @@ const CameraScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <Camera style={styles.cameraScreenStyle} type={type} ref={ref => {setCameraRef(ref)}}>
-                <View style={styles.textContainer}>
+                {/* <View style={styles.textContainer}>
                     <Text
                         style={[
                             styles.textStyle,
@@ -69,7 +69,7 @@ const CameraScreen = ({navigation}) => {
                     >
                         화면에 골재의 이미지만 나오도록 촬영해주세요
                     </Text>
-                </View>
+                </View> */}
             </Camera>
             <NavBar navigation={navigation} takePicture={takePicture} />
         </SafeAreaView>
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         flex: 1,
+        backgroundColor: 'white'
     },
     textContainer: {
         backgroundColor: 'transparent',
