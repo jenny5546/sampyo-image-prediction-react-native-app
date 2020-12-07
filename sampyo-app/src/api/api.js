@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Backend Api
-const baseUrl = 'http://192.168.0.7:8000';
+const baseUrl = 'http://192.168.35.210:8000';
 
 var api = axios.create({
 	baseURL: baseUrl,

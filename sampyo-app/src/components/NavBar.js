@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
-import galleryIcon from '../assets/images/gallery-icon.png';
-import cameraIcon from '../assets/images/camera-icon.png';
-import resultIcon from '../assets/images/result-icon.png';
+import galleryIcon from 'assets/images/gallery-icon.png';
+import cameraIcon from 'assets/images/camera-icon.png';
+import resultIcon from 'assets/images/result-icon.png';
 const { height, width } = Dimensions.get("window");
 
 const NavBar = ({navigation, takePicture}) => {
