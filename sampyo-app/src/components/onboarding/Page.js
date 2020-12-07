@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import StepIndicator from 'components/onboarding/StepIndicator';
 import skipIcon from 'assets/images/skip-icon.png';
 import nextIcon from 'assets/images/next-icon.png';
+import LottieView from 'lottie-react-native';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
 const Page = (props) => {
 
-    const [showSkipText, setShowSkipText] = useState(true);
+    const lottieRef = useRef(null);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setShowSkipText((showSkipText) => !showSkipText);
-        }, 1200);
-        return () => clearInterval(interval);
+        if (lottieRef) {
+            lottieRef.current.play();
+        }
     }, []);
 
     return (
@@ -23,8 +23,17 @@ const Page = (props) => {
             <View style={styles.headerButtonContainer}>
                 {props.id !== 3 && 
                     <TouchableOpacity style={styles.flexButtonContainer} onPress={props.handleClickStart}>
-                        <Text style={{...styles.skipButtonText, opacity: showSkipText? 1: 0}}>Skip</Text>
-                        <Image source={skipIcon} style={{opacity: showSkipText? 1: 0 }}/>
+                        <Text style={styles.skipButtonText}>Skip</Text>
+                        <LottieView
+                            ref={lottieRef} 
+                            style={{
+                                width: 100,
+                                height: 100,
+                                position: 'absolute',
+                                marginLeft: -3,
+                            }}
+                            source={require('./skip-arrow.json')}
+                        />
                     </TouchableOpacity>
                 }
             </View>
@@ -84,7 +93,7 @@ const styles = StyleSheet.create({
     skipButtonText: {
         fontFamily: 'NotoSansKR-Light',
         fontSize: 14,
-        marginRight: 5,
+        marginRight: 20,
         color: 'grey',
         opacity: 1
     },
