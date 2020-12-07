@@ -3,14 +3,32 @@ import LottieView from 'lottie-react-native';
 import { sendRawImageForBrightness } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import ScalableImageComponent from 'components/ScalableImageComponent';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
+import { SafeAreaView, Animated, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
 const ImageValidatorScreen = ({route, navigation}) => {
 
     const lottieRef = useRef(null);
+    const floatAnim = useRef(new Animated.Value(0)).current;
+    const fadeInAnim = useRef(new Animated.Value(0)).current;
 
+    const floatUp = () => {
+        Animated.timing(floatAnim, {
+            toValue: -50,
+            duration: 1000,
+            useNativeDriver: true
+        }).start();
+    };
+
+    const fadeIn = () => {
+        Animated.timing(fadeInAnim, {
+            toValue: 1,
+            duration: 1500,
+            useNativeDriver: true
+        }).start();
+    }
+    
     useEffect(() => {
         if (lottieRef.current) {
             lottieRef.current.play();
@@ -19,6 +37,10 @@ const ImageValidatorScreen = ({route, navigation}) => {
 
     const { picture } = route.params;
     const [imageBrightness, setImageBrightness] = useState(null);
+
+    const [passed, setPassed] = useState(false);
+    const [failed, setFailed] = useState(false);
+    const [showButtons, setShowButtons] = useState(false);
 
     useEffect(()=>{
         handleGetBrightness();
@@ -44,13 +66,26 @@ const ImageValidatorScreen = ({route, navigation}) => {
     const handleGetBrightness = async () => {
         const res = await sendRawImageToServerForBrightness(picture);
         if (res) {
-            console.log('brihgtness', res.data.brightness)
             setImageBrightness(res.data.brightness);
         }
         else {
             // ERROR HANDLING
         }
     }
+
+
+    useEffect(()=>{
+        if (imageBrightness && imageBrightness<20) {
+            setFailed(true);
+            floatUp();
+            fadeIn();
+        }
+        if (imageBrightness && imageBrightness>=20) {
+            setPassed(true);
+            floatUp();
+            fadeIn();
+        }
+    },[imageBrightness]);
 
     const handleBackButton = () => {
         navigation.goBack();
@@ -63,10 +98,6 @@ const ImageValidatorScreen = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-                {/* <Header handleBackButton={handleBackButton} headerTitle="이미지 확인"/> */}
-                {/* <View style={styles.titleContainer}>
-                    <Text style={styles.titleTextStyle}>선택한 이미지</Text>
-                </View> */}
                 <ScalableImageComponent 
                     source = {picture}
                     containerWidth = {width}
@@ -74,7 +105,12 @@ const ImageValidatorScreen = ({route, navigation}) => {
                     style= {styles.imageStyle}
                 />
                 {/* <View style={styles .overlay} /> */}
-                <View style={styles.popUpContainer}>
+                <Animated.View 
+                    style={[
+                        styles.popUpContainer,
+                        { transform: [{ translateY: floatAnim }] },
+                    ]}
+                >
                     {imageBrightness===null ?
                         <View style={styles.popUpWrap}>
                             <Text style={styles.waitingText}>명도 적합성 판단 중.. 잠시만 기다리세요</Text>
@@ -91,7 +127,7 @@ const ImageValidatorScreen = ({route, navigation}) => {
                             />
                         </View>
                         :
-                    imageBrightness >= 20 ?
+                    passed ?
                         <View style={styles.popUpWrap}>
                             <Text style={styles.waitingText}>이미지 명도: {imageBrightness.toFixed(2)}</Text>
                             <Text style={styles.passedText}>통과</Text>
@@ -109,6 +145,7 @@ const ImageValidatorScreen = ({route, navigation}) => {
                             />
                         </View>
                         :
+                    failed ?
                         <View style={styles.popUpWrap}>
                             <Text style={styles.waitingText}>이미지 명도: {imageBrightness.toFixed(2)}</Text>
                             <Text style={styles.failedText}>실패</Text>
@@ -125,20 +162,31 @@ const ImageValidatorScreen = ({route, navigation}) => {
                                 source={require('components/animation/snackbar-failed.json')}
                             />
                         </View>
+                        :
+                        null
                     }
-                </View>
-                {/* {imageBrightness!==null &&
-                    <View>
-                        <Text style={styles.textStyle}>이미지 명도: {imageBrightness}</Text>
-                    </View>
-                } */}
-                {/* <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
-                    <Text style={styles.textStyle}>본 이미지 크롭하기</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress={handleBackButton}>
-                    <Text style={styles.textStyle}>재촬영</Text>
-                </TouchableOpacity> */}
-                {/* <NavBar navigation={navigation} active="none"/> */}
+                </Animated.View>
+
+                
+                <Animated.View 
+                    style={[
+                        styles.buttonContainer,
+                        { opacity: fadeInAnim },
+                    ]}
+                >
+                    {passed && 
+                        <TouchableOpacity style={styles.cropButtonStyle} onPress={renderResultScreen}>
+                            <Text style={styles.textStyle}>본 이미지 크롭하기</Text>
+                        </TouchableOpacity>
+                    }
+                    {failed && 
+                        <TouchableOpacity style={styles.backButtonStyle} onPress={handleBackButton}>
+                            <Text style={styles.textStyle}>다시 하기</Text>
+                        </TouchableOpacity>
+                    }
+                    
+                </Animated.View>
+                
         </SafeAreaView>
     );
 }
@@ -160,24 +208,7 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Light',
         letterSpacing: -1.5,
     },
-    imageStyle: { 
-        // marginTop: 20,
-    },
-    buttonStyle: {
-        marginTop: 30,
-        borderRadius: 10,
-        width: width-150,
-        height: 50,
-        backgroundColor: '#404040',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        opacity: 0.6,
-    },
-    textStyle: {
-        // color: 'white',
-        fontSize: 16,
-    },
+
     overlay: {
         width: width,
         height: height,
@@ -202,6 +233,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 3.84,
         elevation: 12,
+        // transform: [{ translateY: -50 }],
     
     },
     popUpWrap: {
@@ -222,7 +254,7 @@ const styles = StyleSheet.create({
         letterSpacing: -1.5,
         fontSize: 18,
         marginLeft: 20,
-        color: '#76A7ED' //#f35750
+        color: '#76A7ED'
     },
     failedText: {
         fontFamily: 'NotoSansKR-Bold',
@@ -238,7 +270,40 @@ const styles = StyleSheet.create({
         borderRightColor: '#dde1e7',
         position: 'absolute',
         right: 80,
-    }
+    },
+    buttonContainer: {
+        position: 'absolute',
+        bottom: 15,
+        width: width-40,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    cropButtonStyle: {
+        marginTop: 30,
+        borderRadius: 10,
+        width: width-40,
+        height: 50,
+        backgroundColor: '#76A7ED',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.9,
+    },
+    backButtonStyle: {
+        marginTop: 30,
+        borderRadius: 10,
+        width: width-40,
+        height: 50,
+        backgroundColor: '#969aa2',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: 0.9,
+    },
+    textStyle: {
+        color: 'white',
+        fontSize: 16,
+    },
 });
 
 export default ImageValidatorScreen;
