@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import NavBar from 'components/NavBar';
+import CameraController from 'components/camera/CameraController';
 
 import { Platform, TouchableOpacity, Image, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
@@ -71,7 +71,7 @@ const CameraScreen = ({navigation}) => {
                     </Text>
                 </View> */}
             </Camera>
-            <NavBar navigation={navigation} takePicture={takePicture} />
+            <CameraController navigation={navigation} takePicture={takePicture} />
         </SafeAreaView>
     );
 }

@@ -5,7 +5,7 @@ import cameraIcon from 'assets/images/camera-icon.png';
 import archiveIcon from 'assets/images/archive-icon.png';
 const { height, width } = Dimensions.get("window");
 
-const NavBar = ({navigation, takePicture}) => {
+const CameraController = ({navigation, takePicture}) => {
 
     const [clickedGalleryButton, setClickedGalleryButton] = useState(false);
     const [clickedArchiveButton, setClickedArchiveButton] = useState(false);
@@ -39,9 +39,10 @@ const NavBar = ({navigation, takePicture}) => {
             </TouchableHighlight>
 
             <TouchableOpacity style={styles.cameraButtonContainer} onPress={handleClickCamera}>
-                <Image source={cameraIcon} style={styles.cameraButton}></Image>
+                <View style={styles.innerCircle}/>
+                <View style={styles.innermostCircle}/>
             </TouchableOpacity>
-            
+
             <TouchableHighlight 
                 style={[styles.buttonContainer, clickedArchiveButton ? { backgroundColor: '#f6f8fa'}:{ backgroundColor: 'white' }]} 
                 onPress={handleClickArchive}
@@ -67,7 +68,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        // backgroundColor: '#1F1F24',
         borderRadius: 18,
         opacity: 0.8,
         position: 'absolute',
@@ -78,10 +78,11 @@ const styles = StyleSheet.create({
         width: 23,
         height: 23,
         opacity: 0.5,
-    }, 
-    cameraButton: {
-        width: 20,
-        height: 20,
+    },
+    archiveButton: {
+        width: 23,
+        height: 23,
+        opacity: 0.5,
     },
     buttonContainer: {
         display: 'flex',
@@ -92,22 +93,39 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     cameraButtonContainer: {
-        width: 50,
-        height: 50,
-        borderRadius: 50,
-        borderWidth: 5,
-        borderColor: '#58575B',
-        // backgroundColor: 'white',
+        width: 80,
+        height: 80,
+        borderRadius: 80,
+        borderWidth: 2,
+        borderColor: 'rgba(0, 0, 0, 0.04)',
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        // opacity: 0.2,
     },
-    archiveButton: {
-        width: 23,
-        height: 23,
-        opacity: 0.5,
+    innerCircle: {
+        position: 'absolute',
+        width: 55,
+        height: 55,
+        borderRadius: 80,
+        backgroundColor: 'white',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    innermostCircle: {
+        position: 'absolute',
+        width: 45,
+        height: 45,
+        borderRadius: 80,
+        borderWidth: 3,
+        borderColor: 'rgba(0, 0, 0, 0.46)',
     }
 });
 
-export default NavBar;
+export default CameraController;
