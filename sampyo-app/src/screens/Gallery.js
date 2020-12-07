@@ -10,19 +10,12 @@ const GalleryScreen = ({navigation}) => {
 
     const lottieRef = useRef(null);
     const [image, setImage] = useState(null);
-    // const [imageWidth, setImageWidth] = useState(600);
-    // const [imageHeight, setImageHeight] = useState(600);
-
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: false,
-            aspect: [1,1],
             quality: 1,
         });
-
-        // setImageWidth(result.width);
-        // setImageHeight(result.height);
 
         if (!result.cancelled) {
             setImage(result.uri);

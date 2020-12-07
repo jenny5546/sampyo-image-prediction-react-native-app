@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
-
+import { Image, Dimensions } from 'react-native';
+const { height, width } = Dimensions.get("window");
 export default class ScalableImageComponent extends Component {
 
     constructor(props) {
@@ -18,6 +18,7 @@ export default class ScalableImageComponent extends Component {
                 aspectRatio: width/height
             })
         });
+
         
     }
 
@@ -25,25 +26,17 @@ export default class ScalableImageComponent extends Component {
         const { source, containerWidth, containerHeight, style } = this.props;
         const { aspectRatio } = this.state;
 
-        // const widthCalculated = aspectRatio > 1 ? containerWidth: containerHeight*aspectRatio;
-        // const heightCalculated = aspectRatio > 1 ? containerWidth/aspectRatio: containerHeight;
-        const widthCalculated = containerHeight*aspectRatio;
-        const heightCalculated = containerHeight;
-
-        console.log('contianer',containerHeight, 'aspect', aspectRatio)
-        console.log('calculated',widthCalculated,heightCalculated)
-
         return (
             <Image
                 source={source}
                 style={[
                     style,
                     {
-                        width:300,
-                        height:300
-                        // width: widthCalculated,
-                        // height: heightCalculated,
-                        // transform: aspectRatio > 1 ? [{ rotate: '90deg' }]: [{ rotate: '0deg' }]
+                        width: aspectRatio > 1 ? containerHeight: containerWidth,
+                        height: containerHeight,
+                        transform: aspectRatio > 1 ? [{ rotate: '90deg' }]: [{ rotate: '0deg' }],
+                        // resizeMode: 'contain',
+                        // flex: 1,
                     }
                 ]}
             />
