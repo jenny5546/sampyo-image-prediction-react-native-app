@@ -86,9 +86,11 @@ const CropperScreen = ({route, navigation}) => {
     }
 
     const finishCustomCrop = async (uriM) => {
+
+        const resizeInfo = originalPictureWidth > originalPictureHeight ? { width: 3000, height: 1700 } : { width: 1700, height: 3000 }
         const manipResult = await ExpoImageManipulator.manipulateAsync(
             uriM,
-            [{ resize: { width: 1700, height: 3000 } }],
+            [{ resize: resizeInfo }],
             { format: 'jpeg' }
         );
 
@@ -146,7 +148,12 @@ const CropperScreen = ({route, navigation}) => {
                             closeModal={handleCloseCustomCrop}
                             allowFlip={false}
                             allowRotate={false}
-                            fixedMask={{width: 255, height: 450}}
+                            fixedMask={
+                                originalPictureWidth > originalPictureHeight ?
+                                {width: width-70, height: (width-70)*170/300}
+                                :
+                                {width: width-150, height: (width-150)*300/170}
+                            }
                         />
                     }
                     
