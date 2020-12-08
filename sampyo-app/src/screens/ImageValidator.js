@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import LottieView from 'lottie-react-native';
 import { sendRawImageForBrightness } from 'api/api';
 import * as FileSystem from 'expo-file-system';
-import ScalableImageComponent from 'components/ScalableImageComponent';
+import ScalableImageComponent from 'components/image/ScalableImageComponent';
 import { SafeAreaView, Animated, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
