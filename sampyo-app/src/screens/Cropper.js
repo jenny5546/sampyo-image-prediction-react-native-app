@@ -85,7 +85,7 @@ const CropperScreen = ({route, navigation}) => {
     }
 
     const finishCustomCrop = async (uriM) => {
-        
+
         handleCloseCustomCrop();
         
         const resizeInfo = originalPictureWidth > originalPictureHeight ? { width: 3000, height: 1700 } : { width: 1700, height: 3000 }
@@ -121,14 +121,14 @@ const CropperScreen = ({route, navigation}) => {
         <SafeAreaView style={styles.container}>
             {autoCropDone ?
                 <>
-                    <Header handleBackButton={handleBackButton} headerTitle="크롭 결과 확인"/>
+                    <Header handleBackButton={handleBackButton} headerTitle="크롭한 이미지 확인"/>
                     {customCropMode ?
                         <AutoHeightImage
                             style= {styles.imageStyle}
                             source={customCroppedImage}
                             resizeMode={'contain'}
                             width={width}
-                            height={imageContainerHeight-40}
+                            height={imageContainerHeight-20}
                         />
                         :
                         <AutoHeightImage
@@ -136,7 +136,7 @@ const CropperScreen = ({route, navigation}) => {
                             source={autoCroppedImage}
                             resizeMode={'contain'}
                             width={width}
-                            height={imageContainerHeight-40}
+                            height={imageContainerHeight-20}
                         />
                     }
                     {openCustomCropModal &&
@@ -177,7 +177,7 @@ const CropperScreen = ({route, navigation}) => {
                         <LottieView
                             ref={lottieRef} 
                             style={styles.lottie}
-                            source={require('components/animation/loading.json')}
+                            source={require('components/animation/loader.json')}
                         />
                     </View>
                     
@@ -186,7 +186,7 @@ const CropperScreen = ({route, navigation}) => {
                         source={originalPicture}
                         resizeMode={'contain'}
                         width={width}
-                        height={imageContainerHeight}
+                        height={imageContainerHeight+20}
                     />
                 </>
                 }
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: width/2,
         borderRightWidth: 1,
-        height: 80,
+        height: 60,
         borderRightColor: '#969aa2',
         flexDirection: 'row',
     },
@@ -240,8 +240,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     lottie: {
-        width: 100,
-        height: 100,
+        width: 150,
+        height: 150,
         marginTop: -20,
     },
     buttonContainer: {
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
         width: width,
         position: 'absolute',
         bottom: 0,
-        height: 80,
+        height: 60,
         backgroundColor: '#eef1f4',
         borderTopColor: '#969aa2',
         borderTopWidth: 1,
