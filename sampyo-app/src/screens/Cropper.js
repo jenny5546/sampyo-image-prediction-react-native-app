@@ -4,9 +4,10 @@ import AnimatedLoader from "react-native-animated-loader";
 import LottieView from 'lottie-react-native';
 import { sendImageForAutoCrop } from 'api/api';
 import AutoHeightImage from 'react-native-auto-height-image'
-import ScalableImageComponent from 'components/image/ScalableImageComponent';
 import { ImageManipulator } from 'expo-image-crop'
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import searchIcon from 'assets/images/search-icon.png';
+import cropIcon from 'assets/images/crop-icon.png';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
@@ -26,7 +27,7 @@ const CropperScreen = ({route, navigation}) => {
     const lottieRef = useRef(null);
 
     useEffect(() => {
-        if (lottieRef) {
+        if (lottieRef.current) {
             lottieRef.current.play();
         }
     }, []);
@@ -133,10 +134,12 @@ const CropperScreen = ({route, navigation}) => {
                     
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity style={styles.buttonStyle} onPress={handleOpenCustomCropModal}>
-                            <Text style={styles.textStyle}>{ customCropMode ? '다시 크롭하기':'직접 크롭하기'}</Text>
+                            <Text style={styles.cropBtnTextStyle}>{ customCropMode ? '다시 크롭하기':'직접 크롭하기'}</Text>
+                            <Image source={cropIcon} style={styles.cropIcon}></Image>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.buttonStyle} onPress={renderResultScreen}>
-                            <Text style={styles.textStyle}>결과 확인하기</Text>
+                            <Text style={styles.resultBtnTextStyle}>결과 확인하기</Text>
+                            <Image source={searchIcon} style={styles.searchIcon}></Image>
                         </TouchableOpacity>
                     </View>
                     
@@ -144,13 +147,11 @@ const CropperScreen = ({route, navigation}) => {
                 :
                 <>
                     <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
-                    <View style={styles.overlay}>
+                    <View style={styles.overlay} />
+                    <View style={styles.lottieContainer}>
                         <LottieView
                             ref={lottieRef} 
-                            style={{
-                                width: 100,
-                                height: 100,
-                            }}
+                            style={styles.lottie}
                             source={require('components/animation/loading.json')}
                         />
                     </View>
@@ -171,8 +172,10 @@ const CropperScreen = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        // alignItems: 'center',
+        alignItems: 'center',
+        position: 'relative',
         height: height,
+        backgroundColor: 'white',
     },
     imageStyle: {
         // backgroundColor: 'black',
@@ -180,41 +183,69 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonStyle: {
-        borderRadius: 10,
-        // width: width-150,
-        // height: 50,
-        // backgroundColor: '#404040',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        width: width/2,
+        borderRightWidth: 2,
+        height: 80,
+        borderRightColor: '#969aa2',
+        flexDirection: 'row',
     },
-    textStyle: {
-        // color: 'white',
+    cropBtnTextStyle: {
+        fontFamily: 'NotoSansKR-Regular',
+        fontSize: 16,
+        marginRight: 5,
+        color: '#52565d',
         fontSize: 16,
     },
-    lottie: {
-        width: 100,
-        height: 100
+    resultBtnTextStyle: {
+        fontFamily: 'NotoSansKR-Bold',
+        fontSize: 16,
+        marginRight: 5,
+        color: '#4C6A91',
+        fontSize: 16,
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        backgroundColor: 'grey',
-        width: width,
-        position: 'absolute',
-        bottom: 0,
-        height: 40,
-    },
-    overlay: {
+    lottieContainer: {
         width: width,
         height: height-60,
         top: 60,
         position: 'absolute',
+        zIndex: 99,
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 99,
-        backgroundColor: 'rgb(255,255,255)',
-        opacity: 0.7,
-
+    },
+    lottie: {
+        width: 100,
+        height: 100,
+        marginTop: -20,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        width: width,
+        position: 'absolute',
+        bottom: 0,
+        height: 80,
+        backgroundColor: '#eef1f4',
+        borderTopColor: '#969aa2',
+        borderTopWidth: 1,
+    },
+    overlay: {
+        width: width,
+        height: height,
+        top: 0,
+        position: 'absolute',
+        zIndex: 98,
+        backgroundColor: 'black',
+        opacity: 0.6,
+    },
+    searchIcon: {
+        opacity: 0.5,
+    },
+    cropIcon: {
+        opacity: 0.5,
     }
 });
 

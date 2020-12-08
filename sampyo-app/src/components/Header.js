@@ -42,6 +42,8 @@ const styles = StyleSheet.create({
         width: width,
         textAlign: 'center',
         fontSize: 16,
+        fontFamily: 'NotoSansKR-Regular',
+        letterSpacing: -0.4,
     }
 });
 
