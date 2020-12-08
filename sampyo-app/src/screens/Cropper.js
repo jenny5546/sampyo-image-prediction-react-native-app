@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from 'components/Header';
-import AnimatedLoader from "react-native-animated-loader";
+import * as ExpoImageManipulator from 'expo-image-manipulator'
 import LottieView from 'lottie-react-native';
 import { sendImageForAutoCrop } from 'api/api';
 import AutoHeightImage from 'react-native-auto-height-image'
@@ -15,6 +15,9 @@ const CropperScreen = ({route, navigation}) => {
 
 
     const originalPicture = route.params.picture;
+
+    const [originalPictureWidth, setOriginalPictureWidth] = useState(1);
+    const [originalPictureHeight, setOriginalPictureHeight] = useState(1);
 
     const [autoCropDone, setAutoCropDone] = useState(false);
     const [autoCroppedImage, setAutoCroppedImage] = useState(null);
@@ -31,6 +34,14 @@ const CropperScreen = ({route, navigation}) => {
             lottieRef.current.play();
         }
     }, []);
+
+
+    useEffect(()=>{
+        Image.getSize(originalPicture, (width, height) => {
+            setOriginalPictureWidth(width);
+            setOriginalPictureHeight(height);
+        });
+    },[])
 
 
     /* 1. Auto Crop Handlers */
@@ -74,10 +85,17 @@ const CropperScreen = ({route, navigation}) => {
         setOpenCustomCropModal(false);
     }
 
-    const finishCustomCrop = (uriM) => {
-        setCustomCroppedImage({ uri: uriM });
+    const finishCustomCrop = async (uriM) => {
+        const manipResult = await ExpoImageManipulator.manipulateAsync(
+            uriM,
+            [{ resize: { width: 1700, height: 3000 } }],
+            { format: 'jpeg' }
+        );
+
+        setCustomCroppedImage({ uri: manipResult.uri });
         setCustomCropMode(true);
-        setFinalCroppedImage({ uri: uriM });
+
+        setFinalCroppedImage({ uri: manipResult.uri });
         handleCloseCustomCrop();
     }
 
@@ -178,7 +196,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     imageStyle: {
-        // backgroundColor: 'black',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -187,7 +204,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         width: width/2,
-        borderRightWidth: 2,
+        borderRightWidth: 1,
         height: 80,
         borderRightColor: '#969aa2',
         flexDirection: 'row',
@@ -230,7 +247,7 @@ const styles = StyleSheet.create({
         height: 80,
         backgroundColor: '#eef1f4',
         borderTopColor: '#969aa2',
-        borderTopWidth: 2,
+        borderTopWidth: 1,
     },
     overlay: {
         width: width,
