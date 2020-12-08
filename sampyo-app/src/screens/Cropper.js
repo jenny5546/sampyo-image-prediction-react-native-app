@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
         height: 80,
         backgroundColor: '#eef1f4',
         borderTopColor: '#969aa2',
-        borderTopWidth: 1,
+        borderTopWidth: 2,
     },
     overlay: {
         width: width,
