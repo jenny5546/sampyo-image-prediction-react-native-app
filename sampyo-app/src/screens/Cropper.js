@@ -77,7 +77,6 @@ const CropperScreen = ({route, navigation}) => {
 
     /* 2. Custom Crop Handlers */
     const handleOpenCustomCropModal = () => {
-        
         setOpenCustomCropModal(true);
     }
 
@@ -86,19 +85,20 @@ const CropperScreen = ({route, navigation}) => {
     }
 
     const finishCustomCrop = async (uriM) => {
-
+        
+        handleCloseCustomCrop();
+        
         const resizeInfo = originalPictureWidth > originalPictureHeight ? { width: 3000, height: 1700 } : { width: 1700, height: 3000 }
         const manipResult = await ExpoImageManipulator.manipulateAsync(
             uriM,
             [{ resize: resizeInfo }],
             { format: 'jpeg' }
         );
-
         setCustomCroppedImage({ uri: manipResult.uri });
         setCustomCropMode(true);
 
         setFinalCroppedImage({ uri: manipResult.uri });
-        handleCloseCustomCrop();
+        
     }
 
     /* 3. UI Handlers */
