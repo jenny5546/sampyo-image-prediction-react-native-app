@@ -120,9 +120,9 @@ const ResultScreen = ({route, navigation}) => {
 
     const handleShare = async () => {
         const resultMessage = [
-            `[${label}] 토분 분석 결과: 0 - 적합`,
-            `[${label}] 토분 분석 결과: 0과 100 사이 - 위험`,
-            `[${label}] 토분 분석 결과: 100 이상 - 부적합`
+            `[${label}] 골재 이미지 품질 진단 시스템의 분석 결과, 토분이 0으로 사용하기 적합한 골재입니다.`,
+            `[${label}] 골재 이미지 품질 진단 시스템의 분석 결과, 토분이 0 초과 100 미만으로 사용하기 적합한 골재입니다.`,
+            `[${label}] 골재 이미지 품질 진단 시스템의 분석 결과, 토분이 100 이상으로 사용하기 적합하지 않은 골재입니다.`
         ]
         try {
             const result = await Share.share({
@@ -182,7 +182,7 @@ const ResultScreen = ({route, navigation}) => {
                 predictionResult === 0 ? 
                 <View style={styles.popUpWrap}>
                     <Text style={styles.waitingText}>토분 분석 결과:  0</Text>
-                    <Text style={styles.passedText}>적합</Text>
+                    <Text style={styles.passedText}>우수</Text>
                     <View style={styles.divider}/>
                     <LottieView
                         loop={false}
@@ -200,18 +200,18 @@ const ResultScreen = ({route, navigation}) => {
                 (predictionResult===1) ?
                 <View style={styles.popUpWrap}>
                     <Text style={styles.waitingText}>토분 분석 결과: 0과 100 사이</Text>
-                    <Text style={styles.dangerousText}>위험</Text>
+                    <Text style={styles.dangerousText}>보통</Text>
                     <View style={styles.divider}/>
                     <LottieView
                         loop={false}
                         ref={lottieRef} 
                         style={{
-                            width: 40,
-                            height: 40,
+                            width: 60,
+                            height: 60,
                             position: 'absolute',
-                            right: 7,
+                            right: 3,
                         }}
-                        source={require('components/animation/snackbar-danger.json')}
+                        source={require('components/animation/green-check.json')}
                     />
                 </View>
                 :
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
         letterSpacing: -1.5,
         fontSize: 18,
         marginLeft: 20,
-        color: '#db6400'
+        color: '#6b8c42'
     },
     failedText: {
         fontFamily: 'NotoSansKR-Bold',

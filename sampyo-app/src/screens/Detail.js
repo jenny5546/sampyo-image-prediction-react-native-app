@@ -3,7 +3,7 @@ import EditLabelModal from 'components/modal/EditLabelModal';
 import AlertModal from 'components/modal/AlertModal';
 import backIcon from 'assets/images/back-arrow-icon.png';
 import moreIcon from 'assets/images/more-icon.png';
-import dangerIcon from 'assets/images/danger-icon.png';
+import greatIcon from 'assets/images/great-icon.png';
 import checkIcon from 'assets/images/check-icon.png';
 import editIcon from 'assets/images/edit-icon.png';
 import xIcon from 'assets/images/x-icon.png';
@@ -61,9 +61,9 @@ const DetailScreen = ({route, navigation}) => {
 
     const onShare = async () => {
         const resultMessage = [
-            `[${label}] 토분 분석 결과: 0 - 적합`,
-            `[${label}] 토분 분석 결과: 0과 100 사이 - 위험`,
-            `[${label}] 토분 분석 결과: 100 이상 - 부적합`
+            `[${label}] 골재 이미지 품질 진단 시스템의 분석 결과, 토분이 0으로 사용하기 적합한 골재입니다.`,
+            `[${label}] 골재 이미지 품질 진단 시스템의 분석 결과, 토분이 0 초과 100 미만으로 사용하기 적합한 골재입니다.`,
+            `[${label}] 골재 이미지 품질 진단 시스템의 분석 결과, 토분이 100 이상으로 사용하기 적합하지 않은 골재입니다.`
         ]
         try {
             const result = await Share.share({
@@ -115,14 +115,14 @@ const DetailScreen = ({route, navigation}) => {
             <View style={styles.resultContainer}>
                 {info.classification === 0 ?
                     <View style={[styles.resultBox]}>
-                        <Text style={[styles.resultText, { color: '#64b2cd'}]}>적합</Text>
-                        <Image source={checkIcon} style={styles.iconStyle}/>
+                        <Text style={[styles.resultText, { color: '#64b2cd'}]}>우수</Text>
+                        <Image source={greatIcon} style={styles.iconStyle}/>
                     </View>
                     :
                     info.classification === 1 ?
                     <View style={[styles.resultBox]}>
-                        <Text style={[styles.resultText, { color: '#ec9b3b'}]}>위험</Text>
-                        <Image source={dangerIcon} style={styles.iconStyle}/>
+                        <Text style={[styles.resultText, { color: '#6b8c42'}]}>보통</Text>
+                        <Image source={checkIcon} style={styles.iconStyle}/>
                     </View>
                     :
                     <View style={[styles.resultBox]}>
@@ -134,12 +134,12 @@ const DetailScreen = ({route, navigation}) => {
             <View style={styles.explanationContainer}>
                 <Text style={styles.explanationText}>
                     {info.classification === 0 ?
-                    '골재 이미지 품질 진단 시스템의 예측 결과, 토분이 0 으로 적합한 골재입니다.'
+                    '골재 이미지 품질 진단 시스템의 분석 결과, 토분이 0으로 사용하기 적합한 골재입니다.'
                     :
                     info.classification === 1 ?
-                    '골재 이미지 품질 진단 시스템의 예측 결과,토분이 0 초과 100 미만으로 적합하지 않을 가능성이 큰 골재입니다.'
+                    '골재 이미지 품질 진단 시스템의 분석 결과, 토분이 0 초과 100 미만으로 사용하기 적합한 골재입니다.'
                     :
-                    '골재 이미지 품질 진단 시스템의 예측 결과, 토분이 100 이상으로 적합하지 않은 골재입니다.'
+                    '골재 이미지 품질 진단 시스템의 분석 결과, 토분이 100 이상으로 사용하기 적합하지 않은 골재입니다.'
                     }
                 </Text>
             </View>

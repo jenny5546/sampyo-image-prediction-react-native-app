@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
-import dangerIcon from 'assets/images/danger-icon.png';
+import greatIcon from 'assets/images/great-icon.png';
 import checkIcon from 'assets/images/check-icon.png';
 import xIcon from 'assets/images/x-icon.png';
 const { height, width } = Dimensions.get("window");
@@ -34,14 +34,14 @@ const Card = ({index, label, classification, created_at, imageUri, handleRenderD
                 <View style={styles.resultContainer}>
                     {classification === 0 ?
                         <View style={[styles.resultBox]}>
-                            <Text style={[styles.resultText, { color: '#64b2cd'}]}>적합</Text>
-                            <Image source={checkIcon} style={styles.iconStyle}/>
+                            <Text style={[styles.resultText, { color: '#64b2cd'}]}>우수</Text>
+                            <Image source={greatIcon} style={styles.iconStyle}/>
                         </View>
                         :
                         classification === 1 ?
                         <View style={[styles.resultBox]}>
-                            <Text style={[styles.resultText, { color: '#ec9b3b'}]}>위험</Text>
-                            <Image source={dangerIcon} style={styles.iconStyle}/>
+                            <Text style={[styles.resultText, { color: '#6b8c42'}]}>보통</Text>
+                            <Image source={checkIcon} style={styles.iconStyle}/>
                         </View>
                         :
                         <View style={[styles.resultBox]}>

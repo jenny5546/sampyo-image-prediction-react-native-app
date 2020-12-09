@@ -23,10 +23,10 @@ export default class App extends Component {
 
   async componentDidMount() {
 
-    // SplashScreen.preventAutoHideAsync();
-    // setTimeout(() => {
-    //     SplashScreen.hideAsync();
-    // }, 3000);
+    SplashScreen.preventAutoHideAsync();
+    setTimeout(() => {
+        SplashScreen.hideAsync();
+    }, 3000);
 
     await Font.loadAsync({
         'NotoSansKR-Thin': require('assets/fonts/NotoSansKR-Thin.otf'),
