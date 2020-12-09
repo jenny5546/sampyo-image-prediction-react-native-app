@@ -53,12 +53,11 @@ const ResultScreen = ({route, navigation}) => {
     },[])
 
     useEffect(()=>{
-        if (loading!==false) {
+        if (loading===false) {
             setTimeout(()=>{
                 floatUp();
                 fadeIn();
             },500)
-
         }
     },[loading])
 
