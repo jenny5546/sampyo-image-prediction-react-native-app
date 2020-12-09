@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Header from 'components/Header';
+import Header from 'components/common/Header';
 import LottieView from 'lottie-react-native';
 import AutoHeightImage from 'react-native-auto-height-image';
 import editIcon from 'assets/images/edit-icon.png';
 import homeIcon from 'assets/images/home-thick-icon.png';
 import shareIcon from 'assets/images/share-icon.png';
+import EditLabelModal from 'components/modal/EditLabelModal';
 import { renderPredictionResult, savePredictionLabel } from 'api/api';
 import * as FileSystem from 'expo-file-system';
-import { Animated, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, TextInput } from 'react-native';
+import { Share, Animated, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, TextInput } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
@@ -17,7 +18,8 @@ const ResultScreen = ({route, navigation}) => {
     const [loading, setLoading] = useState(true);
     const [predictionResult, setPredictionResult] = useState(null);
     const [predictionId, setPredictionId] = useState(null);
-    const [labelInput, setLabelInput] = useState('라벨 ');
+    const [openLabelModal, setOpenLabelModal]= useState(false);
+    // const [labelInput, setLabelInput] = useState('라벨 ');
 
 
     const lottieRef = useRef(null);
@@ -34,7 +36,7 @@ const ResultScreen = ({route, navigation}) => {
 
     const fadeIn = () => {
         Animated.timing(fadeInAnim, {
-            toValue: 0.85,
+            toValue: 0.8,
             duration: 1200,
             useNativeDriver: true
         }).start();
@@ -99,16 +101,45 @@ const ResultScreen = ({route, navigation}) => {
         navigation.navigate('Camera');
     }
 
-    const handleLabelInput = (text) => {
-        setLabelInput(text);
+    const handleEditLabelButton = () => {
+        setOpenLabelModal(true);
     }
 
-    const handleSaveLabel = async () => {
-        let form_data = new FormData();
-        form_data.append("prediction_id", predictionId);
-        form_data.append("label", labelInput);
-        await savePredictionLabel(form_data);
+    const handleCloseModal = () => {
+        setOpenLabelModal(false);
     }
+
+    // const handleLabelInput = (text) => {
+    //     setLabelInput(text);
+    // }
+
+    // const handleSaveLabel = async () => {
+    //     let form_data = new FormData();
+    //     form_data.append("prediction_id", predictionId);
+    //     form_data.append("label", labelInput);
+    //     await savePredictionLabel(form_data);
+    // }
+
+    const handleShare = async () => {
+        try {
+            const result = await Share.share({
+                title: '[골재 품질 진단 결과]',
+                message: '바봉', 
+                url: picture.uri
+            });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                // shared with activity type of result.activityType
+                } else {
+                // shared
+                }
+            } else if (result.action === Share.dismissedAction) {
+                // dismissed
+            }
+            } catch (error) {
+                alert(error.message);
+            }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -217,20 +248,25 @@ const ResultScreen = ({route, navigation}) => {
                     { opacity: fadeInAnim },
                 ]}
             >
-                <TouchableOpacity style={[styles.buttonStyle]}>
+                <TouchableOpacity style={[styles.buttonStyle]} onPress={handleHomeButton}>
                     <Image style={styles.iconStyle} source={ homeIcon }/>
                     <Text style={styles.buttonTextStyle}>홈으로</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonStyle]}>
+                <TouchableOpacity style={[styles.buttonStyle]} onPress={handleEditLabelButton}>
                     <Image style={styles.iconStyle} source={ editIcon }/>
                     <Text style={styles.buttonTextStyle}>라벨 달기</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonStyle, { borderRightWidth: 0 }]}>
+                <TouchableOpacity style={[styles.buttonStyle, { borderRightWidth: 0 }]} onPress={handleShare}>
                     <Image style={styles.iconStyle} source={ shareIcon }/>
                     <Text style={styles.buttonTextStyle}>공유하기</Text>
                 </TouchableOpacity>
                 
             </Animated.View>
+
+            {openLabelModal &&
+                <EditLabelModal closeModal={handleCloseModal}/>
+            }
+            
         </SafeAreaView>
 
     );
@@ -243,9 +279,7 @@ const styles = StyleSheet.create({
         height: height,
     },
     imageStyle: { 
-        // marginTop: 10,
-        // width: width/2 + 100,
-        // height: height/2 + 100
+        marginTop: -10,
     },
     lottie: {
         width: 100,
@@ -349,7 +383,6 @@ const styles = StyleSheet.create({
         
     },
     buttonTextStyle: {
-        // color: 'white',
         fontSize: 14,
         fontFamily: 'NotoSansKR-Bold',
     },

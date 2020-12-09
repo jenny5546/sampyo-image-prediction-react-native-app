@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Header from 'components/Header';
+import Header from 'components/common/Header';
 import * as ExpoImageManipulator from 'expo-image-manipulator'
 import LottieView from 'lottie-react-native';
 import { sendImageForAutoCrop } from 'api/api';

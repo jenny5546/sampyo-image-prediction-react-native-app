@@ -48,7 +48,8 @@
     "react-native-simple-image-cropper": "^3.2.1",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.7",
-    "react-navigation": "^4.4.2"
+    "react-navigation": "^4.4.2",
+    "rn-sliding-up-panel": "^2.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

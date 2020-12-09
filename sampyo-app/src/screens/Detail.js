@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Header from 'components/Header';
+import Header from 'components/common/Header';
 import { Share, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
