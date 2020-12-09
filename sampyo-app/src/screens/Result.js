@@ -6,7 +6,7 @@ import editIcon from 'assets/images/edit-icon.png';
 import homeIcon from 'assets/images/home-thick-icon.png';
 import shareIcon from 'assets/images/share-icon.png';
 import EditLabelModal from 'components/modal/EditLabelModal';
-import { renderPredictionResult, savePredictionLabel } from 'api/api';
+import { renderPredictionResult, savePredictionLabel, getPredictionLabel } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import { Share, Animated, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, TextInput } from 'react-native';
 
@@ -19,6 +19,7 @@ const ResultScreen = ({route, navigation}) => {
     const [predictionResult, setPredictionResult] = useState(null);
     const [predictionId, setPredictionId] = useState(null);
     const [openLabelModal, setOpenLabelModal]= useState(false);
+    const [label, setLabel] = useState(null);
 
 
     const lottieRef = useRef(null);
@@ -86,6 +87,7 @@ const ResultScreen = ({route, navigation}) => {
             setPredictionResult(res.data.classification);
             setPredictionId(res.data.result_id);
             setLoading(false);
+
         }
         else {
             // ERROR HANDLING
@@ -113,14 +115,20 @@ const ResultScreen = ({route, navigation}) => {
         form_data.append("prediction_id", predictionId);
         form_data.append("label", labelInput);
         await savePredictionLabel(form_data);
+        setLabel(labelInput);
         handleCloseModal();
     }
 
     const handleShare = async () => {
+        const resultMessage = [
+            `[${label}] 토분 분석 결과: 0 - 적합`,
+            `[${label}] 토분 분석 결과: 0과 100 사이 - 위험`,
+            `[${label}] 토분 분석 결과: 100 이상 - 부적합`
+        ]
         try {
             const result = await Share.share({
                 title: '[골재 품질 진단 결과]',
-                message: '바봉', 
+                message: resultMessage[predictionResult], 
                 url: picture.uri
             });
             if (result.action === Share.sharedAction) {
