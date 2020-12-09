@@ -7,20 +7,16 @@ const { height, width } = Dimensions.get("window");
 const EditLabelModal = ({closeModal, handleSaveLabel}) => {
 
     const [labelInput, setLabelInput] = useState('');
-    const [clickedCancelBtn, setClickedCancelBtn] = useState(false);
-    const [clickedSaveBtn, setClickedSaveBtn] = useState(false);
 
     const handleLabelInput = (text) => {
         setLabelInput(text);
     }
 
     const handleClickCancelBtn = () => {
-        setClickedCancelBtn(true);
         closeModal();
     }
 
     const handleClickSaveBtn = () => {
-        setClickedSaveBtn(true);
         handleSaveLabel(labelInput);
     }
 
@@ -72,7 +68,6 @@ const styles = StyleSheet.create({
         height: 4*height/6,
         backgroundColor: 'white',
         alignItems: 'center',
-        // justifyContent: 'center',
         zIndex: 120,
         position: 'absolute',
         bottom:-20,
