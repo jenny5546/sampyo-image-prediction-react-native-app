@@ -12,6 +12,10 @@ const DetailScreen = ({route, navigation}) => {
         navigation.goBack();
     }
 
+    const handleHomeButton = () => {
+        navigation.navigate('Camera');
+    }
+
     const onShare = async () => {
         try {
             const result = await Share.share({
@@ -35,7 +39,7 @@ const DetailScreen = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Header handleBackButton={handleBackButton} headerTitle="디테일"/>
+            <Header handleBackButton={handleBackButton} handleHomeButton={handleHomeButton} headerTitle="디테일"/>
             <TouchableOpacity onPress={onShare}>
                 <Text>공유하기</Text>
             </TouchableOpacity>

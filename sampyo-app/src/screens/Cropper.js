@@ -106,6 +106,10 @@ const CropperScreen = ({route, navigation}) => {
         navigation.goBack();
     }
 
+    const handleHomeButton = () => {
+        navigation.navigate('Camera');
+    }
+
     const renderResultScreen = () => {
         navigation.navigate('Result',{ picture: finalCroppedImage, uriEncoded: !customCropMode }) // Send final cropped img to render result
     }
@@ -121,7 +125,7 @@ const CropperScreen = ({route, navigation}) => {
         <SafeAreaView style={styles.container}>
             {autoCropDone ?
                 <>
-                    <Header handleBackButton={handleBackButton} headerTitle="크롭한 이미지 확인"/>
+                    <Header handleBackButton={handleBackButton} handleHomeButton={handleHomeButton} headerTitle="크롭한 이미지 확인"/>
                     {customCropMode ?
                         <AutoHeightImage
                             style= {styles.imageStyle}
@@ -171,7 +175,7 @@ const CropperScreen = ({route, navigation}) => {
                 </>
                 :
                 <>
-                    <Header handleBackButton={handleBackButton} headerTitle="이미지 크롭하기"/>
+                    <Header handleBackButton={handleBackButton} handleHomeButton={handleHomeButton} headerTitle="이미지 크롭하기"/>
                     <View style={styles.overlay} />
                     <View style={styles.lottieContainer}>
                         <LottieView

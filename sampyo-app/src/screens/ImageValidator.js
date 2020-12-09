@@ -233,8 +233,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 3.84,
         elevation: 12,
-        // transform: [{ translateY: -50 }],
-    
     },
     popUpWrap: {
         flex: 1,
