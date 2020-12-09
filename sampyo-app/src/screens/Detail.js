@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import EditLabelModal from 'components/modal/EditLabelModal';
+import AlertModal from 'components/modal/AlertModal';
 import backIcon from 'assets/images/back-arrow-icon.png';
+import moreIcon from 'assets/images/more-icon.png';
 import dangerIcon from 'assets/images/danger-icon.png';
 import checkIcon from 'assets/images/check-icon.png';
 import editIcon from 'assets/images/edit-icon.png';
@@ -17,17 +19,26 @@ const DetailScreen = ({route, navigation}) => {
 
     const [label, setLabel] = useState(info.label);
     const [openLabelModal, setOpenLabelModal]= useState(false);
+    const [openAlertModal, setOpenAlertModal]= useState(false);
 
     const handleBackButton = () => {
         navigation.goBack();
     }
 
-
     const handleDelete = async () => {
+        handleCloseDeleteModal();
         let form_data = new FormData();
         form_data.append("prediction_id", info.index);
         await deletePrediction(form_data);
-        navigation.push('Archive');
+        navigation.replace('Archive');
+    }
+
+    const handleOpenDeleteModal = () => {
+        setOpenAlertModal(true);
+    }
+
+    const handleCloseDeleteModal = () => {
+        setOpenAlertModal(false);
     }
 
     const handleOpenLabelModal  = () => {
@@ -80,6 +91,9 @@ const DetailScreen = ({route, navigation}) => {
                 <TouchableOpacity onPress={handleBackButton}>
                     <Image source={backIcon} style={styles.backIconStyle}/>
                 </TouchableOpacity>
+                {/* <TouchableOpacity onPress={handleBackButton}>
+                    <Image source={moreIcon} style={styles.backIconStyle}/>
+                </TouchableOpacity> */}
             </View>
             <View>
                 <Image source={info.source} style={styles.imageStyle} />
@@ -133,7 +147,7 @@ const DetailScreen = ({route, navigation}) => {
                 <Text>공유하기</Text>
             </TouchableOpacity> */}
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+                <TouchableOpacity style={styles.deleteButton} onPress={handleOpenDeleteModal}>
                     <Text style={styles.deleteButtonText}>삭제</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.shareButton} onPress={onShare}>
@@ -145,6 +159,9 @@ const DetailScreen = ({route, navigation}) => {
             <NavBar navigation={navigation} active="archive"/>
             {openLabelModal &&
                 <EditLabelModal labelProps={label} closeModal={handleCloseLabelModal} handleSaveLabel={handleSaveLabel}/>
+            }
+            {openAlertModal &&
+                <AlertModal handleClose={handleCloseDeleteModal}  handleDelete={handleDelete}/>
             }
         </SafeAreaView>
     );
@@ -163,7 +180,9 @@ const styles = StyleSheet.create({
         zIndex: 5,
         top: 30,
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     backIconStyle:{
         width: 35,
@@ -234,7 +253,7 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         backgroundColor: '#dde1e7',
-        opacity: 0.7,
+        opacity: 0.4,
         alignItems: 'center',
         justifyContent: 'center',
         marginLeft: 10,
@@ -263,7 +282,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 8,
-        backgroundColor: '#8ac6d1'
+        backgroundColor: '#8ac6d1',
+        opacity: 0.7,
     },
     deleteButtonText: {
         fontFamily: 'NotoSansKR-Regular',
@@ -271,7 +291,7 @@ const styles = StyleSheet.create({
         letterSpacing: -0.45,
     },
     shareButtonText: {
-        fontFamily: 'NotoSansKR-Regular',
+        fontFamily: 'NotoSansKR-Bold',
         fontSize: 14,
         letterSpacing: -0.45,
     }
