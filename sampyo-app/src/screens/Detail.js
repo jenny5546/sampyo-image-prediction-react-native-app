@@ -22,7 +22,7 @@ const DetailScreen = ({route, navigation}) => {
     const [openAlertModal, setOpenAlertModal]= useState(false);
 
     const handleBackButton = () => {
-        navigation.goBack();
+        navigation.replace('Archive');
     }
 
     const handleDelete = async () => {
