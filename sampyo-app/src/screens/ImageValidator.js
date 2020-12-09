@@ -147,7 +147,7 @@ const ImageValidatorScreen = ({route, navigation}) => {
                         :
                     failed ?
                         <View style={styles.popUpWrap}>
-                            <Text style={styles.waitingText}>이미지 명도: {imageBrightness.toFixed(2)}</Text>
+                            <Text style={styles.waitingText}>이미지 명도가 너무 낮습니다.</Text>
                             <Text style={styles.failedText}>실패</Text>
                             <View style={styles.divider}/>
                             <LottieView
@@ -181,7 +181,7 @@ const ImageValidatorScreen = ({route, navigation}) => {
                     }
                     {failed && 
                         <TouchableOpacity style={styles.backButtonStyle} onPress={handleBackButton}>
-                            <Text style={styles.textStyle}>다시 하기</Text>
+                            <Text style={styles.textStyle}>더 밝은 곳에서 다시 촬영하기</Text>
                         </TouchableOpacity>
                     }
                     
