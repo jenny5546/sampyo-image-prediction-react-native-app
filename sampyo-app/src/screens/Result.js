@@ -19,7 +19,6 @@ const ResultScreen = ({route, navigation}) => {
     const [predictionResult, setPredictionResult] = useState(null);
     const [predictionId, setPredictionId] = useState(null);
     const [openLabelModal, setOpenLabelModal]= useState(false);
-    // const [labelInput, setLabelInput] = useState('라벨 ');
 
 
     const lottieRef = useRef(null);
@@ -109,16 +108,13 @@ const ResultScreen = ({route, navigation}) => {
         setOpenLabelModal(false);
     }
 
-    // const handleLabelInput = (text) => {
-    //     setLabelInput(text);
-    // }
-
-    // const handleSaveLabel = async () => {
-    //     let form_data = new FormData();
-    //     form_data.append("prediction_id", predictionId);
-    //     form_data.append("label", labelInput);
-    //     await savePredictionLabel(form_data);
-    // }
+    const handleSaveLabel = async (labelInput) => {
+        let form_data = new FormData();
+        form_data.append("prediction_id", predictionId);
+        form_data.append("label", labelInput);
+        await savePredictionLabel(form_data);
+        handleCloseModal();
+    }
 
     const handleShare = async () => {
         try {
@@ -146,18 +142,6 @@ const ResultScreen = ({route, navigation}) => {
             
             <Header handleBackButton={handleBackButton} handleHomeButton={handleHomeButton} headerTitle="분석 결과"/>
             
-            {/* <TextInput
-                style={styles.inputStyle}
-                underlineColorAndroid="transparent"
-                placeholder={labelInput}
-                placeholderTextColor="#9a73ef"
-                autoCapitalize="none"
-                onChangeText={handleLabelInput}
-            />
-            <TouchableOpacity style={styles.buttonStyle} onPress={handleSaveLabel}>
-                <Text style={styles.buttonTextStyle}>라벨 저장하기</Text>
-            </TouchableOpacity> */}
-            {/* <Image source={picture} style={styles.imageStyle} /> */}
             <AutoHeightImage
                 style= {styles.imageStyle}
                 source={picture}
@@ -264,7 +248,7 @@ const ResultScreen = ({route, navigation}) => {
             </Animated.View>
 
             {openLabelModal &&
-                <EditLabelModal closeModal={handleCloseModal}/>
+                <EditLabelModal closeModal={handleCloseModal} handleSaveLabel={handleSaveLabel}/>
             }
             
         </SafeAreaView>
