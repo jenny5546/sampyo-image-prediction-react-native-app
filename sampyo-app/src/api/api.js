@@ -32,6 +32,6 @@ export function savePredictionLabel(form) {
     return api.post('/label/',form);
 }
 
-export function getPredictionLabel(form) {
-    return api.post('/getLabel/',form);
+export function deletePrediction(form) {
+    return api.post('/delete/',form);
 }

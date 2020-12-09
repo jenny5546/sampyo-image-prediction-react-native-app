@@ -6,7 +6,7 @@ import editIcon from 'assets/images/edit-icon.png';
 import homeIcon from 'assets/images/home-thick-icon.png';
 import shareIcon from 'assets/images/share-icon.png';
 import EditLabelModal from 'components/modal/EditLabelModal';
-import { renderPredictionResult, savePredictionLabel, getPredictionLabel } from 'api/api';
+import { renderPredictionResult, savePredictionLabel } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import { Share, Animated, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, TextInput } from 'react-native';
 
@@ -19,7 +19,7 @@ const ResultScreen = ({route, navigation}) => {
     const [predictionResult, setPredictionResult] = useState(null);
     const [predictionId, setPredictionId] = useState(null);
     const [openLabelModal, setOpenLabelModal]= useState(false);
-    const [label, setLabel] = useState(null);
+    const [label, setLabel] = useState('');
 
 
     const lottieRef = useRef(null);
@@ -255,7 +255,7 @@ const ResultScreen = ({route, navigation}) => {
             </Animated.View>
 
             {openLabelModal &&
-                <EditLabelModal closeModal={handleCloseModal} handleSaveLabel={handleSaveLabel}/>
+                <EditLabelModal labelProps={label} closeModal={handleCloseModal} handleSaveLabel={handleSaveLabel}/>
             }
             
         </SafeAreaView>

@@ -4,9 +4,9 @@ import Modal from 'react-native-modal';
 
 const { height, width } = Dimensions.get("window");
 
-const EditLabelModal = ({closeModal, handleSaveLabel}) => {
+const EditLabelModal = ({labelProps, closeModal, handleSaveLabel}) => {
 
-    const [labelInput, setLabelInput] = useState('');
+    const [labelInput, setLabelInput] = useState(labelProps);
 
     const handleLabelInput = (text) => {
         setLabelInput(text);
@@ -33,6 +33,7 @@ const EditLabelModal = ({closeModal, handleSaveLabel}) => {
                     <View style={styles.inputWrap}>
                         <TextInput
                             style={styles.inputStyle}
+                            value={labelInput}
                             underlineColorAndroid="transparent"
                             placeholder={"이미지에 라벨을 달아보세요"}
                             placeholderTextColor="#52565d"
