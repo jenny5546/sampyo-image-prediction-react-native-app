@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from 'components/Header';
 import AnimatedLoader from "react-native-animated-loader";
+import AutoHeightImage from 'react-native-auto-height-image'
 import { renderPredictionResult, savePredictionLabel } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, TextInput } from 'react-native';
@@ -70,7 +71,7 @@ const ResultScreen = ({route, navigation}) => {
             
             <Header handleBackButton={handleBackButton} headerTitle="분석 결과"/>
             
-            <TextInput
+            {/* <TextInput
                 style={styles.inputStyle}
                 underlineColorAndroid="transparent"
                 placeholder={labelInput}
@@ -80,9 +81,16 @@ const ResultScreen = ({route, navigation}) => {
             />
             <TouchableOpacity style={styles.buttonStyle} onPress={handleSaveLabel}>
                 <Text style={styles.textStyle}>라벨 저장하기</Text>
-            </TouchableOpacity>
-            <Image source={picture} style={styles.imageStyle} />
-            {loading ?
+            </TouchableOpacity> */}
+            {/* <Image source={picture} style={styles.imageStyle} /> */}
+            <AutoHeightImage
+                style= {styles.imageStyle}
+                source={picture}
+                resizeMode={'contain'}
+                width={width}
+                height={height}
+            />
+            {/* {loading ?
                 <AnimatedLoader
                     visible={loading}
                     overlayColor="rgba(255,255,255,0.75)"
@@ -94,7 +102,7 @@ const ResultScreen = ({route, navigation}) => {
                 <View>
                     <Text>{predictionResult}</Text>
                 </View>
-            }
+            } */}
             
             
         </SafeAreaView>
@@ -109,9 +117,9 @@ const styles = StyleSheet.create({
         height: height,
     },
     imageStyle: { 
-        marginTop: 10,
-        width: width/2 + 100,
-        height: height/2 + 100
+        // marginTop: 10,
+        // width: width/2 + 100,
+        // height: height/2 + 100
     },
     lottie: {
         width: 100,

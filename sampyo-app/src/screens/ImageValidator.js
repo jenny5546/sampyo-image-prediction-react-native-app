@@ -24,7 +24,7 @@ const ImageValidatorScreen = ({route, navigation}) => {
     const fadeIn = () => {
         Animated.timing(fadeInAnim, {
             toValue: 1,
-            duration: 1500,
+            duration: 1200,
             useNativeDriver: true
         }).start();
     }

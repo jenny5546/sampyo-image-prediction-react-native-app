@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
         zIndex: 3,
     },
     backIconStyle: {
-        width: 40,
-        height: 40,
+        width: 20,
+        height: 20,
         marginLeft: 10,
         padding: 10
     },
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         width: width,
         textAlign: 'center',
         fontSize: 16,
-        fontFamily: 'NotoSansKR-Regular',
+        fontFamily: 'NotoSansKR-Medium',
         letterSpacing: -0.4,
     }
 });
