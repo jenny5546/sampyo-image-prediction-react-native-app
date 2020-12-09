@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Share, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
-
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
+import dangerIcon from 'assets/images/danger-icon.png';
+import checkIcon from 'assets/images/check-icon.png';
+import xIcon from 'assets/images/x-icon.png';
 const { height, width } = Dimensions.get("window");
 
 const Card = ({index, label, classification, created_at, imageUri, handleRenderDetail}) => {
@@ -31,17 +33,20 @@ const Card = ({index, label, classification, created_at, imageUri, handleRenderD
                 
                 <View style={styles.resultContainer}>
                     {classification === 0 ?
-                        <View style={[styles.resultBox, { borderColor: '#64b2cd'}]}>
+                        <View style={[styles.resultBox]}>
                             <Text style={[styles.resultText, { color: '#64b2cd'}]}>적합</Text>
+                            <Image source={checkIcon} style={styles.iconStyle}/>
                         </View>
                         :
                         classification === 1 ?
-                        <View style={[styles.resultBox, { borderColor: '#ec9b3b'}]}>
+                        <View style={[styles.resultBox]}>
                             <Text style={[styles.resultText, { color: '#ec9b3b'}]}>위험</Text>
+                            <Image source={dangerIcon} style={styles.iconStyle}/>
                         </View>
                         :
-                        <View style={[styles.resultBox, { borderColor: '#f35750'}]}>
+                        <View style={[styles.resultBox]}>
                             <Text style={[styles.resultText, { color: '#f35750' }]}>부적합</Text>
+                            <Image source={xIcon} style={styles.iconStyle}/>
                         </View>
                     }
                 </View>
@@ -89,15 +94,22 @@ const styles = StyleSheet.create({
     resultBox: {
         width: 60,
         height: 35,
-        borderWidth:3,
+        opacity: 0.8,
         borderRadius: 8,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'row'
     },
     resultText: {
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 14,
         letterSpacing: -0.45,
+        color: 'white'
+    },
+    iconStyle: {
+        width: 15,
+        height: 15,
+        marginLeft: 5,
     }
 });
 

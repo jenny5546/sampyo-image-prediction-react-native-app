@@ -34,11 +34,11 @@ const ArchiveScreen = ({navigation}) => {
     },[]);
 
     var resultList = [];
-    dataList.forEach((data,index)=>{
+    dataList.forEach((data)=>{
         resultList.push(
             <Card 
-                key={index}
-                index={index}
+                key={data.id}
+                index={data.id}
                 label={data.label}
                 classification={data.classification}
                 created_at ={data.created_at}
@@ -47,11 +47,7 @@ const ArchiveScreen = ({navigation}) => {
             />
         )
     })
-    
-    const handleBackButton = () => {
-        navigation.navigate('Camera')
-    }
-    
+
     return (
         <SafeAreaView style={styles.container}>
             <MainScreenHeader title_1="분석 결과" title_2="히스토리 모아 보기" />
