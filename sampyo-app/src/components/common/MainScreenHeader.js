@@ -9,7 +9,7 @@ const MainScreenHeader = ({title_1, title_2}) => {
             backgroundColor: 'white',
             height: 80,
             width: width,
-            paddingLeft: 36,
+            paddingLeft: 20,
             marginTop: 30,
         },
         textStyle: {

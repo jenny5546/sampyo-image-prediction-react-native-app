@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as Font from 'expo-font';
 import MainScreenHeader from 'components/common/MainScreenHeader';
 import NavBar from 'components/common/NavBar';
+import Card from 'components/archive/Card';
 import AnimatedLoader from "react-native-animated-loader";
 import { getResults } from "api/api";
 import { ScrollView, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
@@ -11,11 +12,13 @@ const ArchiveScreen = ({navigation}) => {
     
     const [loadDone, setLoadDone] = useState(false);
     const [dataList, setDataList] = useState([]);
+    const [dataListCount, setDataListCount] = useState(0);
 
     const handleGetFeed = async () => {
         try {
             const res = await getResults();
             setDataList(res.data.predictions);
+            setDataListCount(res.data.predictions.length);
             setLoadDone(true);
         } catch (error) {
             console.log('error');
@@ -27,48 +30,24 @@ const ArchiveScreen = ({navigation}) => {
     }
 
     useEffect(()=>{
-        // Font.loadAsync({
-        //     'NotoSansKR-Thin': require('assets/fonts/NotoSansKR-Thin.otf'),
-        //     'Montserrat-SemiBold': require('assets/fonts/Montserrat-SemiBold.ttf'),
-        // });
         handleGetFeed();
     },[]);
 
-    const card = (index, label, classification, created_at, imageUri) => {
-        
-        const source = {uri: `data:image/jpeg;base64,${imageUri}`};
-
-        const info = {
-            index: index,
-            label: label,
-            classification: classification,
-            created_at: created_at,
-            source: source
-        }
-        
-        return (
-            <TouchableOpacity key={index} style={styles.cardWrapper} onPress={()=>handleRenderDetail(info)}>
-                <View>
-                    <Image source={source} style={styles.imageStyle} />
-                </View>
-                <Text>
-                    {label}
-                </Text>
-                <Text>
-                    {created_at}
-                </Text>
-                <Text>
-                    {classification}
-                </Text>
-            </TouchableOpacity>
+    var resultList = [];
+    dataList.forEach((data,index)=>{
+        resultList.push(
+            <Card 
+                key={index}
+                index={index}
+                label={data.label}
+                classification={data.classification}
+                created_at ={data.created_at}
+                imageUri={data.input_img}
+                handleRenderDetail={handleRenderDetail}
+            />
         )
-    }
-
-    const resultList = dataList.map((data,index)=>{
-            return card(index, data.label, data.classification, data.created_at, data.input_img);
-    });
-
-
+    })
+    
     const handleBackButton = () => {
         navigation.navigate('Camera')
     }
@@ -76,8 +55,13 @@ const ArchiveScreen = ({navigation}) => {
     return (
         <SafeAreaView style={styles.container}>
             <MainScreenHeader title_1="분석 결과" title_2="히스토리 모아 보기" />
+            <View style={styles.infoContainer}>
+                <Text style={styles.infoText}>총  </Text>
+                <Text style={styles.infoTextNumber}>{dataListCount}</Text>
+                <Text style={styles.infoText}>  개의 분석 결과</Text>
+            </View>
             {loadDone ?
-                <ScrollView>
+                <ScrollView style={styles.listContainer}>
                     {resultList}
                 </ScrollView>
                 :
@@ -103,22 +87,33 @@ const styles = StyleSheet.create({
         height: height,
         flex: 1,
     },
-    imageStyle: { 
-        width: 30,
-        height: 30
+    infoContainer: {
+        width: width,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 30,
+        marginTop: 10,
+    },
+    infoText: {
+        fontFamily: 'NotoSansKR-Regular',
+        letterSpacing: -1.5,
+        fontSize: 14,
+    },
+    infoTextNumber: {
+        fontFamily: 'NotoSansKR-Bold',
+        letterSpacing: -1.5,
+        fontSize: 18,
+        color: '#3498DB'
+    },
+    listContainer: {
+        marginTop: 20,
+        marginBottom: 80,
     },
     lottie: {
         width: 100,
         height: 100
     },
-    cardWrapper: {
-        width: width-20,
-        borderRadius: 10, 
-        height: 80,
-        borderWidth: 1,
-        // backgroundColor: 'pink',
-        marginBottom: 20,
-    }
+
 });
 
 export default ArchiveScreen;
