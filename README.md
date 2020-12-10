@@ -1,8 +1,11 @@
 # 삼표, 골재 품질 진단 이미지 분석 어플리케이션 프로젝트 
 
-> 딥러닝 네트워크 개발: 설형욱, 이재욱 
-> 모바일 어플리케이션 Frontend, Backend, Design: 이재은 
+``` 
 
+모바일 어플리케이션 Frontend, Backend, 및 Design: 이재은 
+딥러닝 네트워크 개발: 설형욱, 이재욱
+
+```
 
 > 본 어플리케이션은 Frontend React Native, Backend Django 를 써서 개발을 하였습니다. 
 
