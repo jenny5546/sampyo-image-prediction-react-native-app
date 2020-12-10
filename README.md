@@ -3,7 +3,7 @@
 ``` 
 
 모바일 어플리케이션 Frontend(React Native), Backend(Django), 및 Design: 서울대학교 이재은 
-딥러닝 네트워크 개발: 설형욱, 이재욱
+딥러닝 네트워크 개발: 서울대학교 설형욱, 이재욱
 
 ```
 
