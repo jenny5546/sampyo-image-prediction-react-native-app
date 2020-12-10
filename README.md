@@ -3,4 +3,4 @@
 > 본 어플리케이션은 Frontend React Native, Backend Django 를 써서 개발을 하였습니다. 
 
 
-
+![](./README-images/starting.png)
