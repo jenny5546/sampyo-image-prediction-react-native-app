@@ -4,6 +4,7 @@ import { sendRawImageForBrightness } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import ScalableImageComponent from 'components/image/ScalableImageComponent';
 import { SafeAreaView, Animated, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
+import ErrorModal from 'components/modal/ErrorModal';
 
 const { height, width } = Dimensions.get("window");
 
@@ -12,6 +13,7 @@ const ImageValidatorScreen = ({route, navigation}) => {
     const lottieRef = useRef(null);
     const floatAnim = useRef(new Animated.Value(0)).current;
     const fadeInAnim = useRef(new Animated.Value(0)).current;
+    const [error, setError] = useState(false);
 
     const floatUp = () => {
         Animated.timing(floatAnim, {
@@ -58,7 +60,6 @@ const ImageValidatorScreen = ({route, navigation}) => {
             return res;
 
         } catch(e) {
-            console.log(e)
             return null;
         }
     }
@@ -70,6 +71,7 @@ const ImageValidatorScreen = ({route, navigation}) => {
         }
         else {
             // ERROR HANDLING
+            setError(true);
         }
     }
 
@@ -93,6 +95,11 @@ const ImageValidatorScreen = ({route, navigation}) => {
 
     const renderResultScreen = () => {
         navigation.navigate('Cropper',{ picture: picture })
+    }
+
+    const handleCloseErrorModal = () => {
+        setError(false);
+        navigation.goBack();
     }
 
 
@@ -186,7 +193,9 @@ const ImageValidatorScreen = ({route, navigation}) => {
                     }
                     
                 </Animated.View>
-                
+                {error &&
+                    <ErrorModal handleClose={handleCloseErrorModal} />
+                }
         </SafeAreaView>
     );
 }

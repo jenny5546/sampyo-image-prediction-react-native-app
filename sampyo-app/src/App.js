@@ -12,16 +12,13 @@ import ResultScreen from 'screens/Result';
 import ImageValidatorScreen from 'screens/ImageValidator';
 import DetailScreen from './screens/Detail';
 
-import { Camera } from 'expo-camera';
-
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isReady: false,
-      showOnboarding: null,
+      isReady: false
     };
   }
 
@@ -42,25 +39,18 @@ export default class App extends Component {
         'NotoSansKR-Bold': require('assets/fonts/NotoSansKR-Bold.otf'),
     });
 
-    const { status } = await Camera.requestPermissionsAsync();
-
-    this.setState({ 
-      isReady: true ,
-      showOnboarding: status === 'granted',
-    });
+    this.setState({ isReady: true });
 
   }
 
   render() {
     const Stack = createStackNavigator();
-    const { isReady, showOnboarding } = this.state;
+    const { isReady } = this.state;
     return (
       isReady &&
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
-          {showOnboarding === null &&
-            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          }
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
           <Stack.Screen name="Camera" component={CameraScreen} />
           <Stack.Screen name="Gallery" component={GalleryScreen} options={{animationEnabled: false}}/>
           <Stack.Screen name="Archive" component={ArchiveScreen} />

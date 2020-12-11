@@ -7,6 +7,7 @@ import AutoHeightImage from 'react-native-auto-height-image'
 import { ImageManipulator } from 'expo-image-crop'
 import searchIcon from 'assets/images/search-icon.png';
 import cropIcon from 'assets/images/crop-icon.png';
+import ErrorModal from 'components/modal/ErrorModal';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
@@ -26,6 +27,9 @@ const CropperScreen = ({route, navigation}) => {
     const [openCustomCropModal, setOpenCustomCropModal] = useState(false);
     const [customCroppedImage, setCustomCroppedImage] = useState(null);
     const [finalCroppedImage, setFinalCroppedImage] = useState(originalPicture);
+    
+    const [error, setError] = useState(false);
+
 
     const lottieRef = useRef(null);
 
@@ -58,7 +62,7 @@ const CropperScreen = ({route, navigation}) => {
             return res;
 
         } catch(e) {
-            console.log('error', e)
+            setError(true);
             return null;
         }
     }
@@ -116,6 +120,11 @@ const CropperScreen = ({route, navigation}) => {
 
     const onToggleModal = () => {
         console.log('toggle');
+    }
+
+    const handleCloseErrorModal = () => {
+        setError(false);
+        navigation.goBack();
     }
 
     const imageContainerHeight = height-120;
@@ -194,7 +203,9 @@ const CropperScreen = ({route, navigation}) => {
                     />
                 </>
                 }
-            
+            {error &&
+                <ErrorModal handleClose={handleCloseErrorModal} />
+            }
         </SafeAreaView>
     );
 }

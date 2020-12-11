@@ -9,6 +9,7 @@ import EditLabelModal from 'components/modal/EditLabelModal';
 import { renderPredictionResult, savePredictionLabel } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import { Share, Animated, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, TextInput } from 'react-native';
+import ErrorModal from 'components/modal/ErrorModal';
 
 const { height, width } = Dimensions.get("window");
 
@@ -20,6 +21,7 @@ const ResultScreen = ({route, navigation}) => {
     const [predictionId, setPredictionId] = useState(null);
     const [openLabelModal, setOpenLabelModal]= useState(false);
     const [label, setLabel] = useState('');
+    const [error, setError] = useState(false);
 
 
     const lottieRef = useRef(null);
@@ -63,7 +65,6 @@ const ResultScreen = ({route, navigation}) => {
 
     const sendImageToServerForPrediction = async (photo) => {
         try {
-
             let form_data = new FormData();
 
             // If uri already encoded, no need to encode just put picture uri 
@@ -75,7 +76,6 @@ const ResultScreen = ({route, navigation}) => {
             return res;
 
         } catch(e) {
-            console.log(e)
             return null;
         }
     }
@@ -90,6 +90,7 @@ const ResultScreen = ({route, navigation}) => {
         }
         else {
             // ERROR HANDLING
+            setError(true);
         }
     }
 
@@ -143,6 +144,11 @@ const ResultScreen = ({route, navigation}) => {
                 alert(error.message);
             }
     };
+
+    const handleCloseErrorModal = () => {
+        setError(false);
+        navigation.goBack();
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -257,7 +263,9 @@ const ResultScreen = ({route, navigation}) => {
             {openLabelModal &&
                 <EditLabelModal labelProps={label} closeModal={handleCloseModal} handleSaveLabel={handleSaveLabel}/>
             }
-            
+            {error &&
+                <ErrorModal handleClose={handleCloseErrorModal} />
+            }
         </SafeAreaView>
 
     );

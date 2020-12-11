@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import * as Font from 'expo-font';
 import MainScreenHeader from 'components/common/MainScreenHeader';
+import ErrorModal from 'components/modal/ErrorModal';
 import NavBar from 'components/common/NavBar';
 import Card from 'components/archive/Card';
 import AnimatedLoader from "react-native-animated-loader";
@@ -11,6 +11,7 @@ const { height, width } = Dimensions.get("window");
 const ArchiveScreen = ({navigation}) => {
     
     const [loadDone, setLoadDone] = useState(false);
+    const [error, setError] = useState(false);
     const [dataList, setDataList] = useState([]);
     const [dataListCount, setDataListCount] = useState(0);
 
@@ -21,12 +22,17 @@ const ArchiveScreen = ({navigation}) => {
             setDataListCount(res.data.predictions.length);
             setLoadDone(true);
         } catch (error) {
-            console.log('error');
+            setError(true);
         }
     };
 
     const handleRenderDetail = (info) => {
         navigation.navigate('Detail', { info: info} );
+    }
+
+    const handleCloseErrorModal = () => {
+        setError(false);
+        navigation.goBack();
     }
 
     useEffect(()=>{
@@ -70,6 +76,10 @@ const ArchiveScreen = ({navigation}) => {
                 />
             }
             <NavBar navigation={navigation} active="archive"/>
+            
+            {error &&
+                <ErrorModal handleClose={handleCloseErrorModal} />
+            }
         </SafeAreaView>
         
     );

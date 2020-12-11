@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import EditLabelModal from 'components/modal/EditLabelModal';
 import AlertModal from 'components/modal/AlertModal';
+import ErrorModal from 'components/modal/ErrorModal';
 import backIcon from 'assets/images/back-arrow-icon.png';
-import moreIcon from 'assets/images/more-icon.png';
 import greatIcon from 'assets/images/great-icon.png';
 import checkIcon from 'assets/images/check-icon.png';
 import editIcon from 'assets/images/edit-icon.png';
@@ -18,6 +18,7 @@ const DetailScreen = ({route, navigation}) => {
     const { info } = route.params;
 
     const [label, setLabel] = useState(info.label);
+    const [error, setError] = useState(false);
     const [openLabelModal, setOpenLabelModal]= useState(false);
     const [openAlertModal, setOpenAlertModal]= useState(false);
 
@@ -26,11 +27,16 @@ const DetailScreen = ({route, navigation}) => {
     }
 
     const handleDelete = async () => {
-        handleCloseDeleteModal();
-        let form_data = new FormData();
-        form_data.append("prediction_id", info.index);
-        await deletePrediction(form_data);
-        navigation.replace('Archive');
+        try {
+            handleCloseDeleteModal();
+            let form_data = new FormData();
+            form_data.append("prediction_id", info.index);
+            await deletePrediction(form_data);
+            navigation.replace('Archive');
+        }
+        catch(e) {
+            setError(true);
+        }
     }
 
     const handleOpenDeleteModal = () => {
@@ -50,12 +56,17 @@ const DetailScreen = ({route, navigation}) => {
     }
 
     const handleSaveLabel = async (labelInput) => {
-        let form_data = new FormData();
-        form_data.append("prediction_id", info.index);
-        form_data.append("label", labelInput);
-        await savePredictionLabel(form_data);
-        setLabel(labelInput);
-        handleCloseLabelModal();
+        try {
+            let form_data = new FormData();
+            form_data.append("prediction_id", info.index);
+            form_data.append("label", labelInput);
+            await savePredictionLabel(form_data);
+            setLabel(labelInput);
+            handleCloseLabelModal();
+        }
+        catch(e) {
+            setError(true);
+        }
     }
 
 
@@ -81,9 +92,15 @@ const DetailScreen = ({route, navigation}) => {
                 // dismissed
             }
             } catch (error) {
-                alert(error.message);
+                setError(true);
             }
     };
+
+    const handleCloseErrorModal = () => {
+        setError(false);
+    }
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -143,9 +160,6 @@ const DetailScreen = ({route, navigation}) => {
                     }
                 </Text>
             </View>
-            {/* <TouchableOpacity onPress={onShare}>
-                <Text>공유하기</Text>
-            </TouchableOpacity> */}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.deleteButton} onPress={handleOpenDeleteModal}>
                     <Text style={styles.deleteButtonText}>삭제</Text>
@@ -163,13 +177,15 @@ const DetailScreen = ({route, navigation}) => {
             {openAlertModal &&
                 <AlertModal handleClose={handleCloseDeleteModal}  handleDelete={handleDelete}/>
             }
+            {error &&
+                <ErrorModal handleClose={handleCloseErrorModal} />
+            }
         </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        // backgroundColor: '#1C1A1B',
         alignItems: 'center',
         height: height,
         position: 'relative'
