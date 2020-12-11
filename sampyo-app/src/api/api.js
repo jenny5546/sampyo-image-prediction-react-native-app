@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 // Backend Api
-const baseUrl = 'http://192.168.35.157:8000';
+// const baseUrl = 'http://192.168.35.157:8000';
+const baseUrl = 'https://shielded-sierra-26661.herokuapp.com/';
+
 
 var api = axios.create({
 	baseURL: baseUrl,

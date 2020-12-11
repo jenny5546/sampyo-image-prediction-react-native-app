@@ -58,7 +58,7 @@ const CropperScreen = ({route, navigation}) => {
             return res;
 
         } catch(e) {
-            console.log(e)
+            console.log('error', e)
             return null;
         }
     }
