@@ -22,7 +22,6 @@ export default class App extends Component {
     };
   }
 
-
   async componentDidMount() {
 
     SplashScreen.preventAutoHideAsync();
@@ -52,6 +51,7 @@ export default class App extends Component {
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Onboarding" component={OnboardingScreen} />
           <Stack.Screen name="Camera" component={CameraScreen} />
+          {/* <Stack.Screen name="Onboarding" component={OnboardingScreen} /> */}
           <Stack.Screen name="Gallery" component={GalleryScreen} options={{animationEnabled: false}}/>
           <Stack.Screen name="Archive" component={ArchiveScreen} />
           <Stack.Screen name="Cropper" component={CropperScreen} />
