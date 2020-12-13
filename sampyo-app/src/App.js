@@ -56,7 +56,7 @@ export default class App extends Component {
     const Stack = createStackNavigator();
     const { fontIsReady, showOnboarding } = this.state;
     return (
-      !!fontIsReady &&
+      // !!fontIsReady &&
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           {showOnboarding &&
