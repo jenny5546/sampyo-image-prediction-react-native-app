@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
         width: width-40,
         justifyContent: 'flex-end',
         right: 10,
-        
     },
     buttonStyle: {
         width: 50,
@@ -64,15 +63,18 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 18,
         color: '#3C75AA',
+        lineHeight: 26,
     },
     modalTitle: {
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 20,
+        lineHeight: 36,
     },
     modalSubtitle: {
         fontFamily: 'NotoSansKR-Light',
         fontSize: 16,
         marginTop: 15,
+        lineHeight: 24,
     }
 
 });

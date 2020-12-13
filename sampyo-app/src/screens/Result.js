@@ -173,15 +173,16 @@ const ResultScreen = ({route, navigation}) => {
                 <View style={styles.popUpWrap}>
                     <Text style={styles.waitingText}>토분 품질 측정 중.. 잠시만 기다리세요</Text>
                     <View style={styles.divider}/>
-                    <LottieView
-                        ref={lottieRef} 
+                    <Image 
                         style={{
                             width: 80,
                             height: 80,
                             position: 'absolute',
                             right: 0,
+                            zIndex: 4,
                         }}
-                        source={require('components/animation/snackbar-loading.json')}
+                        source={require('components/animation/snackbar-loading.gif')}
+                    
                     />
                 </View>
                 :
@@ -190,16 +191,14 @@ const ResultScreen = ({route, navigation}) => {
                     <Text style={styles.waitingText}>토분 분석 결과:  0</Text>
                     <Text style={styles.passedText}>우수</Text>
                     <View style={styles.divider}/>
-                    <LottieView
-                        loop={false}
-                        ref={lottieRef} 
+                    <Image 
                         style={{
                             width: 40,
                             height: 40,
                             position: 'absolute',
-                            right: 7,
+                            right: 22,
                         }}
-                        source={require('components/animation/snackbar-check.json')}
+                        source={require('components/animation/snackbar-check.gif')}
                     />
                 </View>
                 :
@@ -208,16 +207,14 @@ const ResultScreen = ({route, navigation}) => {
                     <Text style={styles.waitingText}>토분 분석 결과: 0과 100 사이</Text>
                     <Text style={styles.dangerousText}>보통</Text>
                     <View style={styles.divider}/>
-                    <LottieView
-                        loop={false}
-                        ref={lottieRef} 
+                    <Image 
                         style={{
                             width: 60,
                             height: 60,
                             position: 'absolute',
-                            right: 3,
+                            right: 10,
                         }}
-                        source={require('components/animation/green-check.json')}
+                        source={require('components/animation/green-check.gif')}
                     />
                 </View>
                 :
@@ -225,16 +222,14 @@ const ResultScreen = ({route, navigation}) => {
                     <Text style={styles.waitingText}>토분 분석 결과: 100 이상</Text>
                     <Text style={styles.failedText}>부적합</Text>
                     <View style={styles.divider}/>
-                    <LottieView
-                        loop={false}
-                        ref={lottieRef} 
+                    <Image
                         style={{
                             width: 40,
                             height: 40,
                             position: 'absolute',
-                            right: 7,
+                            right: 22,
                         }}
-                        source={require('components/animation/snackbar-failed.json')}
+                        source={require('components/animation/snackbar-failed.gif')}
                     />
                 </View>
                 }               
@@ -314,7 +309,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        position: 'relative'
+        position: 'relative',
+        zIndex: 10,
         // justifyContent: 'center',
     },
     waitingText: {
@@ -351,6 +347,7 @@ const styles = StyleSheet.create({
         borderRightColor: '#dde1e7',
         position: 'absolute',
         right: 80,
+        zIndex: 5,
     },
     buttonContainer: {
         position: 'absolute',

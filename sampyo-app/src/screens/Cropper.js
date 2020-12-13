@@ -187,10 +187,9 @@ const CropperScreen = ({route, navigation}) => {
                     <Header handleBackButton={handleBackButton} handleHomeButton={handleHomeButton} headerTitle="이미지 크롭하기"/>
                     <View style={styles.overlay} />
                     <View style={styles.lottieContainer}>
-                        <LottieView
-                            ref={lottieRef} 
+                        <Image 
                             style={styles.lottie}
-                            source={require('components/animation/loader.json')}
+                            source={require('components/animation/loader.gif')}
                         />
                     </View>
                     

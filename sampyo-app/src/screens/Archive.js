@@ -3,9 +3,8 @@ import MainScreenHeader from 'components/common/MainScreenHeader';
 import ErrorModal from 'components/modal/ErrorModal';
 import NavBar from 'components/common/NavBar';
 import Card from 'components/archive/Card';
-import AnimatedLoader from "react-native-animated-loader";
 import { getResults } from "api/api";
-import { ScrollView, SafeAreaView, View, Text, StatusBar, Platform, StyleSheet, Dimensions } from 'react-native';
+import { ScrollView, SafeAreaView, View, Text, StatusBar, Platform, StyleSheet, Image, Dimensions } from 'react-native';
 const { height, width } = Dimensions.get("window");
 
 const ArchiveScreen = ({navigation}) => {
@@ -62,18 +61,21 @@ const ArchiveScreen = ({navigation}) => {
                 <Text style={styles.infoTextNumber}>{dataListCount}</Text>
                 <Text style={styles.infoText}>  개의 분석 결과</Text>
             </View>
+            
             {loadDone ?
                 <ScrollView style={styles.listContainer}>
                     {resultList}
                 </ScrollView>
                 :
-                <AnimatedLoader
-                    visible={!loadDone}
-                    overlayColor="rgba(255,255,255,0.75)"
-                    source={require("components/animation/loader.json")}
-                    animationStyle={styles.lottie}
-                    speed={1}
+                <>
+                <View 
+                    style={styles.overlay}
                 />
+                <Image 
+                    source={require("components/animation/loader.gif")}
+                    style={styles.lottie}
+                />
+                </>
             }
             <NavBar navigation={navigation} active="archive"/>
             
@@ -98,28 +100,40 @@ const styles = StyleSheet.create({
         width: width,
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 30,
+        marginLeft: 50,
         marginTop: 10,
     },
     infoText: {
         fontFamily: 'NotoSansKR-Regular',
         letterSpacing: -1.5,
         fontSize: 14,
+        lineHeight: 24,
     },
     infoTextNumber: {
         fontFamily: 'NotoSansKR-Bold',
         letterSpacing: -1.5,
         fontSize: 18,
-        color: '#3498DB'
+        color: '#3498DB',
+        lineHeight: 25,
     },
     listContainer: {
         marginTop: 20,
         marginBottom: 80,
     },
     lottie: {
-        width: 100,
-        height: 100
+        width: 80,
+        height: 80,
+        zIndex: 100,
+        marginTop: 80,
     },
+    overlay: {
+        width: width,
+        height: height,
+        position: 'absolute',
+        backgroundColor: 'white',
+        zIndex: 99,
+        opacity: 0.7,
+    }
 
 });
 

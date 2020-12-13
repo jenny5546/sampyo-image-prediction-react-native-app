@@ -16,6 +16,7 @@ const MainScreenHeader = ({title_1, title_2}) => {
             fontFamily: 'NotoSansKR-Bold',
             letterSpacing: -1.5,
             fontSize: 26,
+            lineHeight: 38,
         }
     });
 

@@ -59,9 +59,7 @@ export default class App extends Component {
       !!fontIsReady &&
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
-          {showOnboarding &&
-            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-          }
+          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
           <Stack.Screen name="Camera" component={CameraScreen} />
           <Stack.Screen name="Gallery" component={GalleryScreen} options={{animationEnabled: false}}/>
           <Stack.Screen name="Archive" component={ArchiveScreen} />
@@ -69,6 +67,9 @@ export default class App extends Component {
           <Stack.Screen name="Result" component={ResultScreen} />
           <Stack.Screen name="Detail" component={DetailScreen} />
           <Stack.Screen name="ImageValidator" component={ImageValidatorScreen} />
+          {/* {showOnboarding &&
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          } */}
         </Stack.Navigator>
       </NavigationContainer>
     );

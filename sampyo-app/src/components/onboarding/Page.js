@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import StepIndicator from 'components/onboarding/StepIndicator';
 import nextIcon from 'assets/images/next-icon.png';
 import LottieView from 'lottie-react-native';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
@@ -11,7 +11,7 @@ const Page = (props) => {
     const lottieRef = useRef(null);
 
     useEffect(() => {
-        if (lottieRef) {
+        if (lottieRef.current) {
             lottieRef.current.play();
         }
     }, []);
@@ -23,15 +23,14 @@ const Page = (props) => {
                 {props.id !== 3 && 
                     <TouchableOpacity style={styles.flexButtonContainer} onPress={props.handleClickStart}>
                         <Text style={styles.skipButtonText}>Skip</Text>
-                        <LottieView
-                            ref={lottieRef} 
+                        <Image 
                             style={{
                                 width: 100,
-                                height: 100,
+                                height: 50,
                                 position: 'absolute',
                                 marginLeft: -3,
                             }}
-                            source={require('components/animation/skip-arrow.json')}
+                            source={require('components/animation/skip-arrow.gif')}
                         />
                     </TouchableOpacity>
                 }
@@ -66,8 +65,6 @@ const Page = (props) => {
                     </TouchableOpacity>
                 }
             </View>
-            
-
         </View>
 
     );
@@ -75,14 +72,16 @@ const Page = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
+        height: height,
     },
     headerButtonContainer: {
         width: width,
         height: 30,
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
+        marginRight: 30,
+        marginTop: 10,
     },
     flexButtonContainer: {
         flexDirection: 'row',
@@ -94,14 +93,13 @@ const styles = StyleSheet.create({
         fontSize: 14,
         marginRight: 20,
         color: 'grey',
-        opacity: 1
+        zIndex: 99,
+        marginTop: 0,
     },
-
     imgStyle: {
         width: width,
-        maxHeight: 400,
+        maxHeight: height/2,
         resizeMode: 'contain',
-        
     },
     textContainer: {
         width: width,
@@ -109,23 +107,27 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     contentContainer: {
-        marginTop: 10,
+        marginTop: 20,
     },
     titleTextStyle: {
         fontFamily: 'NotoSansKR-Bold',
         letterSpacing: -1.5,
         fontSize: 24,
+        lineHeight: 36
     },
     contentTextStyle: {
         fontFamily: 'NotoSansKR-Regular',
         fontSize: 16,
         letterSpacing: -1,
+        lineHeight: 30
     },
     footerButtonContainer: {
         height: 30,
         width: width,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
+        position: 'absolute',
+        bottom: 40
     },
     nextButtonText: {
         fontFamily: 'NotoSansKR-Bold',

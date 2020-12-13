@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SafeAreaView,TouchableOpacity, StatusBar, Text, View, Platform, Dimensions, StyleSheet } from 'react-native';
+import { SafeAreaView,TouchableOpacity, Image, StatusBar, Text, View, Platform, Dimensions, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import LottieView from 'lottie-react-native';
 import NavBar from 'components/common/NavBar';
@@ -7,8 +7,6 @@ import MainScreenHeader from 'components/common/MainScreenHeader';
 const { height, width } = Dimensions.get("window");
 
 const GalleryScreen = ({navigation}) => {
-
-    const lottieRef = useRef(null);
     const [image, setImage] = useState(null);
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -32,18 +30,18 @@ const GalleryScreen = ({navigation}) => {
                 }
             }
         })();
-        pickImage();
+        // pickImage();
     }, []);
 
     const handleBackButton = () => {
         navigation.navigate('Camera');
     }
 
-    useEffect(() => {
-        if (lottieRef) {
-            lottieRef.current.play();
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (lottieRef) {
+    //         lottieRef.current.play();
+    //     }
+    // }, []);
 
     useEffect(()=>{
         if (image!==null) {
@@ -62,10 +60,9 @@ const GalleryScreen = ({navigation}) => {
         <SafeAreaView style={styles.container}>
             <MainScreenHeader title_1="갤러리에서" title_2="골재 이미지 선택" />
             <View style={styles.lottieContainer}>
-                <LottieView
-                    ref={lottieRef} 
+                <Image 
+                    source={require('components/animation/gallery.gif')}
                     style={styles.lottieAnimation}
-                    source={require('components/animation/gallery.json')}
                 />
             </View>
             
@@ -110,7 +107,8 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Regular',
         letterSpacing: -1.5,
         fontSize: 16,
-        textAlign: 'center'
+        textAlign: 'center',
+        lineHeight:20,
     },
     subInfoTextStyle: {
         fontFamily: 'NotoSansKR-Regular',
@@ -118,6 +116,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         textAlign: 'center',
         color: 'rgba(0, 0, 0, 0.42)',
+        lineHeight:20,
     },
     buttonContainer: {
         marginTop: 80,
@@ -131,13 +130,15 @@ const styles = StyleSheet.create({
         fontSize: 17,
         textAlign: 'center',
         color: '#3C75AA',
+        lineHeight: 25,
     },
     backButtonText: {
         fontFamily: 'NotoSansKR-Regular',
         letterSpacing: -1.5,
         fontSize: 17,
         textAlign: 'center',
-        color: '#858C93'
+        color: '#858C93',
+        lineHeight: 25,
     }
 });
 

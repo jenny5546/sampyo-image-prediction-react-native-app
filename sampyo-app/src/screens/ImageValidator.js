@@ -10,7 +10,6 @@ const { height, width } = Dimensions.get("window");
 
 const ImageValidatorScreen = ({route, navigation}) => {
 
-    const lottieRef = useRef(null);
     const floatAnim = useRef(new Animated.Value(0)).current;
     const fadeInAnim = useRef(new Animated.Value(0)).current;
     const [error, setError] = useState(false);
@@ -31,18 +30,11 @@ const ImageValidatorScreen = ({route, navigation}) => {
         }).start();
     }
     
-    useEffect(() => {
-        if (lottieRef.current) {
-            lottieRef.current.play();
-        }
-    }, [lottieRef.current]);
-
     const { picture } = route.params;
     const [imageBrightness, setImageBrightness] = useState(null);
 
     const [passed, setPassed] = useState(false);
     const [failed, setFailed] = useState(false);
-    const [showButtons, setShowButtons] = useState(false);
 
     useEffect(()=>{
         handleGetBrightness();
@@ -111,7 +103,6 @@ const ImageValidatorScreen = ({route, navigation}) => {
                     containerHeight = {height}
                     style= {styles.imageStyle}
                 />
-                {/* <View style={styles .overlay} /> */}
                 <Animated.View 
                     style={[
                         styles.popUpContainer,
@@ -122,15 +113,14 @@ const ImageValidatorScreen = ({route, navigation}) => {
                         <View style={styles.popUpWrap}>
                             <Text style={styles.waitingText}>명도 적합성 판단 중.. 잠시만 기다리세요</Text>
                             <View style={styles.divider}/>
-                            <LottieView
-                                ref={lottieRef} 
+                            <Image 
                                 style={{
-                                    width: 80,
-                                    height: 80,
+                                    width: 75,
+                                    height: 75,
                                     position: 'absolute',
-                                    right: 0,
+                                    right: 5,
                                 }}
-                                source={require('components/animation/snackbar-loading.json')}
+                                source={require('components/animation/snackbar-loading.gif')}
                             />
                         </View>
                         :
@@ -139,16 +129,14 @@ const ImageValidatorScreen = ({route, navigation}) => {
                             <Text style={styles.waitingText}>이미지 명도: {imageBrightness.toFixed(2)}</Text>
                             <Text style={styles.passedText}>통과</Text>
                             <View style={styles.divider}/>
-                            <LottieView
-                                loop={false}
-                                ref={lottieRef} 
+                            <Image 
                                 style={{
                                     width: 40,
                                     height: 40,
                                     position: 'absolute',
-                                    right: 7,
+                                    right: 22,
                                 }}
-                                source={require('components/animation/snackbar-check.json')}
+                                source={require('components/animation/snackbar-check.gif')}
                             />
                         </View>
                         :
@@ -157,16 +145,15 @@ const ImageValidatorScreen = ({route, navigation}) => {
                             <Text style={styles.waitingText}>이미지 명도가 너무 낮습니다.</Text>
                             <Text style={styles.failedText}>실패</Text>
                             <View style={styles.divider}/>
-                            <LottieView
-                                loop={false}
-                                ref={lottieRef} 
+                            <Image 
                                 style={{
                                     width: 40,
                                     height: 40,
                                     position: 'absolute',
-                                    right: 7,
+                                    right:22,
                                 }}
-                                source={require('components/animation/snackbar-failed.json')}
+                                source={require('components/animation/snackbar-failed.gif')}
+                            
                             />
                         </View>
                         :
@@ -278,6 +265,7 @@ const styles = StyleSheet.create({
         borderRightColor: '#dde1e7',
         position: 'absolute',
         right: 80,
+        zIndex: 5,
     },
     buttonContainer: {
         position: 'absolute',
