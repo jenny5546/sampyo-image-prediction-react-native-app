@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     },
     imgStyle: {
         width: width,
-        maxHeight: height/2,
+        maxHeight: 3*height/7,
         resizeMode: 'contain',
     },
     textContainer: {

@@ -14,14 +14,13 @@ export default class ScalableImageComponent extends Component {
 
     componentDidMount() {
         const { source } = this.props;
-        Image.getSize(source, (width, height) => {
+        Image.getSize(source.uri, (width, height) => {
             this.setState({
                 aspectRatio: width/height,
                 originalHeight: height
-            })
+            });
         });
 
-        
     }
 
     render() {

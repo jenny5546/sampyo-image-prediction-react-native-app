@@ -23,7 +23,11 @@
     },
     "android": {
       "package": "com.snu.sampyo",
-      "versionCode": 1
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "MANAGE_DOCUMENTS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

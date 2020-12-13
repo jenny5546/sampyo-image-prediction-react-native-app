@@ -33,7 +33,7 @@ const CropperScreen = ({route, navigation}) => {
 
 
     useEffect(()=>{
-        Image.getSize(originalPicture, (width, height) => {
+        Image.getSize(originalPicture.uri, (width, height) => {
             setOriginalPictureWidth(width);
             setOriginalPictureHeight(height);
         });
