@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     lottieContainer: {
-        marginTop: 90,
+        marginTop: 60,
     },
     lottieAnimation: {
         width: 150,
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
         lineHeight:20,
     },
     buttonContainer: {
-        marginTop: 80,
+        position: 'absolute',
+        bottom: 90,
     },
     buttonWrapper: {
         marginBottom: 10,

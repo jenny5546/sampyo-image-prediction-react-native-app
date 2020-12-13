@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Regular',
         fontSize: 16,
         letterSpacing: -0.45,
+        lineHeight: 24,
     },
     iconStyle: {
         width: 15,
