@@ -67,13 +67,7 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         flex: 1,
         backgroundColor: 'white',
-        // justifyContent: 'center',
-        // alignItems: 'center',
     },
-    imgStyle: {
-        width: 400,
-        resizeMode: 'contain',
-    }
 });
 
 
