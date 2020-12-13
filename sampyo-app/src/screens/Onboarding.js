@@ -3,7 +3,7 @@ import Page from 'components/onboarding/Page';
 import onboardingImg1 from 'assets/images/onboarding-img1.png';
 import onboardingImg2 from 'assets/images/onboarding-img2.png';
 import onboardingImg3 from 'assets/images/onboarding-img3.png';
-import { ScrollView, SafeAreaView, Image, View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, StatusBar, Platform, StyleSheet } from 'react-native';
 
 
 const OnboardingScreen = ({navigation}) => {

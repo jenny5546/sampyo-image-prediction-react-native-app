@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SafeAreaView,TouchableOpacity, Text, Image, View, Platform, Dimensions, StyleSheet } from 'react-native';
+import { SafeAreaView,TouchableOpacity, StatusBar, Text, View, Platform, Dimensions, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import LottieView from 'lottie-react-native';
 import NavBar from 'components/common/NavBar';
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: height,
         flex: 1,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     lottieContainer: {
         marginTop: 90,

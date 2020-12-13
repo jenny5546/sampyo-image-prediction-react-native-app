@@ -8,7 +8,7 @@ import { ImageManipulator } from 'expo-image-crop'
 import searchIcon from 'assets/images/search-icon.png';
 import cropIcon from 'assets/images/crop-icon.png';
 import ErrorModal from 'components/modal/ErrorModal';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
+import { SafeAreaView, View, Text, StatusBar, Platform, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         height: height,
         backgroundColor: 'white',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     imageStyle: {
         alignItems: 'center',

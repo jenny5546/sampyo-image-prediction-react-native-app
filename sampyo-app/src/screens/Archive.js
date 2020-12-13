@@ -5,7 +5,7 @@ import NavBar from 'components/common/NavBar';
 import Card from 'components/archive/Card';
 import AnimatedLoader from "react-native-animated-loader";
 import { getResults } from "api/api";
-import { ScrollView, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
+import { ScrollView, SafeAreaView, View, Text, StatusBar, Platform, StyleSheet, Dimensions } from 'react-native';
 const { height, width } = Dimensions.get("window");
 
 const ArchiveScreen = ({navigation}) => {
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: height,
         flex: 1,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     infoContainer: {
         width: width,

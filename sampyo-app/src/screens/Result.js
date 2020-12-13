@@ -8,7 +8,7 @@ import shareIcon from 'assets/images/share-icon.png';
 import EditLabelModal from 'components/modal/EditLabelModal';
 import { renderPredictionResult, savePredictionLabel } from 'api/api';
 import * as FileSystem from 'expo-file-system';
-import { Share, Animated, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, TextInput } from 'react-native';
+import { Share, Animated, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions, StatusBar, Platform } from 'react-native';
 import ErrorModal from 'components/modal/ErrorModal';
 
 const { height, width } = Dimensions.get("window");
@@ -276,6 +276,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         height: height,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     imageStyle: { 
         marginTop: -10,

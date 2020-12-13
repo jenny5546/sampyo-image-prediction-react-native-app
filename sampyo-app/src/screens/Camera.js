@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CameraController from 'components/camera/CameraController';
 
-import { Platform, TouchableOpacity, Animated, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
+import { Platform, Animated, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
 
 const { height, width } = Dimensions.get("window");

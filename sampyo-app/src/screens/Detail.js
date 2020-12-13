@@ -9,7 +9,7 @@ import editIcon from 'assets/images/edit-icon.png';
 import xIcon from 'assets/images/x-icon.png';
 import NavBar from 'components/common/NavBar';
 import { savePredictionLabel, deletePrediction } from 'api/api';
-import { Share, SafeAreaView, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
+import { Share, SafeAreaView, StatusBar, Platform, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
@@ -188,7 +188,8 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         height: height,
-        position: 'relative'
+        position: 'relative',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     header: {
         position: 'absolute',

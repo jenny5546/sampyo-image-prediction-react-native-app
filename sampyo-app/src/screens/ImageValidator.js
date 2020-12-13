@@ -3,7 +3,7 @@ import LottieView from 'lottie-react-native';
 import { sendRawImageForBrightness } from 'api/api';
 import * as FileSystem from 'expo-file-system';
 import ScalableImageComponent from 'components/image/ScalableImageComponent';
-import { SafeAreaView, Animated, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
+import { SafeAreaView, StatusBar, Platform, Animated, View, Text, TouchableOpacity, StyleSheet, Image,  Dimensions } from 'react-native';
 import ErrorModal from 'components/modal/ErrorModal';
 
 const { height, width } = Dimensions.get("window");
@@ -205,6 +205,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         alignItems: 'center',
         height: height,
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     },
     titleContainer: {
         position: 'absolute',
