@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     buttonWrap: {
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 30,
+        bottom: 20,
         width: width-40,
         justifyContent: 'flex-end',
         right: 10,
@@ -72,26 +72,26 @@ const styles = StyleSheet.create({
     },
     cancelText: {
         fontFamily: 'NotoSansKR-Regular',
-        fontSize: 18,
+        fontSize: 16,
         color: '#52565d',
         lineHeight: 26,
     },
     saveText: {
         fontFamily: 'NotoSansKR-Bold',
-        fontSize: 18,
+        fontSize: 16,
         color: '#f35750',
         lineHeight: 26,
     },
     modalTitle: {
         fontFamily: 'NotoSansKR-Bold',
-        fontSize: 20,
-        lineHeight: 36,
+        fontSize: 18,
+        lineHeight: 30,
     },
     modalSubtitle: {
         fontFamily: 'NotoSansKR-Light',
-        fontSize: 16,
+        fontSize: 14,
         marginTop: 15,
-        lineHeight: 24,
+        lineHeight: 20,
     }
 
 });

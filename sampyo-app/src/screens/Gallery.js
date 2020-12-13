@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SafeAreaView,TouchableOpacity, Image, StatusBar, Text, View, Platform, Dimensions, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import LottieView from 'lottie-react-native';
 import NavBar from 'components/common/NavBar';
 import MainScreenHeader from 'components/common/MainScreenHeader';
 const { height, width } = Dimensions.get("window");

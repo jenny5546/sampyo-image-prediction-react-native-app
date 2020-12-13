@@ -236,12 +236,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         position: 'relative'
-        // justifyContent: 'center',
     },
     waitingText: {
         fontFamily: 'NotoSansKR-Medium',
         letterSpacing: -1.5,
-        fontSize: 16,
+        fontSize: 14,
         marginLeft: 20,
     },
     passedText: {

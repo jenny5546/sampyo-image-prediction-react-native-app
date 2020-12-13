@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import EditLabelModal from 'components/modal/EditLabelModal';
 import AlertModal from 'components/modal/AlertModal';
 import ErrorModal from 'components/modal/ErrorModal';
@@ -108,9 +108,6 @@ const DetailScreen = ({route, navigation}) => {
                 <TouchableOpacity onPress={handleBackButton}>
                     <Image source={backIcon} style={styles.backIconStyle}/>
                 </TouchableOpacity>
-                {/* <TouchableOpacity onPress={handleBackButton}>
-                    <Image source={moreIcon} style={styles.backIconStyle}/>
-                </TouchableOpacity> */}
             </View>
             <View>
                 <Image source={info.source} style={styles.imageStyle} />
@@ -287,7 +284,8 @@ const styles = StyleSheet.create({
         width: width,
         paddingLeft: 20,
         paddingRight: 20,
-        marginTop: 20,
+        position: 'absolute',
+        bottom: 80
     },
     deleteButton: {
         width: (width-50)/4,
