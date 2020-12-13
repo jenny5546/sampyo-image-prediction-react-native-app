@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CameraController from 'components/camera/CameraController';
-
+import * as ImagePicker from 'expo-image-picker';
 import { Platform, Animated, StatusBar, SafeAreaView, View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Camera } from 'expo-camera';
 
@@ -26,6 +26,7 @@ const CameraScreen = ({navigation}) => {
     useEffect(() => {
         (async () => {
             const { status } = await Camera.requestPermissionsAsync();
+            await ImagePicker.requestCameraRollPermissionsAsync();
             setHasPermission(status === 'granted');
         })();
     }, []);

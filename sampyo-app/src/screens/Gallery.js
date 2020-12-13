@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         position: 'absolute',
-        bottom: 90,
+        bottom: height/5,
     },
     buttonWrapper: {
         marginBottom: 10,
