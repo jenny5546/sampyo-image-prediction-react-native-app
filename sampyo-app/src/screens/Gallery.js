@@ -25,7 +25,7 @@ const GalleryScreen = ({navigation}) => {
                 const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
                 
                 if (status !== 'granted') {
-                    alert('Sorry, we need camera roll permissions to make this work!');
+                    alert('사진첩 접근 권한 허용을 하지 않으면 어플리케이션을 사용할 수 없습니다.');
                 }
             }
         })();
