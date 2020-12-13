@@ -11,14 +11,15 @@ import GalleryScreen from 'screens/Gallery';
 import ResultScreen from 'screens/Result';
 import ImageValidatorScreen from 'screens/ImageValidator';
 import DetailScreen from './screens/Detail';
-
+import * as Permissions from 'expo-permissions';
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      isReady: false
+      fontIsReady: false,
+      showOnboarding: null,
     };
   }
 
@@ -38,20 +39,30 @@ export default class App extends Component {
         'NotoSansKR-Bold': require('assets/fonts/NotoSansKR-Bold.otf'),
     });
 
-    this.setState({ isReady: true });
+    const { status } = await Permissions.getAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      this.setState({ 
+        showOnboarding: true
+      });
+    }
+
+    this.setState({ 
+      fontIsReady: true,
+    });
 
   }
 
   render() {
     const Stack = createStackNavigator();
-    const { isReady } = this.state;
+    const { fontIsReady, showOnboarding } = this.state;
     return (
-      isReady &&
+      fontIsReady &&
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          {showOnboarding &&
+            <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+          }
           <Stack.Screen name="Camera" component={CameraScreen} />
-          {/* <Stack.Screen name="Onboarding" component={OnboardingScreen} /> */}
           <Stack.Screen name="Gallery" component={GalleryScreen} options={{animationEnabled: false}}/>
           <Stack.Screen name="Archive" component={ArchiveScreen} />
           <Stack.Screen name="Cropper" component={CropperScreen} />
