@@ -19,7 +19,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { isIphoneX } from 'react-native-iphone-x-helper'
 import ImageCropOverlay from './ImageCropOverlay'
 
-const { width } = Dimensions.get('window')
+const { height, width } = Dimensions.get("window");
 
 LogBox.ignoreLogs(['componentWillReceiveProps', 'componentWillUpdate', 'componentWillMount'])
 LogBox.ignoreLogs([
@@ -125,11 +125,11 @@ class ExpoImageManipulator extends Component {
                     uri: uriCroped, base64, width: croppedWidth, height: croppedHeight,
                 } = await this.crop(cropObj, uriToCrop);
 
-                this.actualSize.width = croppedWidth
-                this.actualSize.height = croppedHeight
+                this.actualSize.width = croppedWidth;
+                this.actualSize.height = croppedHeight;
 
                 this.setState({
-                    uri: uriCroped, base64, cropMode: false, processing: false,
+                    uri: uriCroped, base64, cropMode: false,
                 });
 
                 this.props.onPictureChoosed(uriCroped);
@@ -225,28 +225,6 @@ class ExpoImageManipulator extends Component {
         return intersectAreaObj
     }
 
-    filp = async (uri, orientation) => {
-        const { saveOptions } = this.props
-        const manipResult = await ImageManipulator.manipulateAsync(uri, [{
-            flip: orientation === 'vertical' ? ImageManipulator.FlipType.Vertical : ImageManipulator.FlipType.Horizontal,
-        }],
-        saveOptions)
-        return manipResult
-    };
-
-    rotate = async (uri, width2) => {
-        const { saveOptions } = this.props
-        const manipResult = await ImageManipulator.manipulateAsync(uri, [{
-            rotate: -90,
-        }, {
-            resize: {
-                width: this.trueWidth || width2,
-                // height: this.trueHeight || height2,
-            },
-        }], saveOptions)
-        return manipResult
-    }
-
     crop = async (cropObj, uri) => {
         const { saveOptions } = this.props
         if (cropObj.height > 0 && cropObj.width > 0) {
@@ -264,6 +242,13 @@ class ExpoImageManipulator extends Component {
             base64: null,
         }
     };
+
+    handleBackBtn = () => {
+        this.setState({ 
+            cropMode: false 
+        });
+        this.props.closeModal();
+    }
 
     // eslint-disable-next-line camelcase
     async UNSAFE_componentWillReceiveProps() {
@@ -289,9 +274,9 @@ class ExpoImageManipulator extends Component {
         } = this.state
 
         const imageRatio = this.actualSize.height / this.actualSize.width
-        let originalHeight = Dimensions.get('window').height - 64
+        let originalHeight = height - 64
         if (isIphoneX()) {
-            originalHeight = Dimensions.get('window').height - 122
+            originalHeight = height - 122
         }
 
         const cropRatio = originalHeight / width
@@ -300,21 +285,24 @@ class ExpoImageManipulator extends Component {
         const cropHeight = imageRatio < cropRatio ? width * imageRatio : originalHeight
 
         const cropInitialTop = (originalHeight - cropHeight) / 2.0
-        const cropInitialLeft = (width - cropWidth) / 2.0
+        const cropInitialLeft = 0;
+
+        // console.log('render', originalHeight, )
 
 
-        if (this.currentSize.width === 0 && cropMode) {
-            this.currentSize.width = cropWidth
-            this.currentSize.height = cropHeight
+        // if (this.currentSize.width === 0 && cropMode) {
+        //     this.currentSize.width = cropWidth
+        //     this.currentSize.height = cropHeight
 
-            this.currentPos.top = cropInitialTop
-            this.currentPos.left = cropInitialLeft
-        }
+        //     this.currentPos.top = cropInitialTop
+        //     this.currentPos.left = cropInitialLeft
+        // }
+        
         return (
             <Modal
                 animationType="slide"
                 transparent
-                visible={isVisible}
+                visible={true}
                 hardwareAccelerated
                 onRequestClose={() => {
                     this.onToggleModal()
@@ -328,13 +316,13 @@ class ExpoImageManipulator extends Component {
                     <ScrollView scrollEnabled={false}
                         horizontal
                         contentContainerStyle={{
-                            width: '100%', paddingHorizontal: 15, height: 44, alignItems: 'center',
+                            width: '100%', paddingHorizontal: 10, height: 44, alignItems: 'center',
                         }}
                     >
                         {cropMode &&
                             (
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <TouchableOpacity onPress={() => this.setState({ cropMode: false })}
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <TouchableOpacity onPress={this.handleBackBtn}
                                         style={{
                                             width: 32, height: 32, alignItems: 'center', justifyContent: 'center',
                                         }}
@@ -346,9 +334,9 @@ class ExpoImageManipulator extends Component {
                                             marginRight: 10, alignItems: 'flex-end', flex: 1,
                                         }}
                                     >
-                                        <View style={{ flexDirection: 'row' }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                             <MaterialIcon style={{ flexDirection: 'row', marginRight: 10 }} size={24} name={!processing ? 'done' : 'access-time'} color="white" />
-                                            <Text style={{ fontWeight: '500', color: 'white', fontSize: 18 }}>{!processing ? btnTexts.crop : btnTexts.processing}</Text>
+                                            <Text style={{ fontWeight: '500', color: 'white', fontSize: 18, fontFamily: 'NotoSansKR-Regular', letterSpacing: -0.5, }}>{!processing ? btnTexts.crop : btnTexts.processing}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 </View>
@@ -376,12 +364,12 @@ class ExpoImageManipulator extends Component {
                         <AutoHeightImage
                             style={{ backgroundColor: 'black' }}
                             source={{ uri }}
-                            resizeMode={imageRatio >= 1 ? 'contain' : 'contain'}
+                            resizeMode={'contain'}
                             width={width}
                             height={originalHeight}
                             // onLayout={this.calculateMaxSizes}
                         />
-                        {cropMode && (
+                        {!!cropMode && (
                             <ImageCropOverlay
                                 onLayoutChanged={(top, left, w, height) => {
                                     this.currentSize.width = w
@@ -412,10 +400,10 @@ ExpoImageManipulator.defaultProps = {
     onPictureChoosed: ({ uri, base64 }) => console.log('URI:', uri, base64),
     borderColor: '#a4a4a4',
     btnTexts: {
-        crop: 'Crop',
+        crop: '크롭하기',
         rotate: 'Rotate',
         done: 'Done',
-        processing: 'Processing',
+        processing: '처리 중..',
     },
     saveOptions: {
         compress: 1,
