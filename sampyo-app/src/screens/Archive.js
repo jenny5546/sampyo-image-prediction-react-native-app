@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
         width: width,
         flexDirection: 'row',
         alignItems: 'center',
-        marginLeft: 50,
-        marginTop: 10,
+        marginLeft: 40,
+        marginTop: 5,
     },
     infoText: {
         fontFamily: 'NotoSansKR-Regular',
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         lineHeight: 25,
     },
     listContainer: {
-        marginTop: 20,
+        marginTop: 10,
         marginBottom: 80,
     },
     lottie: {

@@ -82,14 +82,13 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 16,
         letterSpacing: -0.45,
-        
+        lineHeight: 24,
     },
     dateText: {
         fontFamily: 'NotoSansKR-Regular',
         fontSize: 14,
         letterSpacing: -0.45,
-    },
-    resultContainer: {
+        lineHeight: 20,
     },
     resultBox: {
         width: 60,
@@ -104,7 +103,8 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 14,
         letterSpacing: -0.45,
-        color: 'white'
+        color: 'white',
+        lineHeight: 20,
     },
     iconStyle: {
         width: 15,

@@ -318,21 +318,24 @@ const styles = StyleSheet.create({
         letterSpacing: -1.5,
         fontSize: 18,
         marginLeft: 20,
-        color: '#76A7ED'
+        color: '#76A7ED',
+        lineHeight: 24,
     },
     dangerousText: {
         fontFamily: 'NotoSansKR-Bold',
         letterSpacing: -1.5,
         fontSize: 18,
         marginLeft: 20,
-        color: '#6b8c42'
+        color: '#6b8c42',
+        lineHeight: 24,
     },
     failedText: {
         fontFamily: 'NotoSansKR-Bold',
         letterSpacing: -1.5,
         fontSize: 18,
         marginLeft: 20,
-        color: '#f35750'
+        color: '#f35750',
+        lineHeight: 24,
     },
     divider: {
         height: 80,
@@ -376,6 +379,7 @@ const styles = StyleSheet.create({
     buttonTextStyle: {
         fontSize: 14,
         fontFamily: 'NotoSansKR-Bold',
+        lineHeight: 20,
     },
     iconStyle: {
         width: 15,

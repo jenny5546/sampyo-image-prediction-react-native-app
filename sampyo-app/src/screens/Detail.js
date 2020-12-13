@@ -208,6 +208,7 @@ const styles = StyleSheet.create({
     imageStyle: { 
         width: width,
         height: width-20,
+        maxHeight: height/2-20
     },
     contentContainer: {
         width: width,
@@ -222,11 +223,13 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 28,
         letterSpacing: -0.45,
+        lineHeight: 36,
     },
     date: {
         fontFamily: 'NotoSansKR-Regular',
         fontSize: 16,
         letterSpacing: -0.45,
+        lineHeight: 24,
     },
     resultContainer: {
         width: width,
@@ -245,6 +248,7 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 18,
         letterSpacing: -0.45,
+        lineHeight: 24,
     },
     explanationContainer: {
         width: width,
@@ -306,11 +310,13 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Regular',
         fontSize: 14,
         letterSpacing: -0.45,
+        lineHeight: 20,
     },
     shareButtonText: {
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 14,
         letterSpacing: -0.45,
+        lineHeight: 20,
     }
 });
 
