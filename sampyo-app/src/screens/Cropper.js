@@ -31,14 +31,6 @@ const CropperScreen = ({route, navigation}) => {
     const [error, setError] = useState(false);
 
 
-    const lottieRef = useRef(null);
-
-    useEffect(() => {
-        if (lottieRef.current) {
-            lottieRef.current.play();
-        }
-    }, []);
-
 
     useEffect(()=>{
         Image.getSize(originalPicture, (width, height) => {

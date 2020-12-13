@@ -74,20 +74,24 @@ const styles = StyleSheet.create({
         fontFamily: 'NotoSansKR-Regular',
         fontSize: 18,
         color: '#52565d',
+        lineHeight: 26,
     },
     saveText: {
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 18,
         color: '#f35750',
+        lineHeight: 26,
     },
     modalTitle: {
         fontFamily: 'NotoSansKR-Bold',
         fontSize: 20,
+        lineHeight: 36,
     },
     modalSubtitle: {
         fontFamily: 'NotoSansKR-Light',
         fontSize: 16,
         marginTop: 15,
+        lineHeight: 24,
     }
 
 });

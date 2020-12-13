@@ -24,7 +24,6 @@ const ResultScreen = ({route, navigation}) => {
     const [error, setError] = useState(false);
 
 
-    const lottieRef = useRef(null);
     const floatAnim = useRef(new Animated.Value(0)).current;
     const fadeInAnim = useRef(new Animated.Value(0)).current;
 
@@ -44,11 +43,6 @@ const ResultScreen = ({route, navigation}) => {
         }).start();
     }
     
-    useEffect(() => {
-        if (lottieRef.current) {
-            lottieRef.current.play();
-        }
-    }, [lottieRef.current]);
 
     useEffect(()=>{
         handleGetPredictionResult();

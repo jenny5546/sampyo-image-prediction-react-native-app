@@ -8,13 +8,6 @@ const { height, width } = Dimensions.get("window");
 
 const Page = (props) => {
 
-    const lottieRef = useRef(null);
-
-    useEffect(() => {
-        if (lottieRef.current) {
-            lottieRef.current.play();
-        }
-    }, []);
 
     return (
         <View style={styles.container}>

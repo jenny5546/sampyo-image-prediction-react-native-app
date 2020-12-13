@@ -30,18 +30,13 @@ const GalleryScreen = ({navigation}) => {
                 }
             }
         })();
-        // pickImage();
+        pickImage();
     }, []);
 
     const handleBackButton = () => {
         navigation.navigate('Camera');
     }
 
-    // useEffect(() => {
-    //     if (lottieRef) {
-    //         lottieRef.current.play();
-    //     }
-    // }, []);
 
     useEffect(()=>{
         if (image!==null) {
