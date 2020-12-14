@@ -3,6 +3,7 @@ import { SafeAreaView,TouchableOpacity, Image, StatusBar, Text, View, Platform, 
 import * as ImagePicker from 'expo-image-picker';
 import NavBar from 'components/common/NavBar';
 import MainScreenHeader from 'components/common/MainScreenHeader';
+import * as Permissions from 'expo-permissions';
 const { height, width } = Dimensions.get("window");
 
 const GalleryScreen = ({navigation}) => {
@@ -21,9 +22,8 @@ const GalleryScreen = ({navigation}) => {
 
     useEffect(() => {
         (async () => {
-            if (Platform.OS !== 'web') {
+            if (Platform.OS === 'ios') {
                 const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-                
                 if (status !== 'granted') {
                     alert('사진첩 접근 권한 허용을 하지 않으면 어플리케이션을 사용할 수 없습니다.');
                 }
@@ -31,6 +31,9 @@ const GalleryScreen = ({navigation}) => {
                 else if (status === 'granted') {
                     pickImage();
                 }
+            }
+            else if (Platform.OS === 'android') {
+                pickImage();
             }
         })();
     }, []);
