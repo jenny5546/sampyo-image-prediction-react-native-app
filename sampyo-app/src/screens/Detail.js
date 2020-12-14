@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import EditLabelModal from 'components/modal/EditLabelModal';
-import AlertModal from 'components/modal/AlertModal';
+import DeleteModal from 'components/modal/DeleteModal';
 import ErrorModal from 'components/modal/ErrorModal';
 import backIcon from 'assets/images/back-arrow-icon.png';
 import greatIcon from 'assets/images/great-icon.png';
@@ -20,7 +20,7 @@ const DetailScreen = ({route, navigation}) => {
     const [label, setLabel] = useState(info.label);
     const [error, setError] = useState(false);
     const [openLabelModal, setOpenLabelModal]= useState(false);
-    const [openAlertModal, setOpenAlertModal]= useState(false);
+    const [openDeleteModal, setOpenDeleteModal]= useState(false);
 
     const handleBackButton = () => {
         navigation.replace('Archive');
@@ -40,11 +40,11 @@ const DetailScreen = ({route, navigation}) => {
     }
 
     const handleOpenDeleteModal = () => {
-        setOpenAlertModal(true);
+        setOpenDeleteModal(true);
     }
 
     const handleCloseDeleteModal = () => {
-        setOpenAlertModal(false);
+        setOpenDeleteModal(false);
     }
 
     const handleOpenLabelModal  = () => {
@@ -171,8 +171,8 @@ const DetailScreen = ({route, navigation}) => {
             {openLabelModal &&
                 <EditLabelModal labelProps={label} closeModal={handleCloseLabelModal} handleSaveLabel={handleSaveLabel}/>
             }
-            {openAlertModal &&
-                <AlertModal handleClose={handleCloseDeleteModal}  handleDelete={handleDelete}/>
+            {openDeleteModal &&
+                <DeleteModal handleClose={handleCloseDeleteModal}  handleDelete={handleDelete}/>
             }
             {error &&
                 <ErrorModal handleClose={handleCloseErrorModal} />

@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 
 const { height, width } = Dimensions.get("window");
 
-const AlertModal = ({handleClose, handleDelete}) => {
+const DeleteModal = ({handleClose, handleDelete}) => {
 
     const handleClickCancelBtn = () => {
         handleClose();
@@ -96,4 +96,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AlertModal;
+export default DeleteModal;

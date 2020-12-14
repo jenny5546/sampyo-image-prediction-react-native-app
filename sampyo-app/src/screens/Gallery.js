@@ -27,9 +27,12 @@ const GalleryScreen = ({navigation}) => {
                 if (status !== 'granted') {
                     alert('사진첩 접근 권한 허용을 하지 않으면 어플리케이션을 사용할 수 없습니다.');
                 }
+
+                else if (status === 'granted') {
+                    pickImage();
+                }
             }
         })();
-        pickImage();
     }, []);
 
     const handleBackButton = () => {

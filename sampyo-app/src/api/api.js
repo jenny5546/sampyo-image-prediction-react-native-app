@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Backend Api
-// const baseUrl = 'http://192.168.35.157:8000';
+// const baseUrl = 'http://192.168.35.236:8000';
 const baseUrl = 'https://shielded-sierra-26661.herokuapp.com/';
 
 
@@ -36,4 +36,8 @@ export function savePredictionLabel(form) {
 
 export function deletePrediction(form) {
     return api.post('/delete/',form);
+}
+
+export function deleteAll() {
+    return api.get('/deleteAll/');
 }
