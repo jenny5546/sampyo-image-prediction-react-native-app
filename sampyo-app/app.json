@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "골재 품질 분석",
+    "name": "골재 분석 어플리케이션",
     "slug": "sampyo-app",
     "version": "1.0.0",
     "orientation": "portrait",
