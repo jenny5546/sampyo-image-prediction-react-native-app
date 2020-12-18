@@ -29,6 +29,9 @@ const GalleryScreen = ({navigation}) => {
                 }
 
                 else if (status === 'granted') {
+                    // setTimeout(()=>{
+                    //     pickImage();
+                    // },1000)
                     pickImage();
                 }
             }

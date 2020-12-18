@@ -26,6 +26,7 @@ const ArchiveScreen = ({navigation}) => {
             setLoadDone(true);
         } catch (error) {
             setError(true);
+            setLoadDone(true);
         }
     };
 
