@@ -25,6 +25,7 @@ const ArchiveScreen = ({navigation}) => {
             setDataListCount(res.data.predictions.length);
             setLoadDone(true);
         } catch (error) {
+            await deleteAll();
             setError(true);
             setLoadDone(true);
         }
