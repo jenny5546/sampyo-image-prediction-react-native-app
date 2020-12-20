@@ -108,9 +108,10 @@ const ResultScreen = ({route, navigation}) => {
         let form_data = new FormData();
         form_data.append("prediction_id", predictionId);
         form_data.append("label", labelInput);
-        await savePredictionLabel(form_data);
         setLabel(labelInput);
         handleCloseModal();
+        await savePredictionLabel(form_data);
+        
     }
 
     const handleShare = async () => {

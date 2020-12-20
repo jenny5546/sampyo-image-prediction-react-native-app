@@ -1,12 +1,31 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image,  Dimensions, Button } from 'react-native';
 import Modal from 'react-native-modal';
+import { Keyboard, KeyboardEvent } from 'react-native';
 
 const { height, width } = Dimensions.get("window");
 
 const EditLabelModal = ({labelProps, closeModal, handleSaveLabel}) => {
 
     const [labelInput, setLabelInput] = useState(labelProps);
+    const [openedKeyboard, setOpenedKeyboard]= useState(false);
+
+    const onKeyboardDidShow = (e) => {
+        setOpenedKeyboard(true);
+    }
+
+    const onKeyboardDidHide = () => {
+        setOpenedKeyboard(false);
+    }
+
+    useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', onKeyboardDidShow);
+        Keyboard.addListener('keyboardDidHide', onKeyboardDidHide);
+        ()=>{
+            Keyboard.removeListener('keyboardDidShow', onKeyboardDidShow);
+            Keyboard.removeListener('keyboardDidHide', onKeyboardDidHide);
+        };
+    }, []);
 
     const handleLabelInput = (text) => {
         setLabelInput(text);
@@ -27,6 +46,10 @@ const EditLabelModal = ({labelProps, closeModal, handleSaveLabel}) => {
                 isVisible={true}
                 onSwipeComplete={closeModal}
                 swipeDirection="down"
+                style={{
+                    marginBottom: openedKeyboard? -150:0
+                }}
+                avoidKeyboard={false}
             >
                 <View style={styles.container}>
                     <View style={styles.modalDrag}/>

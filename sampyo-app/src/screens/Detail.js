@@ -60,9 +60,9 @@ const DetailScreen = ({route, navigation}) => {
             let form_data = new FormData();
             form_data.append("prediction_id", info.index);
             form_data.append("label", labelInput);
-            await savePredictionLabel(form_data);
             setLabel(labelInput);
             handleCloseLabelModal();
+            await savePredictionLabel(form_data);
         }
         catch(e) {
             setError(true);
